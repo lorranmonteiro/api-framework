@@ -1,0 +1,9 @@
+firstCustomer:
+  name: Mr. Jones
+  email: jones@example.com
+  phone: 987-654-3210
+
+secondCustomer:
+  name: Ms. Smith
+  email: smith@example.com
+  phone: 123-456-7890
