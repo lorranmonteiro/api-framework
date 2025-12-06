@@ -40,7 +40,8 @@ module Api
       def destroy
         product = Product.find(params[:id])
         product.destroy
-        render_success({ message: "Product removido com sucesso" })
+
+        render_success({ status: :no_content })
       end
 
       private

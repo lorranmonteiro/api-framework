@@ -1,0 +1,9 @@
+one:
+  customer: one
+  status: Open
+  total_amount: 59.99
+
+two:
+  customer: two
+  status: Done
+  total_amount: 99.99
