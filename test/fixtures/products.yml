@@ -1,0 +1,9 @@
+orange:
+  name: Orange
+  description: Fruit that makes an excellent juice.
+  price: 1.99
+
+milk:
+  name: Milk
+  description: Dairy product used in many recipes.
+  price: 4.99
