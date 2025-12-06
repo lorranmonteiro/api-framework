@@ -5,4 +5,15 @@ class Order < ApplicationRecord
 
   validates :status, presence: true
   validates :total_amount, presence: true
+
+  enum status: {
+    new_order: "New",
+    in_progress: "In progress",
+    done: "Done"
+  }
+
+  def set_total!
+    new_total = order_products.sum("price * quantity")
+    update!(total_amount: new_total.round(2))
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_06_132228) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_06_134307) do
   create_table "customers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -33,8 +33,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_132228) do
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "customer_id", null: false
-    t.string "status"
-    t.decimal "total_amount"
+    t.string "status", default: "New", null: false
+    t.decimal "total_amount", default: "0.0", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
