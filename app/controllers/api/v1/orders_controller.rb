@@ -53,7 +53,12 @@ module Api
       private
 
       def order_params
-        params.require(:order).permit(:customer_id, :status, :total_amount)
+        params.require(:order)
+              .permit(
+                :customer_id,
+                :status,
+                :total_amount
+              )
       end
 
     end
