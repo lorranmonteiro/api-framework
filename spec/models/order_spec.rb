@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Order, type: :model do
-  let(:customer) { Customer.create!(name: "John Doe", email: "john@example.com") }
+  let(:customer) { create(:customer) }
 
   describe "associations" do
     it { should belong_to(:customer) }
@@ -30,7 +30,7 @@ RSpec.describe Order, type: :model do
     let!(:product2) { Product.create!(name: "Prod 2", price: 15.50) }
 
     let!(:order) do
-      Order.create!(customer: customer, status: "New", total_amount: 0)
+      create(:order, customer: customer)
     end
 
     before do

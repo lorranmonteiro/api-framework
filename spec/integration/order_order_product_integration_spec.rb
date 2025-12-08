@@ -1,22 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe "Order and OrderProduct Integration", type: :model do
-  let!(:customer) { Customer.create!(name: "John Doe", email: "john@example.com") }
-  let!(:product1) { Product.create!(name: "Keyboard", price: 100) }
-  let!(:product2) { Product.create!(name: "Mouse", price: 50) }
-
-  let!(:order) do
-    Order.create!(
-      customer: customer,
-      status: :new_order,
-      total_amount: 0
-    )
-  end
+  let!(:customer) { create(:customer) }
+  let!(:product1) { create(:product, price: 100) }
+  let!(:product2) { create(:product, price: 50) }
+  let!(:order)    { create(:order, customer: customer) }
 
   describe "creating order_products updates order totals" do
     it "updates the total_amount correctly" do
-      OrderProduct.create!(order: order, product: product1, quantity: 2, price: 100)
-      OrderProduct.create!(order: order, product: product2, quantity: 1, price: 50)
+      create(:order_product, order: order, product: product1, quantity: 2, price: 100)
+      create(:order_product, order: order, product: product2, quantity: 1, price: 50)
 
       expect(order.reload.total_amount).to eq(250)
     end
@@ -24,7 +17,7 @@ RSpec.describe "Order and OrderProduct Integration", type: :model do
 
   describe "default price from product" do
     it "sets price = product.price when omitted" do
-      op = OrderProduct.create!(order: order, product: product1, quantity: 1)
+      op = create(:order_product, order: order, product: product1, quantity: 1)
 
       expect(op.price).to eq(100)
     end
@@ -32,8 +25,8 @@ RSpec.describe "Order and OrderProduct Integration", type: :model do
 
   describe "destroying an order_product updates the total" do
     it "recalculates order total after destroy" do
-      op1 = OrderProduct.create!(order: order, product: product1, quantity: 1, price: 100)
-      op2 = OrderProduct.create!(order: order, product: product2, quantity: 2, price: 50)
+      op1 = create(:order_product, order: order, product: product1, quantity: 1, price: 100)
+      op2 = create(:order_product, order: order, product: product2, quantity: 2, price: 50)
 
       expect(order.reload.total_amount).to eq(200)
 
@@ -45,7 +38,7 @@ RSpec.describe "Order and OrderProduct Integration", type: :model do
 
   describe "updating an order_product changes the order total" do
     it "updates totals after updating quantity" do
-      op = OrderProduct.create!(order: order, product: product1, quantity: 1, price: 100)
+      op = create(:order_product, order: order, product: product1, quantity: 1, price: 100)
 
       expect(order.reload.total_amount).to eq(100)
 
@@ -55,7 +48,7 @@ RSpec.describe "Order and OrderProduct Integration", type: :model do
     end
 
     it "updates totals after updating price" do
-      op = OrderProduct.create!(order: order, product: product1, quantity: 2, price: 100)
+      op = create(:order_product, order: order, product: product1, quantity: 2, price: 100)
 
       expect(order.reload.total_amount).to eq(200)
 
@@ -67,8 +60,8 @@ RSpec.describe "Order and OrderProduct Integration", type: :model do
 
   describe "full lifecycle of order_products" do
     it "correctly handles add → update → delete" do
-      op1 = OrderProduct.create!(order: order, product: product1, quantity: 1, price: 100)
-      op2 = OrderProduct.create!(order: order, product: product2, quantity: 2, price: 50)
+      op1 = create(:order_product, order: order, product: product1, quantity: 1, price: 100)
+      op2 = create(:order_product, order: order, product: product2, quantity: 2, price: 50)
 
       expect(order.reload.total_amount).to eq(200)
 

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::CustomersController", type: :request do
-  let!(:customer1) { Customer.create!(name: "John Doe", email: "john@example.com", phone: "123456") }
-  let!(:customer2) { Customer.create!(name: "Jane Doe", email: "jane@example.com", phone: "654321") }
+  let!(:customer1) { create(:customer, name: "John Doe") }
+  let!(:customer2) { create(:customer) }
 
   let(:base_url) { "/api/v1/customers" }
 

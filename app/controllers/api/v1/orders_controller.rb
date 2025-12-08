@@ -21,7 +21,7 @@ module Api
         if order.save
           render_success(order, status: :created)
         else
-          render_error(order.errors.full_messages, status: :unprocessable_entity)
+          render_error(order.errors.full_messages, status: :unprocessable_content)
         end
       end
 
@@ -32,7 +32,7 @@ module Api
         if order.update(order_params)
           render_success(order)
         else
-          render_error(order.errors.full_messages, status: :unprocessable_entity)
+          render_error(order.errors.full_messages, status: :unprocessable_content)
         end
       end
 

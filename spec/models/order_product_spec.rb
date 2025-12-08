@@ -14,12 +14,12 @@ RSpec.describe OrderProduct, type: :model do
   end
 
   describe "callbacks" do
-    let(:customer) { Customer.create!(name: "Test", email: "test@example.com") }
-    let(:order)    { Order.create!(customer: customer, status: :new_order, total_amount: 0) }
-    let(:product)  { Product.create!(name: "Product A", price: 50) }
+    let(:customer) { create(:customer) }
+    let(:order)    { create(:order, customer: customer) }
+    let(:product)  { create(:product, price: 50) }
 
     it "sets default price on create" do
-      op = OrderProduct.create!(
+      op = create(:order_product,
         order: order,
         product: product,
         quantity: 2
@@ -29,13 +29,13 @@ RSpec.describe OrderProduct, type: :model do
     end
 
     it "updates order total after save" do
-      OrderProduct.create!(order: order, product: product, quantity: 2, price: 10)
+      create(:order_product, order: order, product: product, quantity: 2, price: 10)
 
       expect(order.reload.total_amount).to eq(20)
     end
 
     it "updates order total after destroy" do
-      op = OrderProduct.create!(order: order, product: product, quantity: 2, price: 10)
+      op = create(:order_product, order: order, product: product, quantity: 2, price: 10)
 
       expect(order.reload.total_amount).to eq(20)
 

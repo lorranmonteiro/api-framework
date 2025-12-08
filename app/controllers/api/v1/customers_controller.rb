@@ -21,7 +21,7 @@ module Api
         if customer.save
           render_success(customer, status: :created)
         else
-          render_error(customer.errors.full_messages, status: :unprocessable_entity)
+          render_error(customer.errors.full_messages, status: :unprocessable_content)
         end
       end
 
@@ -32,7 +32,7 @@ module Api
         if customer.update(customer_params)
           render_success(customer)
         else
-          render_error(customer.errors.full_messages, status: :unprocessable_entity)
+          render_error(customer.errors.full_messages, status: :unprocessable_content)
         end
       end
 

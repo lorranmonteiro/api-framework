@@ -1,15 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::OrdersController", type: :request do
-  let!(:customer) { Customer.create!(name: "John Doe", email: "john@example.com") }
-
-  let!(:order1) do
-    Order.create!(customer: customer, status: "New", total_amount: 100)
-  end
-
-  let!(:order2) do
-    Order.create!(customer: customer, status: "In progress", total_amount: 200)
-  end
+  let!(:customer) { create(:customer) }
+  let!(:order1) { create(:order, customer: customer, status: "New", total_amount: 100) }
+  let!(:order2) { create(:order, customer: customer, status: "In progress", total_amount: 200) }
 
   let(:base_url) { "/api/v1/orders" }
 
@@ -87,7 +81,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
       it "returns validation errors" do
         post base_url, params: invalid_params
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
         expect(json["message"]).to be_an(Array)
@@ -121,7 +115,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
           order: { total_amount: -5 }
         }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
         expect(json["message"]).to be_an(Array)

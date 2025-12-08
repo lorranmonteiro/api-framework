@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::OrderProductsController", type: :request do
-  let!(:customer) { Customer.create!(name: "John", email: "john@example.com") }
-  let!(:order)    { Order.create!(customer: customer, status: :new_order, total_amount: 0) }
-  let!(:product)  { Product.create!(name: "Keyboard", price: 100) }
+  let!(:customer) { create(:customer) }
+  let!(:order)    { create(:order, customer: customer) }
+  let!(:product)  { create(:product, name: "Keyboard") }
 
-  let!(:order_product1) { OrderProduct.create!(order: order, product: product, quantity: 1, price: 100) }
-  let!(:order_product2) { OrderProduct.create!(order: order, product: product, quantity: 3, price: 100) }
+  let!(:order_product1) { create(:order_product, order: order, product: product, quantity: 1, price: 100) }
+  let!(:order_product2) { create(:order_product, order: order, product: product, quantity: 3, price: 100) }
 
   let(:base_url) { "/api/v1/order_products" }
 

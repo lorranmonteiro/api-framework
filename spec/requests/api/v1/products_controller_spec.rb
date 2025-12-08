@@ -1,14 +1,11 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::ProductsController", type: :request do
-  let!(:product1) { Product.create!(name: "Product A", price: 10.50, description: "Desc A") }
-  let!(:product2) { Product.create!(name: "Product B", price: 20.00, description: "Desc B") }
+  let!(:product1) { create(:product, name: "Product A", price: 10.50) }
+  let!(:product2) { create(:product, price: 20.00) }
 
   let(:base_url) { "/api/v1/products" }
 
-  # -----------------------------------------------------------
-  # INDEX
-  # -----------------------------------------------------------
   describe "GET /api/v1/products" do
     it "returns all products" do
       get base_url
@@ -21,9 +18,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
   end
 
-  # -----------------------------------------------------------
-  # SHOW
-  # -----------------------------------------------------------
   describe "GET /api/v1/products/:id" do
     context "when the product exists" do
       it "returns the product" do
@@ -51,9 +45,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
   end
 
-  # -----------------------------------------------------------
-  # CREATE
-  # -----------------------------------------------------------
   describe "POST /api/v1/products" do
     let(:valid_params) do
       {
@@ -96,9 +87,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
   end
 
-  # -----------------------------------------------------------
-  # UPDATE
-  # -----------------------------------------------------------
   describe "PATCH /api/v1/products/:id" do
     context "with valid attributes" do
       it "updates the product" do
@@ -131,9 +119,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
   end
 
-  # -----------------------------------------------------------
-  # DELETE
-  # -----------------------------------------------------------
   describe "DELETE /api/v1/products/:id" do
     it "deletes the product" do
       delete "#{base_url}/#{product1.id}"
