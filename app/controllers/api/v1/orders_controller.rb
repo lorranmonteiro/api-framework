@@ -41,7 +41,7 @@ module Api
         order = Order.find(params[:id])
         order.destroy
 
-        render_success({ status: :no_content })
+        head :no_content
       end
 
       # GET /api/v1/customer/:customer_id/orders

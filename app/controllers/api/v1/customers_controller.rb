@@ -41,7 +41,7 @@ module Api
         customer = Customer.find(params[:id])
         customer.destroy
 
-        render_success(status: :no_content)
+        head :no_content
       end
 
       private

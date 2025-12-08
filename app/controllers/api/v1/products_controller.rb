@@ -21,7 +21,7 @@ module Api
         if product.save
           render_success(product, status: :created)
         else
-          render_error(product.errors.full_messages, status: :unprocessable_entity)
+          render_error(product.errors.full_messages, status: :unprocessable_content)
         end
       end
 
@@ -32,7 +32,7 @@ module Api
         if product.update(product_params)
           render_success(product)
         else
-          render_error(product.errors.full_messages, status: :unprocessable_entity)
+          render_error(product.errors.full_messages, status: :unprocessable_content)
         end
       end
 
@@ -41,13 +41,13 @@ module Api
         product = Product.find(params[:id])
         product.destroy
 
-        render_success({ status: :no_content })
+        head :no_content
       end
 
       private
 
       def product_params
-        params.require(:product).permit(:name, :description, :price, :stock)
+        params.require(:product).permit(:name, :description, :price)
       end
 
     end
