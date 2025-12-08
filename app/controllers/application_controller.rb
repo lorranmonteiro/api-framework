@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::API
 
-  before_action :set_request_id
-
   def render_success(data = {}, status: :ok)
     render status: status, json: data
   end
@@ -49,7 +47,7 @@ class ApplicationController < ActionController::API
 
     render_error(
       "Validation failed",
-      status: :unprocessable_entity,
+      status: :unprocessable_content,
       error_type: "VALIDATION_ERROR",
       additional_errors: validation_errors
     )
