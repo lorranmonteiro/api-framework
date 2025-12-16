@@ -1,0 +1,684 @@
+---
+openapi: 3.0.1
+info:
+  title: Documentação API REST
+  version: v1
+  description: Esta é a documentação da API REST para o Trabalho de Conclusão de Curso
+    (TCC), voltado para análise de proposta de padrão de projeto de software. A API
+    oferece endpoints para gerenciar recursos relacionados ao sistema desenvolvido,
+    permitindo operações CRUD e outras funcionalidades essenciais, seguindo as melhores
+    práticas de desenvolvimento de software.
+paths:
+  "/api/v1/customers":
+    get:
+      summary: List customers
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: customers found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Customer"
+    post:
+      summary: Create customer
+      tags:
+      - Customers
+      parameters: []
+      responses:
+        '201':
+          description: customer created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Customer"
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+              required:
+              - name
+              - email
+  "/api/v1/customers/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show customer
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: customer found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Customer"
+        '404':
+          description: customer not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+    patch:
+      summary: Update customer
+      tags:
+      - Customers
+      parameters: []
+      responses:
+        '200':
+          description: customer updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Customer"
+        '422':
+          description: invalid update
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+    delete:
+      summary: Delete customer
+      tags:
+      - Customers
+      responses:
+        '204':
+          description: customer deleted
+        '404':
+          description: customer not found
+  "/api/v1/order_products":
+    get:
+      summary: List order products
+      tags:
+      - OrderProducts
+      responses:
+        '200':
+          description: order products found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/OrderProduct"
+    post:
+      summary: Create order product
+      tags:
+      - OrderProducts
+      parameters: []
+      responses:
+        '201':
+          description: order product created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrderProduct"
+        '422':
+          description: invalid order product
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order_id:
+                  type: integer
+                product_id:
+                  type: integer
+                quantity:
+                  type: integer
+                price:
+                  type: number
+                  format: float
+              required:
+              - order_id
+              - product_id
+              - quantity
+  "/api/v1/order_products/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show order product
+      tags:
+      - OrderProducts
+      responses:
+        '200':
+          description: order product found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrderProduct"
+        '404':
+          description: order product not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+    patch:
+      summary: Update order product
+      tags:
+      - OrderProducts
+      parameters: []
+      responses:
+        '200':
+          description: order product updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrderProduct"
+        '422':
+          description: invalid update
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                price:
+                  type: number
+                  format: float
+    delete:
+      summary: Delete order product
+      tags:
+      - OrderProducts
+      responses:
+        '204':
+          description: order product deleted
+        '404':
+          description: order product not found
+  "/api/v1/orders/{id}/products":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: List products by order
+      tags:
+      - OrderProducts
+      responses:
+        '200':
+          description: products found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Product"
+        '404':
+          description: order not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+  "/api/v1/orders":
+    get:
+      summary: List orders
+      tags:
+      - Orders
+      responses:
+        '200':
+          description: orders found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Order"
+    post:
+      summary: Create order
+      tags:
+      - Orders
+      parameters: []
+      responses:
+        '201':
+          description: order created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Order"
+        '422':
+          description: invalid order
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                status:
+                  type: string
+                  enum:
+                  - New
+                  - In progress
+                  - Done
+                total_amount:
+                  type: number
+                  format: float
+              required:
+              - customer_id
+              - status
+              - total_amount
+  "/api/v1/orders/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show order
+      tags:
+      - Orders
+      responses:
+        '200':
+          description: order found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Order"
+        '404':
+          description: order not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+    patch:
+      summary: Update order
+      tags:
+      - Orders
+      parameters: []
+      responses:
+        '200':
+          description: order updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Order"
+        '422':
+          description: invalid update
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - New
+                  - In progress
+                  - Done
+                total_amount:
+                  type: number
+                  format: float
+    delete:
+      summary: Delete order
+      tags:
+      - Orders
+      responses:
+        '204':
+          description: order deleted
+        '404':
+          description: order not found
+  "/api/v1/customer/{customer_id}/orders":
+    parameters:
+    - name: customer_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: List orders by customer
+      tags:
+      - Orders
+      responses:
+        '200':
+          description: orders found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Order"
+        '404':
+          description: customer not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+  "/api/v1/products":
+    get:
+      summary: List products
+      tags:
+      - Products
+      responses:
+        '200':
+          description: products found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Product"
+    post:
+      summary: Create product
+      tags:
+      - Products
+      parameters: []
+      responses:
+        '201':
+          description: product created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Product"
+        '422':
+          description: invalid product
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                stock:
+                  type: integer
+              required:
+              - name
+              - price
+  "/api/v1/products/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show product
+      tags:
+      - Products
+      responses:
+        '200':
+          description: product found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Product"
+        '404':
+          description: product not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+    patch:
+      summary: Update product
+      tags:
+      - Products
+      parameters: []
+      responses:
+        '200':
+          description: product updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Product"
+        '422':
+          description: invalid update
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: float
+    delete:
+      summary: Delete product
+      tags:
+      - Products
+      responses:
+        '204':
+          description: product deleted
+        '404':
+          description: product not found
+components:
+  schemas:
+    RequestDetails:
+      type: object
+      properties:
+        occurredAt:
+          type: string
+          format: date-time
+          example: '2025-01-01T12:00:00Z'
+        requestId:
+          type: string
+          example: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+        path:
+          type: string
+          example: "/api/v1/products/999"
+      required:
+      - occurredAt
+      - requestId
+      - path
+    ErrorDetails:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Name can't be blank
+        errorType:
+          type: string
+          example: VALIDATION_ERROR
+      required:
+      - message
+      - errorType
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          example: Record not found
+        internalErrorCode:
+          type: string
+          nullable: true
+          example: ERR-001
+        errorType:
+          type: string
+          nullable: true
+          example: NOT_FOUND
+        requestDetails:
+          "$ref": "#/components/schemas/RequestDetails"
+        additionalErrors:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ErrorDetails"
+      required:
+      - message
+      - requestDetails
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Keyboard
+        description:
+          type: string
+          nullable: true
+          example: Mechanical keyboard
+        price:
+          type: string
+          format: float
+          example: '199.90'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - price
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: john@example.com
+        phone:
+          type: string
+          nullable: true
+          example: '999999999'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - email
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        customer_id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: new
+        total_amount:
+          type: string
+          format: float
+          example: '250.00'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - customer_id
+      - status
+      - total_amount
+    OrderProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        order_id:
+          type: integer
+          example: 1
+        product_id:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 2
+        price:
+          type: string
+          format: float
+          example: '100.00'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - order_id
+      - product_id
+      - quantity
