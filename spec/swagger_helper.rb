@@ -109,14 +109,9 @@ RSpec.configure do |config|
                 example: 'Mechanical keyboard'
               },
               price: {
-                type: :number,
+                type: :string,
                 format: :float,
-                example: 199.90
-              },
-              stock: {
-                type: :integer,
-                nullable: true,
-                example: 10
+                example: "199.90"
               },
               created_at: {
                 type: :string,
@@ -179,9 +174,9 @@ RSpec.configure do |config|
                 example: 'new'
               },
               total_amount: {
-                type: :number,
+                type: :string,
                 format: :float,
-                example: 250.00
+                example: "250.00"
               },
               created_at: {
                 type: :string,
@@ -215,9 +210,9 @@ RSpec.configure do |config|
                 example: 2
               },
               price: {
-                type: :number,
+                type: :string,
                 format: :float,
-                example: 100.00
+                example: "100.00"
               },
               created_at: {
                 type: :string,
