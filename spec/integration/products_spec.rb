@@ -11,16 +11,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
       response "200", "products found" do
         schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id:          { type: :integer },
-                   name:        { type: :string },
-                   description: { type: :string, nullable: true },
-                   price:       { type: :number, format: :float },
-                   stock:       { type: :integer, nullable: true }
-                 }
-               }
+               items: { '$ref' => '#/components/schemas/Product' }
 
         run_test! do |response|
           json = JSON.parse(response.body)
@@ -47,14 +38,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
       }
 
       response "201", "product created" do
-        schema type: :object,
-               properties: {
-                 id:          { type: :integer },
-                 name:        { type: :string },
-                 description: { type: :string, nullable: true },
-                 price:       { type: :number, format: :float },
-                 stock:       { type: :integer, nullable: true }
-               }
+        schema '$ref' => '#/components/schemas/Product'
 
         let(:product) do
           {
@@ -99,14 +83,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
       produces "application/json"
 
       response "200", "product found" do
-        schema type: :object,
-               properties: {
-                 id:          { type: :integer },
-                 name:        { type: :string },
-                 description: { type: :string, nullable: true },
-                 price:       { type: :number, format: :float },
-                 stock:       { type: :integer, nullable: true }
-               }
+        schema '$ref' => '#/components/schemas/Product'
 
         let(:id) { product1.id }
 
@@ -137,14 +114,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
       }
 
       response "200", "product updated" do
-        schema type: :object,
-               properties: {
-                 id:          { type: :integer },
-                 name:        { type: :string },
-                 description: { type: :string, nullable: true },
-                 price:       { type: :number, format: :float },
-                 stock:       { type: :integer, nullable: true }
-               }
+        schema '$ref' => '#/components/schemas/Product'
 
         let(:id) { product1.id }
         let(:product) { { name: "Updated Product Name" } }

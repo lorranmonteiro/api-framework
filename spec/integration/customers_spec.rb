@@ -11,15 +11,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
       response "200", "customers found" do
         schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id:    { type: :integer },
-                   name:  { type: :string },
-                   email: { type: :string },
-                   phone: { type: :string }
-                 }
-               }
+               items: { '$ref' => '#/components/schemas/Customer' }
 
         run_test!
       end
@@ -41,13 +33,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
       }
 
       response "201", "customer created" do
-        schema type: :object,
-               properties: {
-                 id:    { type: :integer },
-                 name:  { type: :string },
-                 email: { type: :string },
-                 phone: { type: :string }
-               }
+        schema '$ref' => '#/components/schemas/Customer'
 
         let(:customer) do
           {
@@ -84,13 +70,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
       produces "application/json"
 
       response "200", "customer found" do
-        schema type: :object,
-               properties: {
-                 id:    { type: :integer },
-                 name:  { type: :string },
-                 email: { type: :string },
-                 phone: { type: :string }
-               }
+        schema '$ref' => '#/components/schemas/Customer'
 
         let(:id) { customer1.id }
         run_test!
@@ -117,13 +97,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
       }
 
       response "200", "customer updated" do
-        schema type: :object,
-               properties: {
-                 id:    { type: :integer },
-                 name:  { type: :string },
-                 email: { type: :string },
-                 phone: { type: :string }
-               }
+        schema '$ref' => '#/components/schemas/Customer'
 
         let(:id) { customer1.id }
         let(:customer) { { name: "Updated Name" } }

@@ -15,16 +15,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
       response "200", "order products found" do
         schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id:         { type: :integer },
-                   order_id:   { type: :integer },
-                   product_id: { type: :integer },
-                   quantity:   { type: :integer },
-                   price:      { type: :number, format: :float }
-                 }
-               }
+               items: { '$ref' => '#/components/schemas/OrderProduct' }
 
         run_test! do |response|
           json = JSON.parse(response.body)
@@ -50,14 +41,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
       }
 
       response "201", "order product created" do
-        schema type: :object,
-               properties: {
-                 id:         { type: :integer },
-                 order_id:   { type: :integer },
-                 product_id: { type: :integer },
-                 quantity:   { type: :integer },
-                 price:      { type: :number, format: :float }
-               }
+        schema '$ref' => '#/components/schemas/OrderProduct'
 
         let(:order_product) do
           {
@@ -102,14 +86,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
       produces "application/json"
 
       response "200", "order product found" do
-        schema type: :object,
-               properties: {
-                 id:         { type: :integer },
-                 order_id:   { type: :integer },
-                 product_id: { type: :integer },
-                 quantity:   { type: :integer },
-                 price:      { type: :number, format: :float }
-               }
+        schema '$ref' => '#/components/schemas/OrderProduct'
 
         let(:id) { order_product1.id }
 
@@ -140,14 +117,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
       }
 
       response "200", "order product updated" do
-        schema type: :object,
-               properties: {
-                 id:         { type: :integer },
-                 order_id:   { type: :integer },
-                 product_id: { type: :integer },
-                 quantity:   { type: :integer },
-                 price:      { type: :number, format: :float }
-               }
+        schema '$ref' => '#/components/schemas/OrderProduct'
 
         let(:id) { order_product1.id }
         let(:order_product) { { quantity: 5 } }
@@ -196,14 +166,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
       response "200", "products found" do
         schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id:    { type: :integer },
-                   name:  { type: :string },
-                   price: { type: :number, format: :float }
-                 }
-               }
+               items: { '$ref' => '#/components/schemas/Product' }
 
         let(:id) { order.id }
 

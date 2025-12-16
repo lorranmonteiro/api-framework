@@ -22,16 +22,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-                    email:
-                      type: string
-                    phone:
-                      type: string
+                  "$ref": "#/components/schemas/Customer"
     post:
       summary: Create customer
       tags:
@@ -43,16 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  email:
-                    type: string
-                  phone:
-                    type: string
+                "$ref": "#/components/schemas/Customer"
         '422':
           description: invalid request
           content:
@@ -91,16 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  email:
-                    type: string
-                  phone:
-                    type: string
+                "$ref": "#/components/schemas/Customer"
         '404':
           description: customer not found
           content:
@@ -118,16 +91,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  email:
-                    type: string
-                  phone:
-                    type: string
+                "$ref": "#/components/schemas/Customer"
         '422':
           description: invalid update
           content:
@@ -166,19 +130,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    order_id:
-                      type: integer
-                    product_id:
-                      type: integer
-                    quantity:
-                      type: integer
-                    price:
-                      type: number
-                      format: float
+                  "$ref": "#/components/schemas/OrderProduct"
     post:
       summary: Create order product
       tags:
@@ -190,19 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  order_id:
-                    type: integer
-                  product_id:
-                    type: integer
-                  quantity:
-                    type: integer
-                  price:
-                    type: number
-                    format: float
+                "$ref": "#/components/schemas/OrderProduct"
         '422':
           description: invalid order product
           content:
@@ -245,19 +185,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  order_id:
-                    type: integer
-                  product_id:
-                    type: integer
-                  quantity:
-                    type: integer
-                  price:
-                    type: number
-                    format: float
+                "$ref": "#/components/schemas/OrderProduct"
         '404':
           description: order product not found
           content:
@@ -275,19 +203,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  order_id:
-                    type: integer
-                  product_id:
-                    type: integer
-                  quantity:
-                    type: integer
-                  price:
-                    type: number
-                    format: float
+                "$ref": "#/components/schemas/OrderProduct"
         '422':
           description: invalid update
           content:
@@ -333,15 +249,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-                    price:
-                      type: number
-                      format: float
+                  "$ref": "#/components/schemas/Product"
         '404':
           description: order not found
           content:
@@ -361,17 +269,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    customer_id:
-                      type: integer
-                    status:
-                      type: string
-                    total_amount:
-                      type: number
-                      format: float
+                  "$ref": "#/components/schemas/Order"
     post:
       summary: Create order
       tags:
@@ -383,17 +281,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  customer_id:
-                    type: integer
-                  status:
-                    type: string
-                  total_amount:
-                    type: number
-                    format: float
+                "$ref": "#/components/schemas/Order"
         '422':
           description: invalid order
           content:
@@ -438,17 +326,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  customer_id:
-                    type: integer
-                  status:
-                    type: string
-                  total_amount:
-                    type: number
-                    format: float
+                "$ref": "#/components/schemas/Order"
         '404':
           description: order not found
           content:
@@ -466,17 +344,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  customer_id:
-                    type: integer
-                  status:
-                    type: string
-                  total_amount:
-                    type: number
-                    format: float
+                "$ref": "#/components/schemas/Order"
         '422':
           description: invalid update
           content:
@@ -526,17 +394,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    customer_id:
-                      type: integer
-                    status:
-                      type: string
-                    total_amount:
-                      type: number
-                      format: float
+                  "$ref": "#/components/schemas/Order"
         '404':
           description: customer not found
           content:
@@ -556,21 +414,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-                    description:
-                      type: string
-                      nullable: true
-                    price:
-                      type: number
-                      format: float
-                    stock:
-                      type: integer
-                      nullable: true
+                  "$ref": "#/components/schemas/Product"
     post:
       summary: Create product
       tags:
@@ -582,21 +426,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                    nullable: true
-                  price:
-                    type: number
-                    format: float
-                  stock:
-                    type: integer
-                    nullable: true
+                "$ref": "#/components/schemas/Product"
         '422':
           description: invalid product
           content:
@@ -638,21 +468,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                    nullable: true
-                  price:
-                    type: number
-                    format: float
-                  stock:
-                    type: integer
-                    nullable: true
+                "$ref": "#/components/schemas/Product"
         '404':
           description: product not found
           content:
@@ -670,21 +486,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                    nullable: true
-                  price:
-                    type: number
-                    format: float
-                  stock:
-                    type: integer
-                    nullable: true
+                "$ref": "#/components/schemas/Product"
         '422':
           description: invalid update
           content:
@@ -769,3 +571,118 @@ components:
       required:
       - message
       - requestDetails
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Keyboard
+        description:
+          type: string
+          nullable: true
+          example: Mechanical keyboard
+        price:
+          type: number
+          format: float
+          example: 199.9
+        stock:
+          type: integer
+          nullable: true
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - price
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: john@example.com
+        phone:
+          type: string
+          nullable: true
+          example: '999999999'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - email
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        customer_id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: new
+        total_amount:
+          type: number
+          format: float
+          example: 250.0
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - customer_id
+      - status
+      - total_amount
+    OrderProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        order_id:
+          type: integer
+          example: 1
+        product_id:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 2
+        price:
+          type: number
+          format: float
+          example: 100.0
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - order_id
+      - product_id
+      - quantity

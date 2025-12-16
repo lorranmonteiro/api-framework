@@ -12,15 +12,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
       response "200", "orders found" do
         schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id:           { type: :integer },
-                   customer_id:  { type: :integer },
-                   status:       { type: :string },
-                   total_amount: { type: :number, format: :float }
-                 }
-               }
+               items: { '$ref' => '#/components/schemas/Order' }
 
         run_test! do |response|
           json = JSON.parse(response.body)
@@ -46,13 +38,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
       }
 
       response "201", "order created" do
-        schema type: :object,
-               properties: {
-                 id:           { type: :integer },
-                 customer_id:  { type: :integer },
-                 status:       { type: :string },
-                 total_amount: { type: :number, format: :float }
-               }
+        schema '$ref' => '#/components/schemas/Order'
 
         let(:order) do
           {
@@ -99,13 +85,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
       produces "application/json"
 
       response "200", "order found" do
-        schema type: :object,
-               properties: {
-                 id:           { type: :integer },
-                 customer_id:  { type: :integer },
-                 status:       { type: :string },
-                 total_amount: { type: :number, format: :float }
-               }
+        schema '$ref' => '#/components/schemas/Order'
 
         let(:id) { order1.id }
 
@@ -136,13 +116,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
       }
 
       response "200", "order updated" do
-        schema type: :object,
-               properties: {
-                 id:           { type: :integer },
-                 customer_id:  { type: :integer },
-                 status:       { type: :string },
-                 total_amount: { type: :number, format: :float }
-               }
+        schema '$ref' => '#/components/schemas/Order'
 
         let(:id) { order1.id }
         let(:order) { { status: "Done" } }
@@ -186,15 +160,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
       response "200", "orders found" do
         schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id:           { type: :integer },
-                   customer_id:  { type: :integer },
-                   status:       { type: :string },
-                   total_amount: { type: :number, format: :float }
-                 }
-               }
+               items: { '$ref' => '#/components/schemas/Order' }
 
         let(:customer_id) { customer.id }
 
