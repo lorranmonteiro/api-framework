@@ -585,13 +585,9 @@ components:
           nullable: true
           example: Mechanical keyboard
         price:
-          type: number
+          type: string
           format: float
-          example: 199.9
-        stock:
-          type: integer
-          nullable: true
-          example: 10
+          example: '199.90'
         created_at:
           type: string
           format: date-time
@@ -642,9 +638,9 @@ components:
           type: string
           example: new
         total_amount:
-          type: number
+          type: string
           format: float
-          example: 250.0
+          example: '250.00'
         created_at:
           type: string
           format: date-time
@@ -672,9 +668,9 @@ components:
           type: integer
           example: 2
         price:
-          type: number
+          type: string
           format: float
-          example: 100.0
+          example: '100.00'
         created_at:
           type: string
           format: date-time
