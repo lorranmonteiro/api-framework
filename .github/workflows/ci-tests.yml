@@ -1,0 +1,35 @@
+name: Run tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run_rspec_tests:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: chmod +x bin/rails bin/rake
+      - run: bin/rails db:drop db:create db:schema:load
+      - run: bundle exec rspec
+
+  run_rswag_tests:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: chmod +x bin/rails bin/rake
+      - run: bin/rails db:drop db:create db:schema:load
+      - run: bundle exec rake rswag
