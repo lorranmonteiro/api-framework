@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  rRun espec tests:
+  run_rspec_tests:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
@@ -20,7 +20,7 @@ jobs:
       - run: bin/rails db:prepare
       - run: bundle exec rspec
 
-  Run rswag tests:
+  run_rswag_tests:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
