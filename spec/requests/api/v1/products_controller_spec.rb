@@ -79,7 +79,7 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
 
         expect(json["message"]).to be_an(Array)
         expect(json["message"]).to include("Name can't be blank")
-        expect(json["message"]).to include("Price must be greater than or equal to 0")
+        expect(json["message"]).to include("Price must be greater than 0")
 
         expect(json["errorType"]).to be_nil
         expect(json["requestDetails"]).to be_present
@@ -111,7 +111,7 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
         json = JSON.parse(response.body)
 
         expect(json["message"]).to be_an(Array)
-        expect(json["message"]).to include("Price must be greater than or equal to 0")
+        expect(json["message"]).to include("Price must be greater than 0")
 
         expect(json["errorType"]).to be_nil
         expect(json["requestDetails"]).to be_present
