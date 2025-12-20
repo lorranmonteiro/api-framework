@@ -120,7 +120,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         let(:id) { customer1.id }
 
         examples "application/json" => {
-          id: id,
+          id: "1",
           name: "Ana Maria",
           email: "ana.maria@example.com",
           phone: "85988888888",
@@ -251,7 +251,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
         examples "application/json" => {
           message: "Email can't be blank",
-          internalErrorCode: "ERR_CUSTOMER_EMAIL_BLANK",
+          internalErrorCode: "E90",
           errorType: "VALIDATION_ERROR",
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",

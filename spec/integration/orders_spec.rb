@@ -238,7 +238,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Order not found",
-          internalErrorCode: "ERR_ORDER_NOT_FOUND",
+          internalErrorCode: "E39",
           errorType: "NOT_FOUND_ERROR",
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",

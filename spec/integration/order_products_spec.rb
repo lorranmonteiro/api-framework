@@ -275,13 +275,13 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Customer not found",
+          message: "Order not found",
           internalErrorCode: "E42",
           errorType: "NOT_FOUND_ERROR",
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/customer/99999/orders"
+            path: "/api/v1/orders/99999/products"
           },
           additionalErrors: []
         }
