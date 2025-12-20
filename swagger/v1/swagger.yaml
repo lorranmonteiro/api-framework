@@ -119,7 +119,7 @@ paths:
               examples:
                 example_0:
                   value:
-                    id: "./spec/integration/customers_spec.rb[1:2:1:1]"
+                    id: '1'
                     name: Ana Maria
                     email: ana.maria@example.com
                     phone: '85988888888'
@@ -222,7 +222,7 @@ paths:
                 example_0:
                   value:
                     message: Email can't be blank
-                    internalErrorCode: ERR_CUSTOMER_EMAIL_BLANK
+                    internalErrorCode: E90
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -507,13 +507,13 @@ paths:
               examples:
                 example_0:
                   value:
-                    message: Customer not found
+                    message: Order not found
                     internalErrorCode: E42
                     errorType: NOT_FOUND_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
-                      path: "/api/v1/customer/99999/orders"
+                      path: "/api/v1/orders/99999/products"
                     additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
@@ -726,7 +726,7 @@ paths:
                 example_0:
                   value:
                     message: Order not found
-                    internalErrorCode: ERR_ORDER_NOT_FOUND
+                    internalErrorCode: E39
                     errorType: NOT_FOUND_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
