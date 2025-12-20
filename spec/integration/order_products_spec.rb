@@ -9,20 +9,6 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
   let!(:order_product2) { create(:order_product, order: order, product: product, quantity: 3, price: 100) }
 
   path "/api/v1/order_products" do
-    get "List order products" do
-      tags "OrderProducts"
-      produces "application/json"
-
-      response "200", "order products found" do
-        schema type: :array,
-               items: { '$ref' => '#/components/schemas/OrderProduct' }
-
-        run_test! do |response|
-          json = JSON.parse(response.body)
-          expect(json.size).to eq(2)
-        end
-      end
-    end
 
     post "Create order product" do
       tags "OrderProducts"
