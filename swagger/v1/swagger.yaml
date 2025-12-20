@@ -11,34 +11,69 @@ info:
 paths:
   "/api/v1/customers":
     get:
-      summary: List customers
+      summary: Lista todos os clientes
       tags:
       - Customers
       responses:
         '200':
-          description: customers found
+          description: Clientes encontrados
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                  - id: 1
+                    name: João Victor
+                    email: joao.victor@example.com
+                    phone: '85999999999'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
+                  - id: 2
+                    name: Ana Maria
+                    email: ana.maria@example.com
+                    phone: '85988888888'
+                    created_at: '2025-12-08T15:12:20.123Z'
+                    updated_at: '2025-12-08T15:12:20.123Z'
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Customer"
     post:
-      summary: Create customer
+      summary: Cria um novo cliente
       tags:
       - Customers
       parameters: []
       responses:
         '201':
-          description: customer created
+          description: Cliente criado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    name: Ana Maria
+                    email: ana.maria@example.com
+                    phone: '85999999999'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Customer"
         '422':
-          description: invalid request
+          description: Atualização inválida
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Email can't be blank
+                    internalErrorCode: E4
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/customers"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -49,53 +84,102 @@ paths:
               properties:
                 name:
                   type: string
+                  example: Ana Maria
                 email:
                   type: string
+                  example: ana.maria@example.com
                 phone:
                   type: string
+                  example: '85999999999'
               required:
               - name
               - email
+              example:
+                name: Ana Maria
+                email: ana.maria@example.com
+                phone: '85999999999'
   "/api/v1/customers/{id}":
     parameters:
     - name: id
       in: path
+      description: ID do cliente
+      example: 1
       required: true
       schema:
         type: integer
     get:
-      summary: Show customer
+      summary: Informações do cliente
       tags:
       - Customers
       responses:
         '200':
-          description: customer found
+          description: Cliente encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: '1'
+                    name: Ana Maria
+                    email: ana.maria@example.com
+                    phone: '85988888888'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Customer"
         '404':
-          description: customer not found
+          description: Cliente não encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Customer not found
+                    internalErrorCode: E10
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/customers/99999"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
-      summary: Update customer
+      summary: Atualiza parcialmente o cliente
       tags:
       - Customers
       parameters: []
       responses:
         '200':
-          description: customer updated
+          description: Cliente atualizado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    name: Jorge Campos
+                    email: ana.maria@example.com
+                    phone: '85988888888'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Customer"
         '422':
-          description: invalid update
+          description: Atualização inválida
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Name can't be blank
+                    internalErrorCode: E89
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/customers/1"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -106,47 +190,126 @@ paths:
               properties:
                 name:
                   type: string
+                  example: Jorge Campos
+              example:
+                name: Jorge Campos
+    put:
+      summary: Atualiza completamente o cliente
+      tags:
+      - Customers
+      parameters: []
+      responses:
+        '200':
+          description: Cliente atualizado
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    name: Jorge Campos
+                    email: jorge.campos@example.com
+                    phone: '85977777777'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
+              schema:
+                "$ref": "#/components/schemas/Customer"
+        '422':
+          description: Atualização inválida
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Email can't be blank
+                    internalErrorCode: E90
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/customers/1"
+                    additionalErrors: []
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Jorge Campos
                 email:
                   type: string
+                  example: jorge.campos@example.com
+                phone:
+                  type: string
+                  example: '85977777777'
+              example:
+                name: Jorge Campos
+                email: jorge.campos@example.com
+                phone: '85977777777'
     delete:
-      summary: Delete customer
+      summary: Deletar cliente
       tags:
       - Customers
       responses:
         '204':
-          description: customer deleted
+          description: Cliente deletado
         '404':
-          description: customer not found
-  "/api/v1/order_products":
-    get:
-      summary: List order products
-      tags:
-      - OrderProducts
-      responses:
-        '200':
-          description: order products found
+          description: Cliente não encontrado
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/OrderProduct"
+              examples:
+                example_0:
+                  value:
+                    message: Customer not found
+                    internalErrorCode: E11
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/customers/99999"
+                    additionalErrors: []
+  "/api/v1/order_products":
     post:
-      summary: Create order product
+      summary: Cria um produto do pedido
       tags:
       - OrderProducts
       parameters: []
       responses:
         '201':
-          description: order product created
+          description: Produto do pedido criado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 3
+                    order_id: 1
+                    product_id: 1
+                    quantity: 2
+                    price: '100.0'
+                    created_at: '2025-12-08T15:12:20.123Z'
+                    updated_at: '2025-12-08T15:12:20.123Z'
               schema:
                 "$ref": "#/components/schemas/OrderProduct"
         '422':
-          description: invalid order product
+          description: Produto do pedido inválido
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Quantity must be greater than 0
+                    internalErrorCode: E46
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/order_products"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -157,57 +320,110 @@ paths:
               properties:
                 order_id:
                   type: integer
+                  example: 1
                 product_id:
                   type: integer
+                  example: 1
                 quantity:
                   type: integer
+                  example: 2
                 price:
                   type: number
                   format: float
+                  example: 100.0
               required:
               - order_id
               - product_id
               - quantity
+              example:
+                order_id: 1
+                product_id: 1
+                quantity: 2
+                price: 100
   "/api/v1/order_products/{id}":
     parameters:
     - name: id
       in: path
+      description: ID do produto do pedido
+      example: 1
       required: true
       schema:
         type: integer
     get:
-      summary: Show order product
+      summary: Informações do produto do pedido
       tags:
       - OrderProducts
       responses:
         '200':
-          description: order product found
+          description: Produto do pedido encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 3
+                    order_id: 1
+                    product_id: 1
+                    quantity: 2
+                    price: '100.0'
+                    created_at: '2025-12-08T15:12:20.123Z'
+                    updated_at: '2025-12-08T15:12:20.123Z'
               schema:
                 "$ref": "#/components/schemas/OrderProduct"
         '404':
-          description: order product not found
+          description: Produto do pedido não encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Order Product not found
+                    internalErrorCode: E19
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/order_products/99999"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
-      summary: Update order product
+      summary: Atualizar produto do pedido
       tags:
       - OrderProducts
       parameters: []
       responses:
         '200':
-          description: order product updated
+          description: Produto do pedido atualizado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 3
+                    order_id: 1
+                    product_id: 1
+                    quantity: 2
+                    price: '100.0'
+                    created_at: '2025-12-08T15:12:20.123Z'
+                    updated_at: '2025-12-08T15:12:20.123Z'
               schema:
                 "$ref": "#/components/schemas/OrderProduct"
         '422':
-          description: invalid update
+          description: Atualização inválida
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Quantity must be greater than 0
+                    internalErrorCode: E46
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/order_products"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -218,74 +434,154 @@ paths:
               properties:
                 quantity:
                   type: integer
+                  example: 5
                 price:
                   type: number
                   format: float
+                  example: 100.0
     delete:
-      summary: Delete order product
+      summary: Deleta o produto do pedido
       tags:
       - OrderProducts
       responses:
         '204':
-          description: order product deleted
+          description: Produto do pedido deletado
         '404':
-          description: order product not found
+          description: Produto do pedido não encontrado
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Order Product not found
+                    internalErrorCode: E19
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/order_products/99999"
+                    additionalErrors: []
   "/api/v1/orders/{id}/products":
     parameters:
     - name: id
       in: path
+      description: ID do pedido
+      example: 1
       required: true
       schema:
         type: integer
     get:
-      summary: List products by order
+      summary: Lista produtos do pedido
       tags:
       - OrderProducts
       responses:
         '200':
-          description: products found
+          description: Produtos encontrados
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                  - id: 1
+                    order_id: 1
+                    product_id: 1
+                    quantity: 1
+                    price: '100.0'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
+                  - id: 2
+                    order_id: 1
+                    product_id: 2
+                    quantity: 1
+                    price: '200.0'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Product"
         '404':
-          description: order not found
+          description: Pedido não encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Order not found
+                    internalErrorCode: E42
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/orders/99999/products"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
   "/api/v1/orders":
     get:
-      summary: List orders
+      summary: Lista todos os pedidos
       tags:
       - Orders
       responses:
         '200':
-          description: orders found
+          description: Pedidos encontrados
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                  - id: 1
+                    customer_id: 1
+                    status: New
+                    total_amount: 100.0
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
+                  - id: 2
+                    customer_id: 1
+                    status: In progress
+                    total_amount: 200.0
+                    created_at: '2025-12-08T15:12:20.123Z'
+                    updated_at: '2025-12-08T15:12:20.123Z'
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Order"
     post:
-      summary: Create order
+      summary: Cria um pedido
       tags:
       - Orders
       parameters: []
       responses:
         '201':
-          description: order created
+          description: Pedido criado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    customer_id: 1
+                    status: New
+                    total_amount: 100.0
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Order"
         '422':
-          description: invalid order
+          description: Pedido inválido
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Customer can't be blank
+                    internalErrorCode: E40
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/orders"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -296,59 +592,108 @@ paths:
               properties:
                 customer_id:
                   type: integer
+                  example: 1
                 status:
                   type: string
                   enum:
                   - New
                   - In progress
                   - Done
+                  example: New
                 total_amount:
                   type: number
                   format: float
+                  example: 100.0
               required:
               - customer_id
               - status
               - total_amount
+              example:
+                customer_id: 1
+                status: New
+                total_amount: 100.0
   "/api/v1/orders/{id}":
     parameters:
     - name: id
       in: path
+      description: ID do pedido
+      example: 1
       required: true
       schema:
         type: integer
     get:
-      summary: Show order
+      summary: Informações do pedido
       tags:
       - Orders
       responses:
         '200':
-          description: order found
+          description: Pedido encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    customer_id: 1
+                    status: New
+                    total_amount: 100.0
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Order"
         '404':
-          description: order not found
+          description: Pedido não encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Order not found
+                    internalErrorCode: E39
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/orders/99999"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
-      summary: Update order
+      summary: Atualiza um pedido
       tags:
       - Orders
       parameters: []
       responses:
         '200':
-          description: order updated
+          description: Pedido atualizado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    customer_id: 1
+                    status: Done
+                    total_amount: 100.0
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Order"
         '422':
-          description: invalid update
+          description: Atualização inválida
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Status can't be blank
+                    internalErrorCode: E43
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/orders/99999"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -363,74 +708,150 @@ paths:
                   - New
                   - In progress
                   - Done
-                total_amount:
-                  type: number
-                  format: float
+                  example: Done
+              example:
+                status: Done
     delete:
-      summary: Delete order
+      summary: Deleta um pedido
       tags:
       - Orders
       responses:
         '204':
-          description: order deleted
+          description: Pedido deletado
         '404':
-          description: order not found
+          description: Pedido não encontrado
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Order not found
+                    internalErrorCode: E39
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/orders/99999"
+                    additionalErrors: []
   "/api/v1/customer/{customer_id}/orders":
     parameters:
     - name: customer_id
       in: path
+      description: ID do cliente
+      example: 1
       required: true
       schema:
         type: integer
     get:
-      summary: List orders by customer
+      summary: Lista os pedidos de um cliente
       tags:
       - Orders
       responses:
         '200':
-          description: orders found
+          description: Pedidos encontrados
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                  - id: 1
+                    customer_id: 1
+                    status: New
+                    total_amount: 100.0
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
+                  - id: 2
+                    customer_id: 1
+                    status: In progress
+                    total_amount: 200.0
+                    created_at: '2025-12-08T15:12:20.123Z'
+                    updated_at: '2025-12-08T15:12:20.123Z'
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Order"
         '404':
-          description: customer not found
+          description: Cliente não encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Customer not found
+                    internalErrorCode: E42
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/customer/99999/orders"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
   "/api/v1/products":
     get:
-      summary: List products
+      summary: Lista todos os produtos
       tags:
       - Products
       responses:
         '200':
-          description: products found
+          description: Produtos encontrados
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                  - id: 1
+                    name: Laranja
+                    description: Bem docinha
+                    price: '10.50'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
+                  - id: 2
+                    name: Banana prata
+                    description: Bem madurinha
+                    price: '20.00'
+                    created_at: '2025-12-08T15:12:20.123Z'
+                    updated_at: '2025-12-08T15:12:20.123Z'
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Product"
     post:
-      summary: Create product
+      summary: Cria um produto
       tags:
       - Products
       parameters: []
       responses:
         '201':
-          description: product created
+          description: Produto criado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    name: Laranja
+                    description: Bem docinha
+                    price: '15.99'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Product"
         '422':
-          description: invalid product
+          description: Produto inválido
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Name can't be blank
+                    internalErrorCode: E25
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/products"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -446,51 +867,95 @@ paths:
                 price:
                   type: number
                   format: float
-                stock:
-                  type: integer
               required:
               - name
               - price
+              example:
+                name: Laranja
+                description: Bem docinha
+                price: 10.0
   "/api/v1/products/{id}":
     parameters:
     - name: id
       in: path
+      description: ID do produto
+      example: 1
       required: true
       schema:
         type: integer
     get:
-      summary: Show product
+      summary: Informações do produto
       tags:
       - Products
       responses:
         '200':
-          description: product found
+          description: Produto encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    name: Laranja
+                    description: Bem docinha
+                    price: '15.99'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Product"
         '404':
-          description: product not found
+          description: Produto não encontrado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Product not found
+                    internalErrorCode: E71
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/products/99999"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
-      summary: Update product
+      summary: Atualiza parcialmente um produto
       tags:
       - Products
       parameters: []
       responses:
         '200':
-          description: product updated
+          description: Produto atualizado
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    name: Laranja
+                    description: Mais doce ainda
+                    price: '5.0'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Product"
         '422':
-          description: invalid update
+          description: Atualização inválida
           content:
             application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Price must be greater than 0
+                    internalErrorCode: E27
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/products/99999"
+                    additionalErrors: []
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -504,15 +969,83 @@ paths:
                 price:
                   type: number
                   format: float
+              example:
+                name: Laranja Pera
+    put:
+      summary: Atualiza completamente um produto
+      tags:
+      - Products
+      parameters: []
+      responses:
+        '200':
+          description: Produto atualizado
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    id: 1
+                    name: Laranja
+                    description: Mais doce ainda
+                    price: '5.0'
+                    created_at: '2025-12-08T15:10:17.073Z'
+                    updated_at: '2025-12-08T15:10:17.073Z'
+              schema:
+                "$ref": "#/components/schemas/Product"
+        '422':
+          description: Atualização inválida
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Price must be greater than 0
+                    internalErrorCode: E83
+                    errorType: VALIDATION_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/products/99999"
+                    additionalErrors: []
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: float
+              example:
+                name: Laranja Pera
+                description: Mais doce ainda
+                price: 5.0
     delete:
-      summary: Delete product
+      summary: Deleta um produto
       tags:
       - Products
       responses:
         '204':
-          description: product deleted
+          description: Produto deletado
         '404':
-          description: product not found
+          description: Produto não encontrado
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    message: Product not found
+                    internalErrorCode: E23
+                    errorType: NOT_FOUND_ERROR
+                    requestDetails:
+                      occurredAt: '2025-01-01T12:00:00Z'
+                      requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
+                      path: "/api/v1/products/99999"
+                    additionalErrors: []
 components:
   schemas:
     RequestDetails:

@@ -2,12 +2,6 @@ module Api
   module V1
     class OrderProductsController < ApplicationController
 
-      # GET /api/v1/order_products
-      def index
-        order_products = OrderProduct.all
-        render_success(order_products)
-      end
-
       # GET /api/v1/order_products/:id
       def show
         order_product = OrderProduct.find(params[:id])

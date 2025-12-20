@@ -10,17 +10,6 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
 
   let(:base_url) { "/api/v1/order_products" }
 
-  describe "GET /api/v1/order_products" do
-    it "returns all order_products" do
-      get base_url
-
-      expect(response).to have_http_status(:ok)
-
-      json = JSON.parse(response.body)
-      expect(json.size).to eq(2)
-    end
-  end
-
   describe "GET /api/v1/order_products/:id" do
     it "returns the order_product" do
       get "#{base_url}/#{order_product1.id}"
