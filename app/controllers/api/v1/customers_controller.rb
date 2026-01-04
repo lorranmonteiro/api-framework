@@ -16,24 +16,15 @@ module Api
 
       # POST /api/v1/customers
       def create
-        customer = Customer.new(customer_params)
-
-        if customer.save
-          render_success(customer, status: :created)
-        else
-          render_error(customer.errors.full_messages, status: :unprocessable_content)
-        end
+        customer = Customer.create!(customer_params)
+        render_success(customer, status: :created)
       end
 
       # PATCH/PUT /api/v1/customers/:id
       def update
         customer = Customer.find(params[:id])
-
-        if customer.update(customer_params)
-          render_success(customer)
-        else
-          render_error(customer.errors.full_messages, status: :unprocessable_content)
-        end
+        customer.update!(customer_params)
+        render_success(customer)
       end
 
       # DELETE /api/v1/customers/:id

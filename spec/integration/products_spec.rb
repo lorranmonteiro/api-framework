@@ -99,21 +99,36 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Name can't be blank",
-          internalErrorCode: "E25",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
             path: "/api/v1/products"
           },
-          additionalErrors: []
+          additionalErrors: [
+            {
+              message: "Price must be greater than 0",
+              errorType: ErrorTypes::VALIDATION,
+              internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+            }
+          ]
         }
 
         run_test! do |response|
           json = JSON.parse(response.body)
-          expect(json["message"]).to be_an(Array)
-          expect(json["message"]).to include("Name can't be blank")
-          expect(json["message"]).to include("Price must be greater than 0")
+
+          expect(json["message"]).to eq("Name can't be blank")
+          expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+          expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+
+          expect(json["additionalErrors"]).to be_an(Array)
+          expect(json["additionalErrors"].size).to eq(1)
+
+          additional_error = json["additionalErrors"].first
+          expect(additional_error["message"]).to eq("Price must be greater than 0")
+          expect(additional_error["errorType"]).to eq(ErrorTypes::VALIDATION)
+          expect(additional_error["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
         end
       end
     end
@@ -152,8 +167,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Product not found",
-          internalErrorCode: "E71",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -210,8 +225,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Price must be greater than 0",
-          internalErrorCode: "E27",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -272,8 +287,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Price must be greater than 0",
-          internalErrorCode: "E83",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -300,8 +315,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Product not found",
-          internalErrorCode: "E23",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",

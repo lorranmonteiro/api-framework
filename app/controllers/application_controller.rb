@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::API
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_error
+  rescue_from StandardError, with: :handle_internal_server_error if Rails.env.production?
 
   def render_success(data = {}, status: :ok)
     render status: status, json: data
@@ -29,27 +32,45 @@ class ApplicationController < ActionController::API
     render status: status, json: body
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |e|
+  private
+
+  def handle_not_found(exception)
     render_error(
       "Record not found",
       status: :not_found,
-      error_type: "NOT_FOUND"
+      error_type: ErrorTypes::NOT_FOUND,
+      internal_error_code: ErrorCodes::NOT_FOUND
     )
   end
 
-  rescue_from ActiveRecord::RecordInvalid do |e|
-    validation_errors = e.record.errors.map do |err|
+  def handle_validation_error(exception)
+    validation_errors = exception.record.errors.map do |error|
       {
-        message: err.full_message,
-        errorType: "VALIDATION_ERROR"
+        message: error.full_message,
+        errorType: ErrorTypes::VALIDATION,
+        internalErrorCode: ErrorCodes::VALIDATION_FAILED
       }
     end
 
     render_error(
-      "Validation failed",
+      validation_errors.first[:message],
       status: :unprocessable_content,
-      error_type: "VALIDATION_ERROR",
-      additional_errors: validation_errors
+      error_type: ErrorTypes::VALIDATION,
+      internal_error_code: ErrorCodes::VALIDATION_FAILED,
+      additional_errors: validation_errors.drop(1).presence
+    )
+  end
+
+  def handle_internal_server_error(exception)
+    Rails.logger.error(exception.class.name)
+    Rails.logger.error(exception.message)
+    Rails.logger.error(exception.backtrace.join("\n"))
+
+    render_error(
+      'An unexpected error occurred while processing the request.',
+      status: :internal_server_error,
+      internal_error_code: ErrorCodes::INTERNAL_SERVER_ERROR,
+      error_type: ErrorTypes::INTERNAL
     )
   end
 end

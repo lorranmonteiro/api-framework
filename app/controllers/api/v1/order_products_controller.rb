@@ -10,24 +10,15 @@ module Api
 
       # POST /api/v1/order_products
       def create
-        order_product = OrderProduct.new(order_product_params)
-
-        if order_product.save
-          render_success(order_product, status: :created)
-        else
-          render_error(order_product.errors.full_messages, status: :unprocessable_content)
-        end
+        order_product = OrderProduct.create!(order_product_params)
+        render_success(order_product, status: :created)
       end
 
       # PUT or PATCH /api/v1/order_products/:id
       def update
         order_product = OrderProduct.find(params[:id])
-
-        if order_product.update(order_product_params)
-          render_success(order_product)
-        else
-          render_error(order_product.errors.full_messages, status: :unprocessable_content)
-        end
+        order_product.update!(order_product_params)
+        render_success(order_product)
       end
 
       # DELETE /api/v1/order_products/:id

@@ -31,14 +31,16 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
 
     context "when the product does not exist" do
-      it "returns a NOT_FOUND error" do
+      it "returns a NOT_FOUND error using render_error" do
         get "#{base_url}/99999"
 
         expect(response).to have_http_status(:not_found)
         json = JSON.parse(response.body)
 
         expect(json["message"]).to eq("Record not found")
-        expect(json["errorType"]).to eq("NOT_FOUND")
+        expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
+
         expect(json["requestDetails"]).to be_present
         expect(json["requestDetails"]["path"]).to eq("/api/v1/products/99999")
       end
@@ -71,17 +73,24 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
 
     context "with invalid params" do
-      it "returns validation errors using render_error" do
+      it "returns validation error with additionalErrors" do
         post base_url, params: invalid_params
 
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to be_an(Array)
-        expect(json["message"]).to include("Name can't be blank")
-        expect(json["message"]).to include("Price must be greater than 0")
+        # erro principal
+        expect(json["message"]).to eq("Name can't be blank")
 
-        expect(json["errorType"]).to be_nil
+        # padronização
+        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+
+        # erros adicionais
+        expect(json["additionalErrors"]).to be_an(Array)
+        expect(json["additionalErrors"].map { |e| e["message"] })
+          .to include("Price must be greater than 0")
+
         expect(json["requestDetails"]).to be_present
       end
     end
@@ -102,7 +111,7 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
 
     context "with invalid attributes" do
-      it "returns validation errors" do
+      it "returns validation error with additionalErrors" do
         patch "#{base_url}/#{product1.id}", params: {
           product: { price: -50 }
         }
@@ -110,10 +119,11 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to be_an(Array)
-        expect(json["message"]).to include("Price must be greater than 0")
+        expect(json["message"]).to eq("Price must be greater than 0")
+        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
 
-        expect(json["errorType"]).to be_nil
+        expect(json["additionalErrors"]).to be_nil.or be_an(Array)
         expect(json["requestDetails"]).to be_present
       end
     end
@@ -134,7 +144,8 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
       json = JSON.parse(response.body)
 
       expect(json["message"]).to eq("Record not found")
-      expect(json["errorType"]).to eq("NOT_FOUND")
+      expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
     end
   end
 end

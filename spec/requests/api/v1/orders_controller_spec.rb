@@ -32,14 +32,18 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
     end
 
     context "when the order does not exist" do
-      it "returns NOT_FOUND" do
+      it "returns NOT_FOUND error using render_error" do
         get "#{base_url}/99999"
 
         expect(response).to have_http_status(:not_found)
         json = JSON.parse(response.body)
 
         expect(json["message"]).to eq("Record not found")
-        expect(json["errorType"]).to eq("NOT_FOUND")
+        expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
+
+        expect(json["requestDetails"]).to be_present
+        expect(json["requestDetails"]["path"]).to eq("/api/v1/orders/99999")
       end
     end
   end
@@ -78,18 +82,21 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
     end
 
     context "with invalid params" do
-      it "returns validation errors" do
+      it "returns validation error with additionalErrors" do
         post base_url, params: invalid_params
 
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to be_an(Array)
-        expect(json["message"]).to include("Customer must exist")
-        expect(json["message"]).to include("Status can't be blank")
-        expect(json["message"]).to include("Total amount must be greater than or equal to 0.0")
+        expect(json["message"]).to eq("Customer must exist")
 
-        expect(json["errorType"]).to be_nil
+        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+
+        expect(json["additionalErrors"]).to be_an(Array)
+        expect(json["additionalErrors"].map { |e| e["message"] })
+          .to include("Status can't be blank", "Total amount must be greater than or equal to 0.0")
+
         expect(json["requestDetails"]).to be_present
       end
     end
@@ -110,7 +117,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
     end
 
     context "with invalid attributes" do
-      it "returns validation errors" do
+      it "returns validation error with additionalErrors" do
         patch "#{base_url}/#{order1.id}", params: {
           order: { total_amount: -5 }
         }
@@ -118,8 +125,12 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to be_an(Array)
-        expect(json["message"]).to include("Total amount must be greater than or equal to 0.0")
+        expect(json["message"]).to eq("Total amount must be greater than or equal to 0.0")
+        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+
+        expect(json["additionalErrors"]).to be_nil.or be_an(Array)
+        expect(json["requestDetails"]).to be_present
       end
     end
   end
@@ -139,7 +150,8 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
       json = JSON.parse(response.body)
 
       expect(json["message"]).to eq("Record not found")
-      expect(json["errorType"]).to eq("NOT_FOUND")
+      expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
     end
   end
 
@@ -158,6 +170,11 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
       get "/api/v1/customer/99999/orders"
 
       expect(response).to have_http_status(:not_found)
+      json = JSON.parse(response.body)
+
+      expect(json["message"]).to eq("Record not found")
+      expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
     end
   end
 end

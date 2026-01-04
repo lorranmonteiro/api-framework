@@ -38,8 +38,10 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         json = JSON.parse(response.body)
 
         expect(json["message"]).to eq("Record not found")
-        expect(json["errorType"]).to eq("NOT_FOUND")
+        expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
 
+        expect(json["additionalErrors"]).to be_nil
         expect(json["requestDetails"]).to be_present
         expect(json["requestDetails"]["path"]).to eq("/api/v1/customers/99999")
       end
@@ -68,16 +70,23 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
     end
 
     context "with invalid params" do
-      it "returns render_error with message as array" do
+      it "returns a structured validation error with additionalErrors" do
         post base_url, params: invalid_params
 
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to be_an(Array)
-        expect(json["message"]).to include("Name can't be blank")
+        expect(json["message"]).to eq("Name can't be blank")
+        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
 
-        expect(json["errorType"]).to be_nil
+        expect(json["additionalErrors"]).to be_an(Array)
+        expect(json["additionalErrors"].size).to eq(1)
+
+        additional_error = json["additionalErrors"].first
+        expect(additional_error["message"]).to eq("Email can't be blank")
+        expect(additional_error["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(additional_error["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
 
         expect(json["requestDetails"]).to be_present
       end
@@ -99,7 +108,7 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
     end
 
     context "with invalid attributes" do
-      it "returns validation errors using render_error" do
+      it "returns a structured validation error without additionalErrors" do
         patch "#{base_url}/#{customer1.id}", params: {
           customer: { email: "" }
         }
@@ -107,11 +116,11 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to be_an(Array)
-        expect(json["message"].first).to include("Email can't be blank")
+        expect(json["message"]).to eq("Email can't be blank")
+        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
 
-        expect(json["errorType"]).to be_nil
-
+        expect(json["additionalErrors"]).to be_nil
         expect(json["requestDetails"]).to be_present
       end
     end
@@ -132,7 +141,9 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
       json = JSON.parse(response.body)
 
       expect(json["message"]).to eq("Record not found")
-      expect(json["errorType"]).to eq("NOT_FOUND")
+      expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
+      expect(json["additionalErrors"]).to be_nil
     end
   end
 end
