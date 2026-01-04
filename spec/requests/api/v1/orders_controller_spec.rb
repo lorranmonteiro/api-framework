@@ -174,6 +174,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
 
       expect(json["message"]).to eq("Record not found")
       expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
     end
   end
 end

@@ -86,6 +86,7 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         additional_error = json["additionalErrors"].first
         expect(additional_error["message"]).to eq("Email can't be blank")
         expect(additional_error["errorType"]).to eq(ErrorTypes::VALIDATION)
+        expect(additional_error["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
 
         expect(json["requestDetails"]).to be_present
       end

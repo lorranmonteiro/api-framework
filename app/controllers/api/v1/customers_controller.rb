@@ -22,7 +22,8 @@ module Api
 
       # PATCH/PUT /api/v1/customers/:id
       def update
-        customer = Customer.update!(params[:id], customer_params)
+        customer = Customer.find(params[:id])
+        customer.update!(customer_params)
         render_success(customer)
       end
 

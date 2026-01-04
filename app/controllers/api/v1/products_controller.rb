@@ -22,7 +22,8 @@ module Api
 
       # PUT or PATCH /api/v1/products/:id
       def update
-        product = Product.update!(params[:id], product_params)
+        product = Product.find(params[:id])
+        product.update!(product_params)
         render_success(product)
       end
 
