@@ -100,21 +100,36 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Customer can't be blank",
-          internalErrorCode: "E40",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
             path: "/api/v1/orders"
           },
-          additionalErrors: []
+          additionalErrors: [
+            {
+              message: "Status can't be blank",
+              internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+              errorType: ErrorTypes::VALIDATION
+            }
+          ]
         }
 
         run_test! do |response|
           json = JSON.parse(response.body)
-          expect(json["message"]).to be_an(Array)
-          expect(json["message"]).to include("Customer must exist")
-          expect(json["message"]).to include("Status can't be blank")
+
+          expect(json["message"]).to eq("Customer must exist")
+          expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+          expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+
+          expect(json["additionalErrors"]).to be_an(Array)
+          expect(json["additionalErrors"].size).to eq(1)
+
+          additional_error = json["additionalErrors"].first
+          expect(additional_error["message"]).to eq("Status can't be blank")
+          expect(additional_error["errorType"]).to eq(ErrorTypes::VALIDATION)
+          expect(additional_error["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
         end
       end
     end
@@ -153,8 +168,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Order not found",
-          internalErrorCode: "E39",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -210,8 +225,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Status can't be blank",
-          internalErrorCode: "E43",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -238,8 +253,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Order not found",
-          internalErrorCode: "E39",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -298,8 +313,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
         examples "application/json" => {
           message: "Customer not found",
-          internalErrorCode: "E42",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",

@@ -67,7 +67,7 @@ paths:
                 example_0:
                   value:
                     message: Email can't be blank
-                    internalErrorCode: E4
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -135,8 +135,8 @@ paths:
                 example_0:
                   value:
                     message: Customer not found
-                    internalErrorCode: E10
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -173,7 +173,7 @@ paths:
                 example_0:
                   value:
                     message: Name can't be blank
-                    internalErrorCode: E89
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -222,7 +222,7 @@ paths:
                 example_0:
                   value:
                     message: Email can't be blank
-                    internalErrorCode: E90
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -265,8 +265,8 @@ paths:
                 example_0:
                   value:
                     message: Customer not found
-                    internalErrorCode: E11
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -303,7 +303,7 @@ paths:
                 example_0:
                   value:
                     message: Quantity must be greater than 0
-                    internalErrorCode: E46
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -378,8 +378,8 @@ paths:
                 example_0:
                   value:
                     message: Order Product not found
-                    internalErrorCode: E19
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -417,7 +417,7 @@ paths:
                 example_0:
                   value:
                     message: Quantity must be greater than 0
-                    internalErrorCode: E46
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -454,8 +454,8 @@ paths:
                 example_0:
                   value:
                     message: Order Product not found
-                    internalErrorCode: E19
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -508,8 +508,8 @@ paths:
                 example_0:
                   value:
                     message: Order not found
-                    internalErrorCode: E42
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -575,13 +575,16 @@ paths:
                 example_0:
                   value:
                     message: Customer can't be blank
-                    internalErrorCode: E40
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/orders"
-                    additionalErrors: []
+                    additionalErrors:
+                    - message: Status can't be blank
+                      internalErrorCode: E03
+                      errorType: VALIDATION_ERROR
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -649,8 +652,8 @@ paths:
                 example_0:
                   value:
                     message: Order not found
-                    internalErrorCode: E39
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -687,7 +690,7 @@ paths:
                 example_0:
                   value:
                     message: Status can't be blank
-                    internalErrorCode: E43
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -726,8 +729,8 @@ paths:
                 example_0:
                   value:
                     message: Order not found
-                    internalErrorCode: E39
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -778,8 +781,8 @@ paths:
                 example_0:
                   value:
                     message: Customer not found
-                    internalErrorCode: E42
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -845,13 +848,16 @@ paths:
                 example_0:
                   value:
                     message: Name can't be blank
-                    internalErrorCode: E25
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/products"
-                    additionalErrors: []
+                    additionalErrors:
+                    - message: Price must be greater than 0
+                      errorType: VALIDATION_ERROR
+                      internalErrorCode: E03
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -911,8 +917,8 @@ paths:
                 example_0:
                   value:
                     message: Product not found
-                    internalErrorCode: E71
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -949,7 +955,7 @@ paths:
                 example_0:
                   value:
                     message: Price must be greater than 0
-                    internalErrorCode: E27
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -1000,7 +1006,7 @@ paths:
                 example_0:
                   value:
                     message: Price must be greater than 0
-                    internalErrorCode: E83
+                    internalErrorCode: E03
                     errorType: VALIDATION_ERROR
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -1039,8 +1045,8 @@ paths:
                 example_0:
                   value:
                     message: Product not found
-                    internalErrorCode: E23
-                    errorType: NOT_FOUND_ERROR
+                    internalErrorCode: E04
+                    errorType: NOT_FOUND
                     requestDetails:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc

@@ -53,13 +53,21 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
       expect(json["quantity"]).to eq(2)
     end
 
-    it "returns error with invalid params" do
+    it "returns validation error with additionalErrors" do
       post base_url, params: invalid_params
 
       expect(response).to have_http_status(:unprocessable_content)
       json = JSON.parse(response.body)
 
-      expect(json["message"]).to include("Quantity must be greater than 0")
+      expect(json["message"]).to eq("Quantity must be greater than 0")
+
+      expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+
+      expect(json["additionalErrors"]).to be_nil.or be_an(Array)
+
+      expect(json["requestDetails"]).to be_present
+      expect(json["requestDetails"]["path"]).to eq("/api/v1/order_products")
     end
   end
 
@@ -75,7 +83,7 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
       expect(json["quantity"]).to eq(5)
     end
 
-    it "returns error on invalid update" do
+    it "returns validation error on invalid update" do
       patch "#{base_url}/#{order_product1.id}", params: {
         order_product: { quantity: 0 }
       }
@@ -83,7 +91,12 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
       json = JSON.parse(response.body)
 
-      expect(json["message"]).to include("Quantity must be greater than 0")
+      expect(json["message"]).to eq("Quantity must be greater than 0")
+      expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+
+      expect(json["additionalErrors"]).to be_nil.or be_an(Array)
+      expect(json["requestDetails"]).to be_present
     end
   end
 

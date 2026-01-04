@@ -92,8 +92,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
         examples "application/json" => {
           message: "Email can't be blank",
-          internalErrorCode: "E4",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -137,8 +137,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
         examples "application/json" => {
           message: "Customer not found",
-          internalErrorCode: "E10",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -192,8 +192,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
         examples "application/json" => {
           message: "Name can't be blank",
-          internalErrorCode: "E89",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -251,8 +251,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
         examples "application/json" => {
           message: "Email can't be blank",
-          internalErrorCode: "E90",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -279,8 +279,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
         examples "application/json" => {
           message: "Customer not found",
-          internalErrorCode: "E11",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",

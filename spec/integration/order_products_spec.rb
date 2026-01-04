@@ -75,8 +75,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
         examples "application/json" => {
           message: "Quantity must be greater than 0",
-          internalErrorCode: "E46",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -127,8 +127,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
         examples "application/json" => {
           message: "Order Product not found",
-          internalErrorCode: "E19",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -184,8 +184,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
         examples "application/json" => {
           message: "Quantity must be greater than 0",
-          internalErrorCode: "E46",
-          errorType: "VALIDATION_ERROR",
+          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+          errorType: ErrorTypes::VALIDATION,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -215,8 +215,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
         examples "application/json" => {
           message: "Order Product not found",
-          internalErrorCode: "E19",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
@@ -276,8 +276,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
         examples "application/json" => {
           message: "Order not found",
-          internalErrorCode: "E42",
-          errorType: "NOT_FOUND_ERROR",
+          internalErrorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           requestDetails: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
