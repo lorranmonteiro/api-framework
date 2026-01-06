@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
+  rescue_from StandardError, with: :handle_internal_server_error unless Rails.env.development?
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_error
-  #rescue_from StandardError, with: :handle_internal_server_error if Rails.env.production?
 
   def render_success(data = {}, status: :ok)
     render status: status, json: data
