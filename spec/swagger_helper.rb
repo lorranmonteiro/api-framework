@@ -9,17 +9,42 @@ RSpec.configure do |config|
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
       info: {
-        title: 'Documentação API REST',
+        title: 'API REST – Sistema de Pedidos',
         version: 'v1',
-        description: 'Esta é a documentação da API REST para o Trabalho de Conclusão de Curso (TCC), voltado para análise de proposta de padrão de projeto de software. A API oferece endpoints para gerenciar recursos relacionados ao sistema desenvolvido, permitindo operações CRUD e outras funcionalidades essenciais, seguindo as melhores práticas de desenvolvimento de software.'
+        description: <<~DESC
+          Documentação da API REST desenvolvida como Trabalho de Conclusão de Curso (TCC),
+          com foco na aplicação de boas práticas de engenharia de software, padrões de projeto,
+          padronização de erros, testes automatizados e documentação orientada a contrato (OpenAPI).
+        DESC
       },
       paths: {},
       components: {
         schemas: {
 
-          # ==========================
-          # 🔹 Infra / Error Handling
-          # ==========================
+          ErrorType: {
+            type: :string,
+            description: 'Classificação semântica do erro',
+            enum: [
+              'NOT_FOUND',
+              'VALIDATION_ERROR',
+              'CONFLICT_ERROR',
+              'INTERNAL_SERVER_ERROR'
+            ]
+          },
+
+          ErrorCode: {
+            type: :string,
+            description: 'Código interno padronizado do erro',
+            enum: [
+              'E01',
+              'E02',
+              'E03',
+              'E04',
+              'E05',
+              'E06',
+              'E07'
+            ]
+          },
 
           RequestDetails: {
             type: :object,
@@ -41,7 +66,7 @@ RSpec.configure do |config|
             required: %w[occurredAt requestId path]
           },
 
-          ErrorDetails: {
+          AdditionalError: {
             type: :object,
             properties: {
               message: {
@@ -49,35 +74,29 @@ RSpec.configure do |config|
                 example: "Name can't be blank"
               },
               errorType: {
-                type: :string,
-                example: 'VALIDATION_ERROR'
+                '$ref' => '#/components/schemas/ErrorType'
+              },
+              internalErrorCode: {
+                '$ref' => '#/components/schemas/ErrorCode'
               }
             },
-            required: %w[message errorType]
+            required: %w[message errorType internalErrorCode]
           },
 
           ErrorResponse: {
             type: :object,
             properties: {
               message: {
-                oneOf: [
-                  { type: :string },
-                  {
-                    type: :array,
-                    items: { type: :string }
-                  }
-                ],
+                type: :string,
                 example: 'Record not found'
               },
-              internalErrorCode: {
-                type: :string,
-                nullable: true,
-                example: 'ERR-001'
-              },
               errorType: {
-                type: :string,
-                nullable: true,
-                example: 'NOT_FOUND'
+                '$ref' => '#/components/schemas/ErrorType',
+                nullable: true
+              },
+              internalErrorCode: {
+                '$ref' => '#/components/schemas/ErrorCode',
+                nullable: true
               },
               requestDetails: {
                 '$ref' => '#/components/schemas/RequestDetails'
@@ -85,7 +104,7 @@ RSpec.configure do |config|
               additionalErrors: {
                 type: :array,
                 items: {
-                  '$ref' => '#/components/schemas/ErrorDetails'
+                  '$ref' => '#/components/schemas/AdditionalError'
                 }
               }
             },
@@ -111,7 +130,7 @@ RSpec.configure do |config|
               price: {
                 type: :string,
                 format: :float,
-                example: "199.90"
+                example: '199.90'
               },
               created_at: {
                 type: :string,
@@ -176,7 +195,7 @@ RSpec.configure do |config|
               total_amount: {
                 type: :string,
                 format: :float,
-                example: "250.00"
+                example: '250.00'
               },
               created_at: {
                 type: :string,
@@ -212,7 +231,7 @@ RSpec.configure do |config|
               price: {
                 type: :string,
                 format: :float,
-                example: "100.00"
+                example: '100.00'
               },
               created_at: {
                 type: :string,
