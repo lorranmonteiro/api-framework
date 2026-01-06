@@ -146,4 +146,28 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
       expect(json["additionalErrors"]).to be_nil
     end
   end
+
+  describe "Internal Server Error (500)" do
+    it "returns a standardized error response when an unexpected error occurs" do
+      allow(Product).to receive(:all).and_raise(StandardError.new("Boom"))
+
+      get "/api/v1/products"
+
+      expect(response).to have_http_status(:internal_server_error)
+
+      json = JSON.parse(response.body)
+
+      expect(json["message"]).to eq(
+        "An unexpected error occurred while processing the request."
+      )
+
+      expect(json["errorType"]).to eq(ErrorTypes::INTERNAL)
+      expect(json["internalErrorCode"]).to eq(ErrorCodes::INTERNAL_SERVER_ERROR)
+
+      expect(json["requestDetails"]).to be_present
+      expect(json["requestDetails"]["path"]).to eq("/api/v1/products")
+      expect(json["requestDetails"]["requestId"]).to be_present
+      expect(json["requestDetails"]["occurredAt"]).to be_present
+    end
+  end
 end
