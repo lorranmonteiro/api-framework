@@ -1,13 +1,12 @@
 ---
 openapi: 3.0.1
 info:
-  title: Documentação API REST
+  title: API REST – Sistema de Pedidos
   version: v1
-  description: Esta é a documentação da API REST para o Trabalho de Conclusão de Curso
-    (TCC), voltado para análise de proposta de padrão de projeto de software. A API
-    oferece endpoints para gerenciar recursos relacionados ao sistema desenvolvido,
-    permitindo operações CRUD e outras funcionalidades essenciais, seguindo as melhores
-    práticas de desenvolvimento de software.
+  description: |
+    Documentação da API REST desenvolvida como Trabalho de Conclusão de Curso (TCC),
+    com foco na aplicação de boas práticas de engenharia de software, padrões de projeto,
+    padronização de erros, testes automatizados e documentação orientada a contrato (OpenAPI).
 paths:
   "/api/v1/customers":
     get:
@@ -1054,6 +1053,25 @@ paths:
                     additionalErrors: []
 components:
   schemas:
+    ErrorType:
+      type: string
+      description: Classificação semântica do erro
+      enum:
+      - NOT_FOUND
+      - VALIDATION_ERROR
+      - CONFLICT_ERROR
+      - INTERNAL_SERVER_ERROR
+    ErrorCode:
+      type: string
+      description: Código interno padronizado do erro
+      enum:
+      - E01
+      - E02
+      - E03
+      - E04
+      - E05
+      - E06
+      - E07
     RequestDetails:
       type: object
       properties:
@@ -1071,42 +1089,38 @@ components:
       - occurredAt
       - requestId
       - path
-    ErrorDetails:
+    AdditionalError:
       type: object
       properties:
         message:
           type: string
           example: Name can't be blank
         errorType:
-          type: string
-          example: VALIDATION_ERROR
+          "$ref": "#/components/schemas/ErrorType"
+        internalErrorCode:
+          "$ref": "#/components/schemas/ErrorCode"
       required:
       - message
       - errorType
+      - internalErrorCode
     ErrorResponse:
       type: object
       properties:
         message:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
+          type: string
           example: Record not found
-        internalErrorCode:
-          type: string
-          nullable: true
-          example: ERR-001
         errorType:
-          type: string
+          "$ref": "#/components/schemas/ErrorType"
           nullable: true
-          example: NOT_FOUND
+        internalErrorCode:
+          "$ref": "#/components/schemas/ErrorCode"
+          nullable: true
         requestDetails:
           "$ref": "#/components/schemas/RequestDetails"
         additionalErrors:
           type: array
           items:
-            "$ref": "#/components/schemas/ErrorDetails"
+            "$ref": "#/components/schemas/AdditionalError"
       required:
       - message
       - requestDetails
