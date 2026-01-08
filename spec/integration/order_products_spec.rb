@@ -9,7 +9,6 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
   let!(:order_product2) { create(:order_product, order: order, product: product, quantity: 3, price: 100) }
 
   path "/api/v1/order_products" do
-
     post "Cria um produto do pedido" do
       tags "OrderProducts"
       consumes "application/json"
@@ -74,20 +73,23 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         end
 
         examples "application/json" => {
-          message: "Quantity must be greater than 0",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Quantity must be greater than 0"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products"
-          },
-          additionalErrors: []
+            path: "/api/v1/order_products",
+            statusCode: 422
+          }
         }
 
         run_test! do |response|
           json = JSON.parse(response.body)
-          expect(json["message"]).to include("Quantity must be greater than 0")
+          expect(json["errors"].first["message"]).to include("Quantity must be greater than 0")
         end
       end
     end
@@ -126,15 +128,18 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Order Product not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: Constants::RECORD_NOT_FOUND_MESSAGE
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products/99999"
-          },
-          additionalErrors: []
+            path: "/api/v1/order_products/99999",
+            statusCode: 404
+          }
         }
 
         run_test!
@@ -183,20 +188,23 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         let(:order_product) { { quantity: 0 } }
 
         examples "application/json" => {
-          message: "Quantity must be greater than 0",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Quantity must be greater than 0"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products"
-          },
-          additionalErrors: []
+            path: "/api/v1/order_products",
+            statusCode: 422
+          }
         }
 
         run_test! do |response|
           json = JSON.parse(response.body)
-          expect(json["message"]).to include("Quantity must be greater than 0")
+          expect(json["errors"].first["message"]).to include("Quantity must be greater than 0")
         end
       end
     end
@@ -214,15 +222,18 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Order Product not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: Constants::RECORD_NOT_FOUND_MESSAGE
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products/99999"
-          },
-          additionalErrors: []
+            path: "/api/v1/order_products/99999",
+            statusCode: 404
+          }
         }
 
         run_test!
@@ -252,15 +263,6 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
             price: "100.0",
             created_at: "2025-12-08T15:10:17.073Z",
             updated_at: "2025-12-08T15:10:17.073Z"
-          },
-          {
-            id: 2,
-            order_id: 1,
-            product_id: 2,
-            quantity: 1,
-            price: "200.0",
-            created_at: "2025-12-08T15:10:17.073Z",
-            updated_at: "2025-12-08T15:10:17.073Z"
           }
         ]
 
@@ -275,15 +277,18 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Order not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: "Order not found"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/orders/99999/products"
-          },
-          additionalErrors: []
+            path: "/api/v1/orders/99999/products",
+            statusCode: 404
+          }
         }
 
         run_test!

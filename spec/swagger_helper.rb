@@ -21,107 +21,72 @@ RSpec.configure do |config|
       components: {
         schemas: {
 
-          ErrorType: {
-            type: :string,
-            description: 'Classificação semântica do erro',
-            enum: [
-              'NOT_FOUND',
-              'VALIDATION_ERROR',
-              'CONFLICT_ERROR',
-              'INTERNAL_SERVER_ERROR'
-            ]
-          },
-
-          ErrorCode: {
-            type: :string,
-            description: 'Código interno padronizado do erro',
-            enum: [
-              'E01',
-              'E02',
-              'E03',
-              'E04',
-              'E05',
-              'E06',
-              'E07'
-            ]
-          },
-
-          RequestDetails: {
+          Error: {
             type: :object,
+            description: 'Representa um erro individual retornado pela API',
             properties: {
+              errorCode: {
+                type: :string,
+                example: 'FIELD_VALIDATION',
+                description: 'Código semântico e estável do erro'
+              },
+              message: {
+                type: :string,
+                example: "Email can't be blank",
+                description: 'Mensagem descritiva do erro'
+              }
+            },
+            required: %w[errorCode message]
+          },
+
+          ErrorMetadata: {
+            type: :object,
+            description: 'Metadados relacionados à requisição que gerou o erro',
+            properties: {
+              requestId: {
+                type: :string,
+                example: 'c8f8c9c2-9dcb-4e9b-b5c2-123456789abc'
+              },
               occurredAt: {
                 type: :string,
                 format: :'date-time',
                 example: '2025-01-01T12:00:00Z'
               },
-              requestId: {
-                type: :string,
-                example: 'c8f8c9c2-9dcb-4e9b-b5c2-123456789abc'
-              },
               path: {
                 type: :string,
-                example: '/api/v1/products/999'
+                example: '/api/v1/customers/999'
+              },
+              statusCode: {
+                type: :integer,
+                example: 404
               }
             },
-            required: %w[occurredAt requestId path]
-          },
-
-          AdditionalError: {
-            type: :object,
-            properties: {
-              message: {
-                type: :string,
-                example: "Name can't be blank"
-              },
-              errorType: {
-                '$ref' => '#/components/schemas/ErrorType'
-              },
-              internalErrorCode: {
-                '$ref' => '#/components/schemas/ErrorCode'
-              }
-            },
-            required: %w[message errorType internalErrorCode]
+            required: %w[requestId occurredAt path statusCode]
           },
 
           ErrorResponse: {
             type: :object,
+            description: 'Resposta padrão de erro da API',
             properties: {
-              message: {
-                type: :string,
-                example: 'Record not found'
-              },
-              errorType: {
-                '$ref' => '#/components/schemas/ErrorType',
-                nullable: true
-              },
-              internalErrorCode: {
-                '$ref' => '#/components/schemas/ErrorCode',
-                nullable: true
-              },
-              requestDetails: {
-                '$ref' => '#/components/schemas/RequestDetails'
-              },
-              additionalErrors: {
+              errors: {
                 type: :array,
                 items: {
-                  '$ref' => '#/components/schemas/AdditionalError'
-                }
+                  '$ref' => '#/components/schemas/Error'
+                },
+                minItems: 1
+              },
+              metadata: {
+                '$ref' => '#/components/schemas/ErrorMetadata'
               }
             },
-            required: %w[message requestDetails]
+            required: %w[errors metadata]
           },
 
           Product: {
             type: :object,
             properties: {
-              id: {
-                type: :integer,
-                example: 1
-              },
-              name: {
-                type: :string,
-                example: 'Keyboard'
-              },
+              id: { type: :integer, example: 1 },
+              name: { type: :string, example: 'Keyboard' },
               description: {
                 type: :string,
                 nullable: true,
@@ -147,14 +112,8 @@ RSpec.configure do |config|
           Customer: {
             type: :object,
             properties: {
-              id: {
-                type: :integer,
-                example: 1
-              },
-              name: {
-                type: :string,
-                example: 'John Doe'
-              },
+              id: { type: :integer, example: 1 },
+              name: { type: :string, example: 'John Doe' },
               email: {
                 type: :string,
                 format: :email,
@@ -180,18 +139,9 @@ RSpec.configure do |config|
           Order: {
             type: :object,
             properties: {
-              id: {
-                type: :integer,
-                example: 1
-              },
-              customer_id: {
-                type: :integer,
-                example: 1
-              },
-              status: {
-                type: :string,
-                example: 'new'
-              },
+              id: { type: :integer, example: 1 },
+              customer_id: { type: :integer, example: 1 },
+              status: { type: :string, example: 'new' },
               total_amount: {
                 type: :string,
                 format: :float,
@@ -212,22 +162,10 @@ RSpec.configure do |config|
           OrderProduct: {
             type: :object,
             properties: {
-              id: {
-                type: :integer,
-                example: 1
-              },
-              order_id: {
-                type: :integer,
-                example: 1
-              },
-              product_id: {
-                type: :integer,
-                example: 1
-              },
-              quantity: {
-                type: :integer,
-                example: 2
-              },
+              id: { type: :integer, example: 1 },
+              order_id: { type: :integer, example: 1 },
+              product_id: { type: :integer, example: 1 },
+              quantity: { type: :integer, example: 2 },
               price: {
                 type: :string,
                 format: :float,

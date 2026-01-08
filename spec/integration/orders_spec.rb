@@ -49,9 +49,9 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
       parameter name: :order, in: :body, schema: {
         type: :object,
         properties: {
-          customer_id: { type: :integer, example: 1 },
-          status:      { type: :string, enum: ["New", "In progress", "Done"], example: "New" },
-          total_amount:{ type: :number, format: :float, example: 100.0 }
+          customer_id:  { type: :integer, example: 1 },
+          status:       { type: :string, enum: ["New", "In progress", "Done"], example: "New" },
+          total_amount: { type: :number, format: :float, example: 100.0 }
         },
         required: %w[customer_id status total_amount],
         example: {
@@ -73,12 +73,12 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         end
 
         examples "application/json" => {
-            id: 1,
-            customer_id: 1,
-            status: "New",
-            total_amount: 100.0,
-            created_at: "2025-12-08T15:10:17.073Z",
-            updated_at: "2025-12-08T15:10:17.073Z"
+          id: 1,
+          customer_id: 1,
+          status: "New",
+          total_amount: 100.0,
+          created_at: "2025-12-08T15:10:17.073Z",
+          updated_at: "2025-12-08T15:10:17.073Z"
         }
 
         run_test! do |response|
@@ -99,37 +99,30 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         end
 
         examples "application/json" => {
-          message: "Customer can't be blank",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Customer must exist"
+            },
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Status can't be blank"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/orders"
-          },
-          additionalErrors: [
-            {
-              message: "Status can't be blank",
-              internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-              errorType: ErrorTypes::VALIDATION
-            }
-          ]
+            path: "/api/v1/orders",
+            statusCode: 422
+          }
         }
 
         run_test! do |response|
           json = JSON.parse(response.body)
 
-          expect(json["message"]).to eq("Customer must exist")
-          expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
-          expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
-
-          expect(json["additionalErrors"]).to be_an(Array)
-          expect(json["additionalErrors"].size).to eq(1)
-
-          additional_error = json["additionalErrors"].first
-          expect(additional_error["message"]).to eq("Status can't be blank")
-          expect(additional_error["errorType"]).to eq(ErrorTypes::VALIDATION)
-          expect(additional_error["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+          expect(json["errors"].size).to eq(2)
+          expect(json["errors"].map { |e| e["message"] })
+            .to include("Customer must exist", "Status can't be blank")
         end
       end
     end
@@ -167,15 +160,18 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Order not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: "Order not found"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/orders/99999"
-          },
-          additionalErrors: []
+            path: "/api/v1/orders/99999",
+            statusCode: 404
+          }
         }
 
         run_test!
@@ -190,7 +186,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
       parameter name: :order, in: :body, schema: {
         type: :object,
         properties: {
-          status:       { type: :string, enum: ["New", "In progress", "Done"], example: "Done" },
+          status: { type: :string, enum: ["New", "In progress", "Done"], example: "Done" }
         },
         example: {
           status: "Done"
@@ -224,15 +220,18 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:order) { { status: nil } }
 
         examples "application/json" => {
-          message: "Status can't be blank",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Status can't be blank"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/orders/99999"
-          },
-          additionalErrors: []
+            path: "/api/v1/orders/1",
+            statusCode: 422
+          }
         }
 
         run_test!
@@ -252,15 +251,18 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Order not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: "Order not found"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/orders/99999"
-          },
-          additionalErrors: []
+            path: "/api/v1/orders/99999",
+            statusCode: 404
+          }
         }
 
         run_test!
@@ -312,15 +314,18 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:customer_id) { 99999 }
 
         examples "application/json" => {
-          message: "Customer not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: "Customer not found"
+            }
+          ],
+          metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/customer/99999/orders"
-          },
-          additionalErrors: []
+            path: "/api/v1/customer/99999/orders",
+            statusCode: 404
+          }
         }
 
         run_test!
