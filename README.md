@@ -1,144 +1,119 @@
 # API REST – Sistema de Pedidos
 
-Este projeto consiste no desenvolvimento de uma **API RESTful**, criada como **Trabalho de Conclusão de Curso (TCC)**, com foco na aplicação prática de **conceitos de engenharia de software**, **boas práticas arquiteturais**, **padrões de projeto** e **documentação orientada a contrato**, focado na proposta de um padrão de respostas de erro consistente e dinâmico.
+**Análise e Proposta de Padronização de Respostas de Erro em APIs REST**
 
-A API foi projetada para gerenciar entidades de um sistema de pedidos, permitindo operações de **criação, consulta, atualização e remoção (CRUD)** de recursos, seguindo princípios amplamente adotados no desenvolvimento de APIs modernas.
+Este projeto consiste no desenvolvimento de uma **API RESTful**, criada como **Trabalho de Conclusão de Curso (TCC)**, cujo **objetivo central** é a **análise crítica dos padrões de resposta de erro propostos pela literatura e adotados pelo mercado**, culminando na **proposição de um novo padrão unificado**.
 
-O projeto está **publicamente disponível** e em execução contínua, servindo como **material de estudo, referência técnica e base para análise acadêmica**, até o TCC ser defendido.
+Embora a API implemente um domínio simples de **sistema de pedidos**, esse domínio atua apenas como **meio experimental**, permitindo avaliar, validar e demonstrar o comportamento do padrão de erro proposto em cenários reais de uso.
+
+---
+
+## Motivação
+
+A literatura clássica sobre APIs REST recomenda o uso do **RFC 7807 – Problem Details for HTTP APIs** como padrão para representação de erros. Apesar de sua adoção formal, o RFC apresenta limitações práticas amplamente discutidas no mercado, tais como:
+
+* Estrutura excessivamente genérica e pouco orientada a validações complexas
+* Dificuldade em representar **múltiplos erros simultâneos** de forma clara
+* Acoplamento conceitual entre semântica do erro e status HTTP
+* Baixa padronização de extensões entre diferentes APIs
+
+Em paralelo, empresas e plataformas amplamente utilizadas (Google, Stripe, GitHub, AWS, Shopify, entre outras) adotam **estruturas próprias**, frequentemente divergentes do RFC, mas mais práticas, previsíveis e orientadas ao consumo por clientes frontend.
+
+Diante desse cenário, este trabalho propõe um **novo padrão de resposta de erro**, que **unifica conceitos da literatura com práticas consolidadas do mercado**, buscando maior clareza, consistência e extensibilidade.
 
 ---
 
 ## Escopo da API
 
-A API disponibiliza endpoints para o gerenciamento dos seguintes recursos:
+A API fornece endpoints REST para os seguintes recursos:
 
 * **Customers** (Clientes)
 * **Products** (Produtos)
 * **Orders** (Pedidos)
 * **OrderProducts** (Itens de Pedido)
 
-Além das operações CRUD padrão, a API oferece endpoints específicos para:
+As operações CRUD são utilizadas como base para avaliar diferentes categorias de erro, como:
 
-* Listar pedidos associados a um cliente
-* Listar produtos associados a um pedido
+* Erros de validação
+* Recursos não encontrados
+* Erros internos inesperados
 
-**Observação**
-A API **não possui autenticação ou autorização**. Essa decisão é intencional e visa manter o foco do projeto em **arquitetura, padronização, testes e documentação**, com finalidade **estritamente educacional e acadêmica**.
-
----
-
-## Decisões Arquiteturais
-
-Esta seção descreve as principais decisões arquiteturais adotadas no desenvolvimento da API e suas motivações técnicas e acadêmicas.
-
-### Arquitetura RESTful e Rails em Modo API
-
-A aplicação foi desenvolvida utilizando **Ruby on Rails em modo API**, removendo camadas desnecessárias como views e helpers voltados para aplicações monolíticas tradicionais. Essa abordagem resulta em uma arquitetura mais **enxuta**, focada em:
-
-* Exposição de endpoints REST
-* Serialização de dados
-* Tratamento de erros
-* Testabilidade
-
-A API segue os princípios REST, utilizando:
-
-* Verbos HTTP adequados (GET, POST, PATCH, DELETE)
-* Códigos de status coerentes com a especificação HTTP
-* URLs orientadas a recursos
+> **Observação:**
+> A API não possui autenticação ou autorização. Essa decisão é intencional e visa manter o foco exclusivo na **arquitetura de erros, contratos e testes**, alinhado ao escopo acadêmico do trabalho.
 
 ---
 
-### Tratamento e Padronização de Erros
+## Padrão Proposto de Resposta de Erro
 
-Uma das principais decisões arquiteturais do projeto foi a implementação de um **framework centralizado de tratamento de erros**, responsável por capturar e padronizar todas as falhas da aplicação, incluindo:
+Como resultado da análise da literatura e das soluções adotadas pelo mercado, o projeto propõe um **formato unificado de resposta de erro**, desacoplado da lógica de exceções internas e orientado ao consumo por clientes.
 
-* Recursos não encontrados (`404`)
-* Erros de validação (`422`)
-* Erros internos inesperados (`500`)
+### Estrutura do Erro
 
-Todas as respostas de erro seguem um contrato padronizado, contendo, entre outros dados:
+```json
+{
+  "errors": [
+    {
+      "errorCode": "FIELD_VALIDATION",
+      "message": "Name cannot contain special characters."
+    },
+    {
+      "errorCode": "FIELD_VALIDATION",
+      "message": "Email cannot be empty."
+    }
+  ],
+  "metadata": {
+    "requestId": "123e4567-e89b-12d3-a456-426614174000",
+    "occurredAt": "2024-06-15T12:34:56Z",
+    "path": "/users/11",
+    "statusCode": 422
+  }
+}
+```
 
-* `message`: mensagem principal do erro
-* `errorType`: classificação semântica do erro
-* `internalErrorCode`: código interno padronizado
-* `requestDetails`: metadados da requisição
-* `additionalErrors`: lista opcional de erros complementares
+### Principais Características
 
-Essa abordagem garante **consistência**, **previsibilidade** e **facilidade de consumo** por aplicações clientes.
+* Lista explícita de erros (`errors[]`), sem hierarquia artificial
+* Códigos de erro semânticos e estáveis (`errorCode`)
+* Metadados de requisição agrupados em `metadata`
+* Total independência entre estrutura de erro e status HTTP
+* Suporte nativo a múltiplos erros em uma única resposta
 
----
-
-### Testes como Fonte de Verdade
-
-O projeto adota a filosofia de **testes como documentação viva**, onde:
-
-* Os testes validam o comportamento esperado da API
-* Os mesmos testes geram a documentação OpenAPI
-* Casos de sucesso e erro são explicitamente cobertos
-
-Essa estratégia reduz divergências entre código, documentação e comportamento real da aplicação.
-
----
-
-### Documentação Orientada a Contrato (OpenAPI)
-
-A documentação da API é gerada automaticamente a partir dos testes utilizando o padrão **OpenAPI (Swagger)**.
-
-A interface do Swagger inclui:
-
-* Playground para execução de requisições
-* Exemplos de payloads
-* Descrição detalhada dos endpoints
-* Contratos de request e response
-* Padronização de respostas de erro
+Esse modelo busca resolver limitações do RFC 7807 sem romper com os princípios REST.
 
 ---
 
-### Ausência Intencional de Autenticação
+## Testes e Documentação
 
-A ausência de autenticação foi uma decisão consciente, com o objetivo de:
+O projeto adota **testes automatizados como fonte de verdade do contrato**, onde:
 
-* Reduzir complexidade fora do escopo do TCC
-* Manter o foco em arquitetura, padrões e contratos
-* Facilitar testes e uso por terceiros
+* Testes validam o comportamento real da API
+* Os mesmos testes geram a documentação OpenAPI (Swagger)
+* Casos de sucesso e erro são explicitamente documentados
 
-Em um cenário de produção real, mecanismos como JWT ou OAuth poderiam ser integrados sem impacto significativo na arquitetura atual.
+Essa abordagem garante **consistência entre código, testes e documentação**, evitando divergências comuns em APIs documentadas manualmente.
 
 ---
 
 ## Tecnologias Utilizadas
 
-* **Ruby** 3.3.10
-* **Ruby on Rails** 8.1.1 (API Mode)
+* **Ruby** 3.3
+* **Ruby on Rails** (API Mode)
 * **PostgreSQL**
-* **RSpec** (testes automatizados)
+* **RSpec**
 * **FactoryBot**
-* **Rswag**
-* **OpenAPI (Swagger)**
-* **Rack CORS**
-
----
-
-## Ambiente e Disponibilidade
-
-A API está publicada em ambiente público e permanece disponível continuamente para testes e avaliação.
-
-Dados iniciais (clientes e produtos) são carregados via **seed** em produção, permitindo que usuários explorem os endpoints sem necessidade de configuração prévia.
+* **Rswag / OpenAPI (Swagger)**
 
 ---
 
 ## Considerações Acadêmicas
 
-Este projeto foi desenvolvido com foco acadêmico, priorizando:
+Este projeto tem finalidade **estritamente acadêmica**, servindo como:
 
-* Organização e legibilidade do código
-* Clareza arquitetural
-* Boas práticas de desenvolvimento
-* Padronização de contratos
-* Documentação automatizada
-* Testes como fonte de verdade do comportamento da API
+* Base experimental para análise de padrões de erro
+* Proposta formal de um novo contrato de resposta de erro
+* Referência técnica para estudos sobre APIs REST
 
-Pode ser utilizado como **base de estudo**, **referência técnica** ou **apoio didático** para disciplinas relacionadas ao desenvolvimento de APIs REST e engenharia de software.
+O foco não está no domínio de negócio, mas na **qualidade arquitetural**, **padronização** e **clareza de contrato**.
 
 ---
 

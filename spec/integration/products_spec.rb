@@ -98,38 +98,25 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         end
 
         examples "application/json" => {
-          message: "Name can't be blank",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
-            requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/products"
-          },
-          additionalErrors: [
+          errors: [
             {
-              message: "Price must be greater than 0",
-              errorType: ErrorTypes::VALIDATION,
-              internalErrorCode: ErrorCodes::VALIDATION_FAILED,
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Name can't be blank"
+            },
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Price must be greater than 0"
             }
-          ]
+          ],
+          metadata: {
+            requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/products",
+            statusCode: 422
+          }
         }
 
-        run_test! do |response|
-          json = JSON.parse(response.body)
-
-          expect(json["message"]).to eq("Name can't be blank")
-          expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
-          expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
-
-          expect(json["additionalErrors"]).to be_an(Array)
-          expect(json["additionalErrors"].size).to eq(1)
-
-          additional_error = json["additionalErrors"].first
-          expect(additional_error["message"]).to eq("Price must be greater than 0")
-          expect(additional_error["errorType"]).to eq(ErrorTypes::VALIDATION)
-          expect(additional_error["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
-        end
+        run_test!
       end
     end
   end
@@ -143,7 +130,6 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
       response "200", "Produto encontrado" do
         schema '$ref' => '#/components/schemas/Product'
-
         let(:id) { product1.id }
 
         examples "application/json" => {
@@ -166,15 +152,18 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Product not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: Constants::RECORD_NOT_FOUND_MESSAGE
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/products/99999"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/products/99999",
+            statusCode: 404
+          }
         }
 
         run_test!
@@ -224,15 +213,18 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:product) { { price: -50 } }
 
         examples "application/json" => {
-          message: "Price must be greater than 0",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Price must be greater than 0"
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/products/99999"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/products/99999",
+            statusCode: 422
+          }
         }
 
         run_test!
@@ -286,15 +278,18 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:product) { { name: "Laranja Pera", description: "Mais doce ainda", price: 0.00 } }
 
         examples "application/json" => {
-          message: "Price must be greater than 0",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Price must be greater than 0"
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/products/99999"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/products/99999",
+            statusCode: 422
+          }
         }
 
         run_test!
@@ -314,15 +309,18 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Product not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: Constants::RECORD_NOT_FOUND_MESSAGE
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/products/99999"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/products/99999",
+            statusCode: 404
+          }
         }
 
         run_test!

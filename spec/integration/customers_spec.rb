@@ -68,18 +68,18 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         end
 
         examples "application/json" => {
-            id: 1,
-            name: "Ana Maria",
-            email: "ana.maria@example.com",
-            phone: "85999999999",
-            created_at: "2025-12-08T15:10:17.073Z",
-            updated_at: "2025-12-08T15:10:17.073Z"
+          id: 1,
+          name: "Ana Maria",
+          email: "ana.maria@example.com",
+          phone: "85999999999",
+          created_at: "2025-12-08T15:10:17.073Z",
+          updated_at: "2025-12-08T15:10:17.073Z"
         }
 
         run_test!
       end
 
-      response "422", "Atualização inválida" do
+      response "422", "Criação inválida" do
         schema '$ref' => '#/components/schemas/ErrorResponse'
 
         let(:customer) do
@@ -91,15 +91,18 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         end
 
         examples "application/json" => {
-          message: "Email can't be blank",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Email can't be blank"
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/customers"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers",
+            statusCode: 422
+          }
         }
 
         run_test!
@@ -120,7 +123,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         let(:id) { customer1.id }
 
         examples "application/json" => {
-          id: "1",
+          id: 1,
           name: "Ana Maria",
           email: "ana.maria@example.com",
           phone: "85988888888",
@@ -136,15 +139,18 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Customer not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: "Customer not found"
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/customers/99999"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers/99999",
+            statusCode: 404
+          }
         }
 
         run_test!
@@ -191,15 +197,18 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         let(:customer) { { name: "" } }
 
         examples "application/json" => {
-          message: "Name can't be blank",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Name can't be blank"
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/customers/1"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers/1",
+            statusCode: 422
+          }
         }
 
         run_test!
@@ -229,7 +238,13 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         schema '$ref' => '#/components/schemas/Customer'
 
         let(:id) { customer1.id }
-        let(:customer) { { name: "Jorge Campos", email: "jorge.campos@example.com", phone: "85977777777" } }
+        let(:customer) do
+          {
+            name: "Jorge Campos",
+            email: "jorge.campos@example.com",
+            phone: "85977777777"
+          }
+        end
 
         examples "application/json" => {
           id: 1,
@@ -247,18 +262,27 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         schema '$ref' => '#/components/schemas/ErrorResponse'
 
         let(:id) { customer1.id }
-        let(:customer) { { name: "Jorge Campos", email: "", phone: "85977777777" } }
+        let(:customer) do
+          {
+            name: "Jorge Campos",
+            email: "",
+            phone: "85977777777"
+          }
+        end
 
         examples "application/json" => {
-          message: "Email can't be blank",
-          internalErrorCode: ErrorCodes::VALIDATION_FAILED,
-          errorType: ErrorTypes::VALIDATION,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::FIELD_VALIDATION,
+              message: "Email can't be blank"
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/customers/1"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers/1",
+            statusCode: 422
+          }
         }
 
         run_test!
@@ -278,15 +302,18 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         let(:id) { 99999 }
 
         examples "application/json" => {
-          message: "Customer not found",
-          internalErrorCode: ErrorCodes::NOT_FOUND,
-          errorType: ErrorTypes::NOT_FOUND,
-          requestDetails: {
-            occurredAt: "2025-01-01T12:00:00Z",
+          errors: [
+            {
+              errorCode: ErrorCodes::NOT_FOUND,
+              message: "Customer not found"
+            }
+          ],
+          metadata: {
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/customers/99999"
-          },
-          additionalErrors: []
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers/99999",
+            statusCode: 404
+          }
         }
 
         run_test!

@@ -7,57 +7,45 @@ class ApplicationController < ActionController::API
     render status: status, json: data
   end
 
-  def render_error(
-    message,
-    status: :bad_request,
-    internal_error_code: nil,
-    error_type: nil,
-    additional_errors: nil
-  )
+  def render_errors(errors:, status:)
     body = {
-      message: message,
-      internalErrorCode: internal_error_code,
-      errorType: error_type,
-      requestDetails: {
-        occurredAt: Time.current.utc.iso8601,
+      errors: errors,
+      metadata: {
         requestId: request.request_id || SecureRandom.uuid,
-        path: request.fullpath
+        occurredAt: Time.current.utc.iso8601,
+        path: request.fullpath,
+        statusCode: Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
       }
     }
-
-    if additional_errors.present?
-      body[:additionalErrors] = additional_errors
-    end
 
     render status: status, json: body
   end
 
   private
 
-  def handle_not_found(exception)
-    render_error(
-      "Record not found",
+  def handle_not_found(_exception)
+    render_errors(
       status: :not_found,
-      error_type: ErrorTypes::NOT_FOUND,
-      internal_error_code: ErrorCodes::NOT_FOUND
+      errors: [
+        {
+          errorCode: ErrorCodes::NOT_FOUND,
+          message: Constants::RECORD_NOT_FOUND_MESSAGE
+        }
+      ]
     )
   end
 
   def handle_validation_error(exception)
-    validation_errors = exception.record.errors.map do |error|
+    errors = exception.record.errors.map do |error|
       {
-        message: error.full_message,
-        errorType: ErrorTypes::VALIDATION,
-        internalErrorCode: ErrorCodes::VALIDATION_FAILED
+        errorCode: ErrorCodes::FIELD_VALIDATION,
+        message: error.full_message
       }
     end
 
-    render_error(
-      validation_errors.first[:message],
+    render_errors(
       status: :unprocessable_content,
-      error_type: ErrorTypes::VALIDATION,
-      internal_error_code: ErrorCodes::VALIDATION_FAILED,
-      additional_errors: validation_errors.drop(1).presence
+      errors: errors
     )
   end
 
@@ -66,11 +54,14 @@ class ApplicationController < ActionController::API
     Rails.logger.error(exception.message)
     Rails.logger.error(exception.backtrace.join("\n"))
 
-    render_error(
-      'An unexpected error occurred while processing the request.',
+    render_errors(
       status: :internal_server_error,
-      internal_error_code: ErrorCodes::INTERNAL_SERVER_ERROR,
-      error_type: ErrorTypes::INTERNAL
+      errors: [
+        {
+          errorCode: ErrorCodes::INTERNAL_SERVER_ERROR,
+          message: Constants::INTERNAL_SERVER_ERROR_MESSAGE
+        }
+      ]
     )
   end
 end

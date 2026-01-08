@@ -53,21 +53,24 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
       expect(json["quantity"]).to eq(2)
     end
 
-    it "returns validation error with additionalErrors" do
+    it "returns validation error following the new error format" do
       post base_url, params: invalid_params
 
       expect(response).to have_http_status(:unprocessable_content)
       json = JSON.parse(response.body)
 
-      expect(json["message"]).to eq("Quantity must be greater than 0")
+      expect(json["errors"]).to be_an(Array)
+      expect(json["errors"].size).to eq(1)
 
-      expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
-      expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+      error = json["errors"].first
+      expect(error["message"]).to eq("Quantity must be greater than 0")
+      expect(error["errorCode"]).to eq(ErrorCodes::FIELD_VALIDATION)
 
-      expect(json["additionalErrors"]).to be_nil.or be_an(Array)
-
-      expect(json["requestDetails"]).to be_present
-      expect(json["requestDetails"]["path"]).to eq("/api/v1/order_products")
+      expect(json["metadata"]).to be_present
+      expect(json["metadata"]["path"]).to eq("/api/v1/order_products")
+      expect(json["metadata"]["statusCode"]).to eq(422)
+      expect(json["metadata"]["requestId"]).to be_present
+      expect(json["metadata"]["occurredAt"]).to be_present
     end
   end
 
@@ -83,7 +86,7 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
       expect(json["quantity"]).to eq(5)
     end
 
-    it "returns validation error on invalid update" do
+    it "returns validation error following the new error format" do
       patch "#{base_url}/#{order_product1.id}", params: {
         order_product: { quantity: 0 }
       }
@@ -91,12 +94,16 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
       json = JSON.parse(response.body)
 
-      expect(json["message"]).to eq("Quantity must be greater than 0")
-      expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
-      expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+      expect(json["errors"]).to be_an(Array)
+      expect(json["errors"].size).to eq(1)
 
-      expect(json["additionalErrors"]).to be_nil.or be_an(Array)
-      expect(json["requestDetails"]).to be_present
+      error = json["errors"].first
+      expect(error["message"]).to eq("Quantity must be greater than 0")
+      expect(error["errorCode"]).to eq(ErrorCodes::FIELD_VALIDATION)
+
+      expect(json["metadata"]).to be_present
+      expect(json["metadata"]["path"]).to eq("/api/v1/order_products/#{order_product1.id}")
+      expect(json["metadata"]["statusCode"]).to eq(422)
     end
   end
 

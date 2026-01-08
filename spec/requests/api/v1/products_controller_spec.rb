@@ -31,18 +31,22 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
 
     context "when the product does not exist" do
-      it "returns a NOT_FOUND error using render_error" do
+      it "returns a NOT_FOUND error" do
         get "#{base_url}/99999"
 
         expect(response).to have_http_status(:not_found)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to eq("Record not found")
-        expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
-        expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
+        expect(json["errors"]).to be_an(Array)
+        expect(json["errors"].size).to eq(1)
 
-        expect(json["requestDetails"]).to be_present
-        expect(json["requestDetails"]["path"]).to eq("/api/v1/products/99999")
+        error = json["errors"].first
+        expect(error["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
+        expect(error["errorCode"]).to eq(ErrorCodes::NOT_FOUND)
+
+        expect(json["metadata"]).to be_present
+        expect(json["metadata"]["path"]).to eq("/api/v1/products/99999")
+        expect(json["metadata"]["statusCode"]).to eq(404)
       end
     end
   end
@@ -73,25 +77,28 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
 
     context "with invalid params" do
-      it "returns validation error with additionalErrors" do
+      it "returns validation errors" do
         post base_url, params: invalid_params
 
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        # erro principal
-        expect(json["message"]).to eq("Name can't be blank")
+        expect(json["errors"]).to be_an(Array)
+        expect(json["errors"].size).to be >= 1
 
-        # padronização
-        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
-        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+        messages = json["errors"].map { |e| e["message"] }
 
-        # erros adicionais
-        expect(json["additionalErrors"]).to be_an(Array)
-        expect(json["additionalErrors"].map { |e| e["message"] })
-          .to include("Price must be greater than 0")
+        expect(messages).to include(
+          "Name can't be blank",
+          "Price must be greater than 0"
+        )
 
-        expect(json["requestDetails"]).to be_present
+        json["errors"].each do |error|
+          expect(error["errorCode"]).to eq(ErrorCodes::FIELD_VALIDATION)
+        end
+
+        expect(json["metadata"]).to be_present
+        expect(json["metadata"]["statusCode"]).to eq(422)
       end
     end
   end
@@ -111,7 +118,7 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
     end
 
     context "with invalid attributes" do
-      it "returns validation error with additionalErrors" do
+      it "returns validation error" do
         patch "#{base_url}/#{product1.id}", params: {
           product: { price: -50 }
         }
@@ -119,12 +126,15 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
-        expect(json["message"]).to eq("Price must be greater than 0")
-        expect(json["errorType"]).to eq(ErrorTypes::VALIDATION)
-        expect(json["internalErrorCode"]).to eq(ErrorCodes::VALIDATION_FAILED)
+        expect(json["errors"]).to be_an(Array)
+        expect(json["errors"].first["message"])
+          .to eq("Price must be greater than 0")
 
-        expect(json["additionalErrors"]).to be_nil.or be_an(Array)
-        expect(json["requestDetails"]).to be_present
+        expect(json["errors"].first["errorCode"])
+          .to eq(ErrorCodes::FIELD_VALIDATION)
+
+        expect(json["metadata"]).to be_present
+        expect(json["metadata"]["statusCode"]).to eq(422)
       end
     end
   end
@@ -143,9 +153,9 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
       expect(response).to have_http_status(:not_found)
       json = JSON.parse(response.body)
 
-      expect(json["message"]).to eq("Record not found")
-      expect(json["errorType"]).to eq(ErrorTypes::NOT_FOUND)
-      expect(json["internalErrorCode"]).to eq(ErrorCodes::NOT_FOUND)
+      expect(json["errors"].first["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
+      expect(json["errors"].first["errorCode"]).to eq(ErrorCodes::NOT_FOUND)
+      expect(json["metadata"]["statusCode"]).to eq(404)
     end
   end
 end
