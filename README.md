@@ -1,4 +1,4 @@
-# API REST – Sistema de Pedidos
+# Padronização de respostas de erro em APIs REST
 
 **Análise e Proposta de Padronização de Respostas de Erro em APIs REST**
 
