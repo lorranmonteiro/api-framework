@@ -86,7 +86,7 @@ As operações CRUD servem como base para avaliar diferentes categorias de erro,
 
 * Lista explícita de erros (`errors[]`), sem hierarquia artificial
 * Códigos de erro **semânticos e estáveis** (`errorType`)
-* Metadados da requisição agrupados em `metadata`
+* Metadados da requisição agrupados em `metadata` para facilitar debugging
 * Independência total entre estrutura do erro e status HTTP
 * Suporte nativo a múltiplos erros em uma única resposta
 
