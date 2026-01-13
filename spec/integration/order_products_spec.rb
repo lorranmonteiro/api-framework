@@ -75,7 +75,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Quantity must be greater than 0"
             }
           ],
@@ -129,7 +129,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: Constants::RECORD_NOT_FOUND_MESSAGE
             }
           ],
@@ -188,7 +188,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Quantity must be greater than 0"
             }
           ],
@@ -221,7 +221,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: Constants::RECORD_NOT_FOUND_MESSAGE
             }
           ],
@@ -275,7 +275,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: "Order not found"
             }
           ],

@@ -93,7 +93,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Email can't be blank"
             }
           ],
@@ -140,7 +140,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: "Customer not found"
             }
           ],
@@ -197,7 +197,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Name can't be blank"
             }
           ],
@@ -270,7 +270,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Email can't be blank"
             }
           ],
@@ -300,7 +300,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: "Customer not found"
             }
           ],

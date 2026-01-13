@@ -100,11 +100,11 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Name can't be blank"
             },
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Price must be greater than 0"
             }
           ],
@@ -153,7 +153,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: Constants::RECORD_NOT_FOUND_MESSAGE
             }
           ],
@@ -213,7 +213,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Price must be greater than 0"
             }
           ],
@@ -277,7 +277,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Price must be greater than 0"
             }
           ],
@@ -307,7 +307,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: Constants::RECORD_NOT_FOUND_MESSAGE
             }
           ],

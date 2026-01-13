@@ -27,7 +27,7 @@ class ApplicationController < ActionController::API
       status: :not_found,
       errors: [
         {
-          errorCode: ErrorCodes::NOT_FOUND,
+          errorType: ErrorTypes::NOT_FOUND,
           message: Constants::RECORD_NOT_FOUND_MESSAGE
         }
       ]
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::API
   def handle_validation_error(exception)
     errors = exception.record.errors.map do |error|
       {
-        errorCode: ErrorCodes::FIELD_VALIDATION,
+        errorType: ErrorTypes::FIELD_VALIDATION,
         message: error.full_message
       }
     end
@@ -57,7 +57,7 @@ class ApplicationController < ActionController::API
       status: :internal_server_error,
       errors: [
         {
-          errorCode: ErrorCodes::INTERNAL_SERVER_ERROR,
+          errorType: ErrorTypes::INTERNAL_SERVER_ERROR,
           message: Constants::INTERNAL_SERVER_ERROR_MESSAGE
         }
       ]

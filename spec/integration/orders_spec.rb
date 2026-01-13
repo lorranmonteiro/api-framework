@@ -101,11 +101,11 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Customer must exist"
             },
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Status can't be blank"
             }
           ],
@@ -161,7 +161,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: "Order not found"
             }
           ],
@@ -220,7 +220,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::FIELD_VALIDATION,
+              errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Status can't be blank"
             }
           ],
@@ -250,7 +250,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: "Order not found"
             }
           ],
@@ -312,7 +312,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         examples "application/json" => {
           errors: [
             {
-              errorCode: ErrorCodes::NOT_FOUND,
+              errorType: ErrorTypes::NOT_FOUND,
               message: "Customer not found"
             }
           ],

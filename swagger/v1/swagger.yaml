@@ -66,7 +66,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Email can't be blank
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -133,7 +133,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Customer not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -170,7 +170,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Name can't be blank
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -218,7 +218,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Email can't be blank
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -260,7 +260,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Customer not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -297,7 +297,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Quantity must be greater than 0
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -371,7 +371,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -409,7 +409,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Quantity must be greater than 0
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -445,7 +445,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -491,7 +491,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Order not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -557,9 +557,9 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Customer must exist
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Status can't be blank
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -632,7 +632,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Order not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -669,7 +669,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Status can't be blank
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -707,7 +707,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Order not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -758,7 +758,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Customer not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -824,9 +824,9 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Name can't be blank
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Price must be greater than 0
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -891,7 +891,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -928,7 +928,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Price must be greater than 0
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -978,7 +978,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Price must be greater than 0
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -1016,7 +1016,7 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
@@ -1024,7 +1024,7 @@ paths:
                       path: "/api/v1/products/99999"
 components:
   schemas:
-    ErrorCode:
+    ErrorType:
       type: string
       description: Código semântico e estável do erro
       enum:
@@ -1037,14 +1037,14 @@ components:
       type: object
       description: Representa um erro individual retornado pela API
       properties:
-        errorCode:
-          "$ref": "#/components/schemas/ErrorCode"
+        errorType:
+          "$ref": "#/components/schemas/ErrorType"
         message:
           type: string
           example: Email can't be blank
           description: Mensagem descritiva do erro
       required:
-      - errorCode
+      - errorType
       - message
     ErrorMetadata:
       type: object

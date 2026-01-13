@@ -20,7 +20,7 @@ RSpec.configure do |config|
       paths: {},
       components: {
         schemas: {
-          ErrorCode: {
+          ErrorType: {
             type: :string,
             description: 'Código semântico e estável do erro',
             enum: [
@@ -36,8 +36,8 @@ RSpec.configure do |config|
             type: :object,
             description: 'Representa um erro individual retornado pela API',
             properties: {
-              errorCode: {
-                '$ref' => '#/components/schemas/ErrorCode'
+              errorType: {
+                '$ref' => '#/components/schemas/ErrorType'
               },
               message: {
                 type: :string,
@@ -45,7 +45,7 @@ RSpec.configure do |config|
                 description: 'Mensagem descritiva do erro'
               }
             },
-            required: %w[errorCode message]
+            required: %w[errorType message]
           },
 
           ErrorMetadata: {
