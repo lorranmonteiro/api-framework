@@ -67,16 +67,18 @@ As operações CRUD servem como base para avaliar diferentes categorias de erro,
   "errors": [
     {
       "errorType": "FIELD_VALIDATION",
+      "errorCode": "ERROR-002",
       "message": "Name cannot contain special characters."
     },
     {
       "errorType": "FIELD_VALIDATION",
+      "errorCode": "ERROR-003",
       "message": "Email cannot be empty."
     }
   ],
   "metadata": {
     "requestId": "123e4567-e89b-12d3-a456-426614174000",
-    "occurredAt": "2024-06-15T12:34:56Z",
+    "timestamp": "2024-06-15T12:34:56Z",
     "path": "/users/11"
   }
 }
@@ -86,7 +88,8 @@ As operações CRUD servem como base para avaliar diferentes categorias de erro,
 
 * Lista explícita de erros (`errors[]`), sem hierarquia artificial
 * Códigos de erro **semânticos e estáveis** (`errorType`)
-* Metadados da requisição agrupados em `metadata`
+* Códigos de erro **específicos do domínio** (`errorInternalCode`)
+* Metadados da requisição agrupados em `metadata` para facilitar debugging
 * Independência total entre estrutura do erro e status HTTP
 * Suporte nativo a múltiplos erros em uma única resposta
 

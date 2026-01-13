@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
       errors: errors,
       metadata: {
         requestId: request.request_id || SecureRandom.uuid,
-        occurredAt: Time.current.utc.iso8601,
+        timestamp: Time.current.utc.iso8601,
         path: request.fullpath
       }
     }
@@ -28,6 +28,7 @@ class ApplicationController < ActionController::API
       errors: [
         {
           errorType: ErrorTypes::NOT_FOUND,
+          errorCode: nil,
           message: Constants::RECORD_NOT_FOUND_MESSAGE
         }
       ]
@@ -38,6 +39,7 @@ class ApplicationController < ActionController::API
     errors = exception.record.errors.map do |error|
       {
         errorType: ErrorTypes::FIELD_VALIDATION,
+        errorCode: nil,
         message: error.full_message
       }
     end
@@ -58,6 +60,7 @@ class ApplicationController < ActionController::API
       errors: [
         {
           errorType: ErrorTypes::INTERNAL_SERVER_ERROR,
+          errorCode: nil,
           message: Constants::INTERNAL_SERVER_ERROR_MESSAGE
         }
       ]

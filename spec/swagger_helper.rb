@@ -39,6 +39,12 @@ RSpec.configure do |config|
               errorType: {
                 '$ref' => '#/components/schemas/ErrorType'
               },
+              errorCode: {
+                type: :string,
+                nullable: true,
+                example: 'ERROR-12345',
+                description: 'Código interno opcional para rastreamento do erro'
+              },
               message: {
                 type: :string,
                 example: "Email can't be blank",
@@ -56,7 +62,7 @@ RSpec.configure do |config|
                 type: :string,
                 example: 'c8f8c9c2-9dcb-4e9b-b5c2-123456789abc'
               },
-              occurredAt: {
+              timestamp: {
                 type: :string,
                 format: :'date-time',
                 example: '2025-01-01T12:00:00Z'
@@ -66,7 +72,7 @@ RSpec.configure do |config|
                 example: '/api/v1/customers/999'
               }
             },
-            required: %w[requestId occurredAt path]
+            required: %w[requestId timestamp path]
           },
 
           ErrorResponse: {
