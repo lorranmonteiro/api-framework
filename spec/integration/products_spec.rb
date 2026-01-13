@@ -50,7 +50,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         properties: {
           name:        { type: :string },
           description: { type: :string },
-          price:       { type: :number, format: :float }
+          price:       { type: :number, format: :decimal }
         },
         required: %w[name price],
         example: {
@@ -177,7 +177,7 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
         type: :object,
         properties: {
           name:  { type: :string },
-          price: { type: :number, format: :float }
+          price: { type: :number, format: :decimal }
         },
         example: {
           name: "Laranja Pera"

@@ -1,8 +1,11 @@
 ---
 openapi: 3.0.1
+servers:
+- url: https://api-framework.onrender.com
+  description: Playground API Server
 info:
   title: Padronização de respostas de erro em APIs REST
-  version: v1
+  version: 1.0.0
   contact:
     name: Repositório do projeto no Github
     url: https://github.com/lorranmonteiro/api-rest-error-handling
@@ -16,8 +19,8 @@ info:
     simplificar o consumo por aplicações cliente. Este projeto implementa e documenta um padrão unificado
     inspirado na literatura e em práticas de mercado.
 
-    Como usar esta documentação (Swagger UI):
-    - Abra um endpoint e clique em "Try it out" para executar requisições diretamente no navegador, ajuste os parâmetros e clique em "Execute".
+    Como usar esta documentação:
+    - Abra um endpoint e clique em "Try it out" ou "Test request" para executar requisições diretamente no navegador, ajuste os parâmetros e clique em "Execute" ou "Run".
     - Use os exemplos de payload para simular casos de sucesso e falha (422, 404, 500).
     - Para observar múltiplos erros, envie campos inválidos/ausentes em endpoints de criação/atualização.
     - Todas as falhas seguem o mesmo contrato: "errors[]" (lista de erros) + "metadata" (dados da requisição).
@@ -446,7 +449,7 @@ paths:
                   example: 5
                 price:
                   type: number
-                  format: float
+                  format: decimal
                   example: 100.0
     delete:
       summary: Deleta o produto do pedido
@@ -491,9 +494,7 @@ paths:
                 example_0:
                   value:
                   - id: 1
-                    order_id: 1
-                    product_id: 1
-                    quantity: 1
+                    name: Keyboard
                     price: '100.0'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
@@ -533,13 +534,13 @@ paths:
                   - id: 1
                     customer_id: 1
                     status: New
-                    total_amount: 100.0
+                    total_amount: '100.0'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
                   - id: 2
                     customer_id: 1
                     status: In progress
-                    total_amount: 200.0
+                    total_amount: '200.0'
                     created_at: '2025-12-08T15:12:20.123Z'
                     updated_at: '2025-12-08T15:12:20.123Z'
               schema:
@@ -562,7 +563,7 @@ paths:
                     id: 1
                     customer_id: 1
                     status: New
-                    total_amount: 100.0
+                    total_amount: '100.0'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
               schema:
@@ -601,18 +602,12 @@ paths:
                   - In progress
                   - Done
                   example: New
-                total_amount:
-                  type: number
-                  format: float
-                  example: 100.0
               required:
               - customer_id
               - status
-              - total_amount
               example:
                 customer_id: 1
                 status: New
-                total_amount: 100.0
   "/api/v1/orders/{id}":
     parameters:
     - name: id
@@ -637,7 +632,7 @@ paths:
                     id: 1
                     customer_id: 1
                     status: New
-                    total_amount: 100.0
+                    total_amount: '100.0'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
               schema:
@@ -674,7 +669,7 @@ paths:
                     id: 1
                     customer_id: 1
                     status: Done
-                    total_amount: 100.0
+                    total_amount: '100.0'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
               schema:
@@ -755,13 +750,13 @@ paths:
                   - id: 1
                     customer_id: 1
                     status: New
-                    total_amount: 100.0
+                    total_amount: '100.0'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
                   - id: 2
                     customer_id: 1
                     status: In progress
-                    total_amount: 200.0
+                    total_amount: '200.0'
                     created_at: '2025-12-08T15:12:20.123Z'
                     updated_at: '2025-12-08T15:12:20.123Z'
               schema:
@@ -864,7 +859,7 @@ paths:
                   type: string
                 price:
                   type: number
-                  format: float
+                  format: decimal
               required:
               - name
               - price
@@ -964,7 +959,7 @@ paths:
                   type: string
                 price:
                   type: number
-                  format: float
+                  format: decimal
               example:
                 name: Laranja Pera
     put:

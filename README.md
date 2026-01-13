@@ -24,9 +24,10 @@ Diante desse cenário, este trabalho propõe um **novo padrão de resposta de er
 
 ## Documentação e Escopo da API
 
-A documentação completa da API — incluindo exemplos do padrão de erro proposto — está disponível no **Swagger UI**:
+A documentação completa da API — incluindo exemplos do padrão de erro proposto e ambiente de testes interativo — está disponível em dois locais:
 
-🔗 [https://api-framework.onrender.com](https://api-framework.onrender.com)
+🔗 [Docmentação pelo Scalar (Recomendado)](https://registry.scalar.com/@tcc/apis/api-rest-sistema-de-pedidos/latest)
+🔗 [Docmentação pelo Swagger UI](https://api-framework.onrender.com)
 
 A API expõe endpoints REST para os seguintes recursos:
 

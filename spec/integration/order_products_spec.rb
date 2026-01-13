@@ -153,7 +153,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         type: :object,
         properties: {
           quantity: { type: :integer, example: 5 },
-          price:    { type: :number, format: :float, example: 100.0 }
+          price:    { type: :number, format: :decimal, example: 100.0 }
         }
       }
 
@@ -253,9 +253,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
         examples "application/json" => [
           {
             id: 1,
-            order_id: 1,
-            product_id: 1,
-            quantity: 1,
+            name: "Keyboard",
             price: "100.0",
             created_at: "2025-12-08T15:10:17.073Z",
             updated_at: "2025-12-08T15:10:17.073Z"

@@ -2,8 +2,8 @@ require "swagger_helper"
 
 RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
   let!(:customer) { create(:customer) }
-  let!(:order1)   { create(:order, customer: customer, status: "New", total_amount: 100) }
-  let!(:order2)   { create(:order, customer: customer, status: "In progress", total_amount: 200) }
+  let!(:order1)   { create(:order, customer: customer, status: "New", total_amount: 100.0) }
+  let!(:order2)   { create(:order, customer: customer, status: "In progress", total_amount: 200.0) }
 
   path "/api/v1/orders" do
     get "Lista todos os pedidos" do
@@ -19,7 +19,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
             id: 1,
             customer_id: 1,
             status: "New",
-            total_amount: 100.0,
+            total_amount: "100.0",
             created_at: "2025-12-08T15:10:17.073Z",
             updated_at: "2025-12-08T15:10:17.073Z"
           },
@@ -27,7 +27,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
             id: 2,
             customer_id: 1,
             status: "In progress",
-            total_amount: 200.0,
+            total_amount: "200.0",
             created_at: "2025-12-08T15:12:20.123Z",
             updated_at: "2025-12-08T15:12:20.123Z"
           }
@@ -36,7 +36,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         run_test! do |response|
           json = JSON.parse(response.body)
           expect(json.size).to eq(2)
-          expect(json.first["total_amount"].to_f).to eq(100.0)
+          expect(json.first["total_amount"]).to eq("100.0")
         end
       end
     end
@@ -50,14 +50,12 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         type: :object,
         properties: {
           customer_id:  { type: :integer, example: 1 },
-          status:       { type: :string, enum: ["New", "In progress", "Done"], example: "New" },
-          total_amount: { type: :number, format: :float, example: 100.0 }
+          status:       { type: :string, enum: ["New", "In progress", "Done"], example: "New" }
         },
-        required: %w[customer_id status total_amount],
+        required: %w[customer_id status],
         example: {
           customer_id: 1,
-          status: "New",
-          total_amount: 100.0
+          status: "New"
         }
       }
 
@@ -67,8 +65,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         let(:order) do
           {
             customer_id: customer.id,
-            status: "New",
-            total_amount: 50
+            status: "New"
           }
         end
 
@@ -76,7 +73,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
           id: 1,
           customer_id: 1,
           status: "New",
-          total_amount: 100.0,
+          total_amount: "100.0",
           created_at: "2025-12-08T15:10:17.073Z",
           updated_at: "2025-12-08T15:10:17.073Z"
         }
@@ -84,7 +81,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
         run_test! do |response|
           json = JSON.parse(response.body)
           expect(json["status"]).to eq("new_order")
-          expect(json["total_amount"].to_f).to eq(50.0)
+          expect(json["total_amount"]).to eq("0.0")
         end
       end
 
@@ -143,14 +140,14 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
           id: 1,
           customer_id: 1,
           status: "New",
-          total_amount: 100.0,
+          total_amount: "100.0",
           created_at: "2025-12-08T15:10:17.073Z",
           updated_at: "2025-12-08T15:10:17.073Z"
         }
 
         run_test! do |response|
           json = JSON.parse(response.body)
-          expect(json["total_amount"].to_f).to eq(100.0)
+          expect(json["total_amount"]).to eq("100.0")
         end
       end
 
@@ -201,7 +198,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
           id: 1,
           customer_id: 1,
           status: "Done",
-          total_amount: 100.0,
+          total_amount: "100.0",
           created_at: "2025-12-08T15:10:17.073Z",
           updated_at: "2025-12-08T15:10:17.073Z"
         }
@@ -284,7 +281,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
             id: 1,
             customer_id: 1,
             status: "New",
-            total_amount: 100.0,
+            total_amount: "100.0",
             created_at: "2025-12-08T15:10:17.073Z",
             updated_at: "2025-12-08T15:10:17.073Z"
           },
@@ -292,7 +289,7 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
             id: 2,
             customer_id: 1,
             status: "In progress",
-            total_amount: 200.0,
+            total_amount: "200.0",
             created_at: "2025-12-08T15:12:20.123Z",
             updated_at: "2025-12-08T15:12:20.123Z"
           }

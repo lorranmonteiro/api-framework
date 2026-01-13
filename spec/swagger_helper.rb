@@ -8,9 +8,13 @@ RSpec.configure do |config|
   config.openapi_specs = {
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
+      servers: [{
+          url: 'https://api-framework.onrender.com',
+          description: 'Playground API Server'
+       }],
       info: {
         title: 'Padronização de respostas de erro em APIs REST',
-        version: 'v1',
+        version: '1.0.0',
         contact: {
           name: 'Repositório do projeto no Github',
           url: 'https://github.com/lorranmonteiro/api-rest-error-handling'
@@ -25,8 +29,8 @@ RSpec.configure do |config|
           simplificar o consumo por aplicações cliente. Este projeto implementa e documenta um padrão unificado
           inspirado na literatura e em práticas de mercado.
 
-          Como usar esta documentação (Swagger UI):
-          - Abra um endpoint e clique em "Try it out" para executar requisições diretamente no navegador, ajuste os parâmetros e clique em "Execute".
+          Como usar esta documentação:
+          - Abra um endpoint e clique em "Try it out" ou "Test request" para executar requisições diretamente no navegador, ajuste os parâmetros e clique em "Execute" ou "Run".
           - Use os exemplos de payload para simular casos de sucesso e falha (422, 404, 500).
           - Para observar múltiplos erros, envie campos inválidos/ausentes em endpoints de criação/atualização.
           - Todas as falhas seguem o mesmo contrato: "errors[]" (lista de erros) + "metadata" (dados da requisição).
