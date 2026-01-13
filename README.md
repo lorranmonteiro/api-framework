@@ -2,52 +2,65 @@
 
 **Análise e Proposta de Padronização de Respostas de Erro em APIs REST**
 
-Este projeto consiste no desenvolvimento de uma **API RESTful**, criada como **Trabalho de Conclusão de Curso (TCC)**, cujo **objetivo central** é a **análise crítica dos padrões de resposta de erro propostos pela literatura e adotados pelo mercado**, culminando na **proposição de um novo padrão unificado**.
+Este projeto apresenta o desenvolvimento de uma **API RESTful**, criada como **Trabalho de Conclusão de Curso (TCC)**, cujo objetivo central é a **análise crítica dos padrões de resposta de erro propostos pela literatura e adotados pelo mercado**, culminando na **proposição de um novo padrão unificado**.
 
-Embora a API implemente um domínio simples de **sistema de pedidos**, esse domínio atua apenas como **meio experimental**, permitindo avaliar, validar e demonstrar o comportamento do padrão de erro proposto em cenários reais de uso.
+O domínio de **sistema de pedidos** (clientes, produtos e pedidos) é utilizado apenas como **ambiente experimental**, permitindo avaliar o comportamento do padrão proposto em cenários reais, sem que o foco esteja na complexidade do negócio.
 
 ---
 
 ## Motivação
 
-A literatura clássica sobre APIs REST recomenda o uso do **RFC 7807 – Problem Details for HTTP APIs** como padrão para representação de erros. Apesar de sua adoção formal, o RFC apresenta limitações práticas amplamente discutidas no mercado, tais como:
+A literatura clássica sobre APIs REST recomenda o uso do [RFC 7807 – Problem Details for HTTP APIs](https://www.rfc-editor.org/rfc/rfc7807) como padrão para representação de erros. Embora amplamente citado, esse padrão apresenta limitações práticas observadas na adoção real, tais como:
 
-* Estrutura excessivamente genérica e pouco orientada a validações complexas
-* Dificuldade em representar **múltiplos erros simultâneos** de forma clara
+* Dificuldade em representar múltiplos erros simultaneamente
 * Acoplamento conceitual entre semântica do erro e status HTTP
-* Baixa padronização de extensões entre diferentes APIs
+* Fragmentação da informação de erro em campos distintos, exigindo lógica adicional nos clientes
 
-Em paralelo, empresas e plataformas amplamente utilizadas (Google, Stripe, GitHub, AWS, Shopify, entre outras) adotam **estruturas próprias**, frequentemente divergentes do RFC, mas mais práticas, previsíveis e orientadas ao consumo por clientes frontend.
+Em contraste, **APIs amplamente utilizadas no mercado** (Google, Stripe, GitHub, AWS, Shopify, entre outras) adotam estruturas próprias, geralmente mais simples, previsíveis e orientadas ao consumo.
 
-Diante desse cenário, este trabalho propõe um **novo padrão de resposta de erro**, que **unifica conceitos da literatura com práticas consolidadas do mercado**, buscando maior clareza, consistência e extensibilidade.
+Diante desse cenário, este trabalho propõe um **novo padrão de resposta de erro**, que **unifica conceitos da literatura com práticas consolidadas do mercado**, priorizando clareza, consistência e extensibilidade.
 
 ---
 
-## Escopo da API
+## Documentação e Escopo da API
 
-A API fornece endpoints REST para os seguintes recursos:
+A documentação completa da API — incluindo exemplos do padrão de erro proposto — está disponível no **Swagger UI**:
+
+🔗 [https://api-framework.onrender.com](https://api-framework.onrender.com)
+
+A API expõe endpoints REST para os seguintes recursos:
 
 * **Customers** (Clientes)
 * **Products** (Produtos)
 * **Orders** (Pedidos)
 * **OrderProducts** (Itens de Pedido)
 
-As operações CRUD são utilizadas como base para avaliar diferentes categorias de erro, como:
+As operações CRUD servem como base para avaliar diferentes categorias de erro, como:
 
 * Erros de validação
 * Recursos não encontrados
 * Erros internos inesperados
 
 > **Observação:**
-> A API não possui autenticação ou autorização. Essa decisão é intencional e visa manter o foco exclusivo na **arquitetura de erros, contratos e testes**, alinhado ao escopo acadêmico do trabalho.
+> A API não possui autenticação ou autorização. Essa decisão é intencional e visa manter o foco exclusivo em contratos de erro, arquitetura e testes, conforme o escopo acadêmico do trabalho.
 
 ---
 
 ## Padrão Proposto de Resposta de Erro
 
-Como resultado da análise da literatura e das soluções adotadas pelo mercado, o projeto propõe um **formato unificado de resposta de erro**, desacoplado da lógica de exceções internas e orientado ao consumo por clientes.
+### Estrutura do RFC 7807 (referência)
 
-### Estrutura do Erro
+```json
+{
+  "type": "https://example.com/probs/out-of-credit",
+  "title": "You do not have enough credit.",
+  "status": 403,
+  "detail": "Your current balance is 30, but that costs 50.",
+  "instance": "/account/12345/msgs/abc"
+}
+```
+
+### Estrutura proposta neste projeto
 
 ```json
 {
@@ -64,56 +77,42 @@ Como resultado da análise da literatura e das soluções adotadas pelo mercado,
   "metadata": {
     "requestId": "123e4567-e89b-12d3-a456-426614174000",
     "occurredAt": "2024-06-15T12:34:56Z",
-    "path": "/users/11",
-    "statusCode": 422
+    "path": "/users/11"
   }
 }
 ```
 
-### Principais Características
+### Características do padrão proposto
 
 * Lista explícita de erros (`errors[]`), sem hierarquia artificial
-* Códigos de erro semânticos e estáveis (`errorCode`)
-* Metadados de requisição agrupados em `metadata`
-* Total independência entre estrutura de erro e status HTTP
+* Códigos de erro **semânticos e estáveis** (`errorCode`)
+* Metadados da requisição agrupados em `metadata`
+* Independência total entre estrutura do erro e status HTTP
 * Suporte nativo a múltiplos erros em uma única resposta
 
-Esse modelo busca resolver limitações do RFC 7807 sem romper com os princípios REST.
+Esse modelo busca resolver limitações do RFC 7807 **sem violar os princípios REST**, ao mesmo tempo em que se aproxima das práticas observadas em APIs amplamente utilizadas no mercado.
 
 ---
 
-## Testes e Documentação
+## Feedback e Contribuições
 
-O projeto adota **testes automatizados como fonte de verdade do contrato**, onde:
+Um formulário foi disponibilizado para coleta de feedbacks e sugestões:
 
-* Testes validam o comportamento real da API
-* Os mesmos testes geram a documentação OpenAPI (Swagger)
-* Casos de sucesso e erro são explicitamente documentados
+🔗 [Avaliação de Experiência e Padronização de API REST](https://forms.gle/8FWQB2RUCCF45aoM6)
 
-Essa abordagem garante **consistência entre código, testes e documentação**, evitando divergências comuns em APIs documentadas manualmente.
-
----
-
-## Tecnologias Utilizadas
-
-* **Ruby** 3.3
-* **Ruby on Rails** (API Mode)
-* **PostgreSQL**
-* **RSpec**
-* **FactoryBot**
-* **Rswag / OpenAPI (Swagger)**
+Sua participação é fundamental para o refinamento e validação desta proposta acadêmica.
 
 ---
 
 ## Considerações Acadêmicas
 
-Este projeto tem finalidade **estritamente acadêmica**, servindo como:
+Este projeto possui finalidade **estritamente acadêmica**, servindo como:
 
-* Base experimental para análise de padrões de erro
+* Base experimental para análise de padrões de erro em APIs REST
 * Proposta formal de um novo contrato de resposta de erro
-* Referência técnica para estudos sobre APIs REST
+* Referência técnica para estudos sobre arquitetura e contratos de API
 
-O foco não está no domínio de negócio, mas na **qualidade arquitetural**, **padronização** e **clareza de contrato**.
+O foco está na **qualidade arquitetural**, **clareza de contrato** e **padronização de erros**, e não na complexidade do domínio de negócio.
 
 ---
 

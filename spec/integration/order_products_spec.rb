@@ -82,8 +82,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
           metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products",
-            statusCode: 422
+            path: "/api/v1/order_products"
           }
         }
 
@@ -137,8 +136,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
           metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products/99999",
-            statusCode: 404
+            path: "/api/v1/order_products/99999"
           }
         }
 
@@ -197,8 +195,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
           metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products",
-            statusCode: 422
+            path: "/api/v1/order_products"
           }
         }
 
@@ -231,8 +228,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
           metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/order_products/99999",
-            statusCode: 404
+            path: "/api/v1/order_products/99999"
           }
         }
 
@@ -286,8 +282,7 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
           metadata: {
             occurredAt: "2025-01-01T12:00:00Z",
             requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
-            path: "/api/v1/orders/99999/products",
-            statusCode: 404
+            path: "/api/v1/orders/99999/products"
           }
         }
 

@@ -13,8 +13,7 @@ class ApplicationController < ActionController::API
       metadata: {
         requestId: request.request_id || SecureRandom.uuid,
         occurredAt: Time.current.utc.iso8601,
-        path: request.fullpath,
-        statusCode: Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+        path: request.fullpath
       }
     }
 

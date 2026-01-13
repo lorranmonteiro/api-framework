@@ -46,7 +46,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
 
         expect(json["metadata"]).to be_present
         expect(json["metadata"]["path"]).to eq("/api/v1/products/99999")
-        expect(json["metadata"]["statusCode"]).to eq(404)
       end
     end
   end
@@ -98,7 +97,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
         end
 
         expect(json["metadata"]).to be_present
-        expect(json["metadata"]["statusCode"]).to eq(422)
       end
     end
   end
@@ -134,7 +132,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
           .to eq(ErrorCodes::FIELD_VALIDATION)
 
         expect(json["metadata"]).to be_present
-        expect(json["metadata"]["statusCode"]).to eq(422)
       end
     end
   end
@@ -155,7 +152,6 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
 
       expect(json["errors"].first["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
       expect(json["errors"].first["errorCode"]).to eq(ErrorCodes::NOT_FOUND)
-      expect(json["metadata"]["statusCode"]).to eq(404)
     end
   end
 end
