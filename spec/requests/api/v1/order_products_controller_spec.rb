@@ -69,7 +69,7 @@ RSpec.describe "Api::V1::OrderProductsController", type: :request do
       expect(json["metadata"]).to be_present
       expect(json["metadata"]["path"]).to eq("/api/v1/order_products")
       expect(json["metadata"]["requestId"]).to be_present
-      expect(json["metadata"]["timestamp"]).to be_present
+      expect(json["metadata"]["occurredAt"]).to be_present
     end
   end
 

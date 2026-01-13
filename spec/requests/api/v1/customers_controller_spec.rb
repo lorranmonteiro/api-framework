@@ -176,7 +176,7 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
       expect(json["metadata"]).to be_present
       expect(json["metadata"]["path"]).to eq("/api/v1/products")
       expect(json["metadata"]["requestId"]).to be_present
-      expect(json["metadata"]["timestamp"]).to be_present
+      expect(json["metadata"]["occurredAt"]).to be_present
     end
   end
 end
