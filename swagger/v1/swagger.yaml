@@ -66,13 +66,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Email can't be blank
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/customers"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -134,13 +133,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Customer not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/customers/99999"
-                      statusCode: 404
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
@@ -172,13 +170,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Name can't be blank
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/customers/1"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -221,13 +218,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Email can't be blank
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/customers/1"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -264,13 +260,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Customer not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/customers/99999"
-                      statusCode: 404
   "/api/v1/order_products":
     post:
       summary: Cria um produto do pedido
@@ -302,13 +297,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Quantity must be greater than 0
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/order_products"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -377,13 +371,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/order_products/99999"
-                      statusCode: 404
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
@@ -416,13 +409,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Quantity must be greater than 0
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/order_products"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -453,13 +445,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/order_products/99999"
-                      statusCode: 404
   "/api/v1/orders/{id}/products":
     parameters:
     - name: id
@@ -500,13 +491,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Order not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/orders/99999/products"
-                      statusCode: 404
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
   "/api/v1/orders":
@@ -567,15 +557,14 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Customer must exist
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Status can't be blank
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/orders"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -643,13 +632,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Order not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/orders/99999"
-                      statusCode: 404
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
@@ -681,13 +669,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Status can't be blank
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/orders/1"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -720,13 +707,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Order not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/orders/99999"
-                      statusCode: 404
   "/api/v1/customer/{customer_id}/orders":
     parameters:
     - name: customer_id
@@ -772,13 +758,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Customer not found
                     metadata:
                       occurredAt: '2025-01-01T12:00:00Z'
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       path: "/api/v1/customer/99999/orders"
-                      statusCode: 404
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
   "/api/v1/products":
@@ -839,15 +824,14 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Name can't be blank
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Price must be greater than 0
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/products"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -907,13 +891,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/products/99999"
-                      statusCode: 404
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
@@ -945,13 +928,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Price must be greater than 0
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/products/99999"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -996,13 +978,12 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: FIELD_VALIDATION
+                    - errorType: FIELD_VALIDATION
                       message: Price must be greater than 0
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/products/99999"
-                      statusCode: 422
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
       requestBody:
@@ -1035,29 +1016,35 @@ paths:
                 example_0:
                   value:
                     errors:
-                    - errorCode: NOT_FOUND
+                    - errorType: NOT_FOUND
                       message: Record not found
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
                       path: "/api/v1/products/99999"
-                      statusCode: 404
 components:
   schemas:
+    ErrorType:
+      type: string
+      description: Código semântico e estável do erro
+      enum:
+      - FIELD_VALIDATION
+      - BUSINESS_VALIDATION
+      - NOT_FOUND
+      - INTERNAL_SERVER_ERROR
+      example: FIELD_VALIDATION
     Error:
       type: object
       description: Representa um erro individual retornado pela API
       properties:
-        errorCode:
-          type: string
-          example: FIELD_VALIDATION
-          description: Código semântico e estável do erro
+        errorType:
+          "$ref": "#/components/schemas/ErrorType"
         message:
           type: string
           example: Email can't be blank
           description: Mensagem descritiva do erro
       required:
-      - errorCode
+      - errorType
       - message
     ErrorMetadata:
       type: object
@@ -1073,23 +1060,19 @@ components:
         path:
           type: string
           example: "/api/v1/customers/999"
-        statusCode:
-          type: integer
-          example: 404
       required:
       - requestId
       - occurredAt
       - path
-      - statusCode
     ErrorResponse:
       type: object
       description: Resposta padrão de erro da API
       properties:
         errors:
           type: array
+          minItems: 1
           items:
             "$ref": "#/components/schemas/Error"
-          minItems: 1
         metadata:
           "$ref": "#/components/schemas/ErrorMetadata"
       required:

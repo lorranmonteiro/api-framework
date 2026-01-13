@@ -1,4 +1,4 @@
-module ErrorCodes
+module ErrorTypes
   FIELD_VALIDATION      = "FIELD_VALIDATION"
   BUSINESS_VALIDATION   = "BUSINESS_VALIDATION"
   NOT_FOUND             = "NOT_FOUND"

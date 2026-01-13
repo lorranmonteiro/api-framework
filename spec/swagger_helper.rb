@@ -20,15 +20,24 @@ RSpec.configure do |config|
       paths: {},
       components: {
         schemas: {
+          ErrorType: {
+            type: :string,
+            description: 'Código semântico e estável do erro',
+            enum: [
+              'FIELD_VALIDATION',
+              'BUSINESS_VALIDATION',
+              'NOT_FOUND',
+              'INTERNAL_SERVER_ERROR'
+            ],
+            example: 'FIELD_VALIDATION'
+          },
 
           Error: {
             type: :object,
             description: 'Representa um erro individual retornado pela API',
             properties: {
-              errorCode: {
-                type: :string,
-                example: 'FIELD_VALIDATION',
-                description: 'Código semântico e estável do erro'
+              errorType: {
+                '$ref' => '#/components/schemas/ErrorType'
               },
               message: {
                 type: :string,
@@ -36,7 +45,7 @@ RSpec.configure do |config|
                 description: 'Mensagem descritiva do erro'
               }
             },
-            required: %w[errorCode message]
+            required: %w[errorType message]
           },
 
           ErrorMetadata: {
@@ -55,13 +64,9 @@ RSpec.configure do |config|
               path: {
                 type: :string,
                 example: '/api/v1/customers/999'
-              },
-              statusCode: {
-                type: :integer,
-                example: 404
               }
             },
-            required: %w[requestId occurredAt path statusCode]
+            required: %w[requestId occurredAt path]
           },
 
           ErrorResponse: {
@@ -70,10 +75,10 @@ RSpec.configure do |config|
             properties: {
               errors: {
                 type: :array,
+                minItems: 1,
                 items: {
                   '$ref' => '#/components/schemas/Error'
-                },
-                minItems: 1
+                }
               },
               metadata: {
                 '$ref' => '#/components/schemas/ErrorMetadata'
@@ -97,14 +102,8 @@ RSpec.configure do |config|
                 format: :float,
                 example: '199.90'
               },
-              created_at: {
-                type: :string,
-                format: :'date-time'
-              },
-              updated_at: {
-                type: :string,
-                format: :'date-time'
-              }
+              created_at: { type: :string, format: :'date-time' },
+              updated_at: { type: :string, format: :'date-time' }
             },
             required: %w[id name price]
           },
@@ -114,24 +113,10 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer, example: 1 },
               name: { type: :string, example: 'John Doe' },
-              email: {
-                type: :string,
-                format: :email,
-                example: 'john@example.com'
-              },
-              phone: {
-                type: :string,
-                nullable: true,
-                example: '999999999'
-              },
-              created_at: {
-                type: :string,
-                format: :'date-time'
-              },
-              updated_at: {
-                type: :string,
-                format: :'date-time'
-              }
+              email: { type: :string, format: :email, example: 'john@example.com' },
+              phone: { type: :string, nullable: true, example: '999999999' },
+              created_at: { type: :string, format: :'date-time' },
+              updated_at: { type: :string, format: :'date-time' }
             },
             required: %w[id name email]
           },
@@ -142,19 +127,9 @@ RSpec.configure do |config|
               id: { type: :integer, example: 1 },
               customer_id: { type: :integer, example: 1 },
               status: { type: :string, example: 'new' },
-              total_amount: {
-                type: :string,
-                format: :float,
-                example: '250.00'
-              },
-              created_at: {
-                type: :string,
-                format: :'date-time'
-              },
-              updated_at: {
-                type: :string,
-                format: :'date-time'
-              }
+              total_amount: { type: :string, format: :float, example: '250.00' },
+              created_at: { type: :string, format: :'date-time' },
+              updated_at: { type: :string, format: :'date-time' }
             },
             required: %w[id customer_id status total_amount]
           },
@@ -166,19 +141,9 @@ RSpec.configure do |config|
               order_id: { type: :integer, example: 1 },
               product_id: { type: :integer, example: 1 },
               quantity: { type: :integer, example: 2 },
-              price: {
-                type: :string,
-                format: :float,
-                example: '100.00'
-              },
-              created_at: {
-                type: :string,
-                format: :'date-time'
-              },
-              updated_at: {
-                type: :string,
-                format: :'date-time'
-              }
+              price: { type: :string, format: :float, example: '100.00' },
+              created_at: { type: :string, format: :'date-time' },
+              updated_at: { type: :string, format: :'date-time' }
             },
             required: %w[id order_id product_id quantity]
           }

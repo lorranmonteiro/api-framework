@@ -41,12 +41,11 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         expect(json["errors"].size).to eq(1)
 
         error = json["errors"].first
-        expect(error["errorCode"]).to eq(ErrorCodes::NOT_FOUND)
+        expect(error["errorType"]).to eq(ErrorTypes::NOT_FOUND)
         expect(error["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
 
         expect(json["metadata"]).to be_present
         expect(json["metadata"]["path"]).to eq("/api/v1/customers/99999")
-        expect(json["metadata"]["statusCode"]).to eq(404)
       end
     end
   end
@@ -84,17 +83,16 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
 
         expect(json["errors"]).to include(
           hash_including(
-            "errorCode" => ErrorCodes::FIELD_VALIDATION,
+            "errorType" => ErrorTypes::FIELD_VALIDATION,
             "message" => "Name can't be blank"
           ),
           hash_including(
-            "errorCode" => ErrorCodes::FIELD_VALIDATION,
+            "errorType" => ErrorTypes::FIELD_VALIDATION,
             "message" => "Email can't be blank"
           )
         )
 
         expect(json["metadata"]).to be_present
-        expect(json["metadata"]["statusCode"]).to eq(422)
         expect(json["metadata"]["path"]).to eq("/api/v1/customers")
       end
     end
@@ -127,11 +125,10 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         expect(json["errors"].size).to eq(1)
 
         error = json["errors"].first
-        expect(error["errorCode"]).to eq(ErrorCodes::FIELD_VALIDATION)
+        expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
         expect(error["message"]).to eq("Email can't be blank")
 
         expect(json["metadata"]).to be_present
-        expect(json["metadata"]["statusCode"]).to eq(422)
       end
     end
   end
@@ -154,10 +151,9 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
       expect(json["errors"].size).to eq(1)
 
       error = json["errors"].first
-      expect(error["errorCode"]).to eq(ErrorCodes::NOT_FOUND)
+      expect(error["errorType"]).to eq(ErrorTypes::NOT_FOUND)
       expect(error["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
 
-      expect(json["metadata"]["statusCode"]).to eq(404)
     end
   end
 
@@ -174,12 +170,11 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
       expect(json["errors"].size).to eq(1)
 
       error = json["errors"].first
-      expect(error["errorCode"]).to eq(ErrorCodes::INTERNAL_SERVER_ERROR)
+      expect(error["errorType"]).to eq(ErrorTypes::INTERNAL_SERVER_ERROR)
       expect(error["message"]).to eq(Constants::INTERNAL_SERVER_ERROR_MESSAGE)
 
       expect(json["metadata"]).to be_present
       expect(json["metadata"]["path"]).to eq("/api/v1/products")
-      expect(json["metadata"]["statusCode"]).to eq(500)
       expect(json["metadata"]["requestId"]).to be_present
       expect(json["metadata"]["occurredAt"]).to be_present
     end

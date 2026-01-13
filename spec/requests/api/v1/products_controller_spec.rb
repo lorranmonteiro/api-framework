@@ -42,11 +42,10 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
 
         error = json["errors"].first
         expect(error["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
-        expect(error["errorCode"]).to eq(ErrorCodes::NOT_FOUND)
+        expect(error["errorType"]).to eq(ErrorTypes::NOT_FOUND)
 
         expect(json["metadata"]).to be_present
         expect(json["metadata"]["path"]).to eq("/api/v1/products/99999")
-        expect(json["metadata"]["statusCode"]).to eq(404)
       end
     end
   end
@@ -94,11 +93,10 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
         )
 
         json["errors"].each do |error|
-          expect(error["errorCode"]).to eq(ErrorCodes::FIELD_VALIDATION)
+          expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
         end
 
         expect(json["metadata"]).to be_present
-        expect(json["metadata"]["statusCode"]).to eq(422)
       end
     end
   end
@@ -130,11 +128,10 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
         expect(json["errors"].first["message"])
           .to eq("Price must be greater than 0")
 
-        expect(json["errors"].first["errorCode"])
-          .to eq(ErrorCodes::FIELD_VALIDATION)
+        expect(json["errors"].first["errorType"])
+          .to eq(ErrorTypes::FIELD_VALIDATION)
 
         expect(json["metadata"]).to be_present
-        expect(json["metadata"]["statusCode"]).to eq(422)
       end
     end
   end
@@ -154,8 +151,7 @@ RSpec.describe "Api::V1::ProductsController", type: :request do
       json = JSON.parse(response.body)
 
       expect(json["errors"].first["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
-      expect(json["errors"].first["errorCode"]).to eq(ErrorCodes::NOT_FOUND)
-      expect(json["metadata"]["statusCode"]).to eq(404)
+      expect(json["errors"].first["errorType"]).to eq(ErrorTypes::NOT_FOUND)
     end
   end
 end
