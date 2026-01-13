@@ -1,12 +1,30 @@
 ---
 openapi: 3.0.1
 info:
-  title: API REST – Sistema de Pedidos
+  title: Padronização de respostas de erro em APIs REST
   version: v1
+  contact:
+    name: Repositório do projeto no Github
+    url: https://github.com/lorranmonteiro/api-rest-error-handling
   description: |
-    Documentação da API REST desenvolvida como Trabalho de Conclusão de Curso (TCC),
-    com foco na aplicação de boas práticas de engenharia de software, padrões de projeto,
-    padronização de erros, testes automatizados e documentação orientada a contrato (OpenAPI).
+    Esta API foi desenvolvida como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia de Software,
+    com foco na análise crítica de padrões de resposta de erro em APIs REST.
+
+    Motivação:
+    A literatura recomenda o RFC 7807 (Problem Details for HTTP APIs), mas na prática muitas APIs populares
+    adotam formatos próprios por limitações do RFC — principalmente para representar múltiplos erros e
+    simplificar o consumo por aplicações cliente. Este projeto implementa e documenta um padrão unificado
+    inspirado na literatura e em práticas de mercado.
+
+    Como usar esta documentação (Swagger UI):
+    - Abra um endpoint e clique em "Try it out" para executar requisições diretamente no navegador, ajuste os parâmetros e clique em "Execute".
+    - Use os exemplos de payload para simular casos de sucesso e falha (422, 404, 500).
+    - Para observar múltiplos erros, envie campos inválidos/ausentes em endpoints de criação/atualização.
+    - Todas as falhas seguem o mesmo contrato: "errors[]" (lista de erros) + "metadata" (dados da requisição).
+
+    Observação:
+    Esta API não possui autenticação/autorização por escolha de escopo, mantendo o foco no contrato de erros,
+    testes automatizados e documentação orientada a contrato (OpenAPI).
 paths:
   "/api/v1/customers":
     get:
