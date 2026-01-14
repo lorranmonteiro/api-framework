@@ -99,7 +99,7 @@ Esse modelo busca resolver limitações do RFC 7807 **sem violar os princípios 
 
 Um formulário foi disponibilizado para coleta de feedbacks e sugestões:
 
-🔗 [Avaliação de Experiência e Padronização de API REST](https://forms.gle/8FWQB2RUCCF45aoM6)
+🔗 [Avaliação da Proposta de Padronização de respostas de erro em APIs REST](https://forms.gle/8FWQB2RUCCF45aoM6)
 
 Sua participação é fundamental para o refinamento e validação desta proposta acadêmica.
 

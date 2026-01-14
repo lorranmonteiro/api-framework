@@ -46,7 +46,7 @@ RSpec.configure do |config|
           inspirado na literatura e em práticas de mercado.
 
           Como usar esta documentação:
-          - Abra um endpoint e clique em "Try it out" ou "Test request" para executar requisições diretamente no navegador, ajuste os parâmetros e clique em "Execute" ou "Run".
+          - Abra um endpoint e clique em "Test request" (no Scalar) ou "Try it out" (no Swagger UI) para executar requisições diretamente no navegador, ajuste os parâmetros e envie a requisição.
           - Use os exemplos de payload para simular casos de sucesso e falha (422, 404, 500).
           - Para observar múltiplos erros, envie campos inválidos/ausentes em endpoints de criação/atualização.
           - Todas as falhas seguem o mesmo contrato: "errors[]" (lista de erros) + "metadata" (dados da requisição).
