@@ -25,8 +25,8 @@ RSpec.configure do |config|
         { name: 'Products', description: 'Operations related to Products' }
       ],
       externalDocs: {
-        description: 'Repositório do projeto no Github',
-        url: 'https://github.com/lorranmonteiro/api-rest-error-handling'
+        description: 'Formulário para coleta de feedbacks',
+        url: 'https://forms.gle/8FWQB2RUCCF45aoM6'
       },
       info: {
         title: 'Padronização de respostas de erro em APIs REST',
@@ -51,9 +51,17 @@ RSpec.configure do |config|
           - Para observar múltiplos erros, envie campos inválidos/ausentes em endpoints de criação/atualização.
           - Todas as falhas seguem o mesmo contrato: "errors[]" (lista de erros) + "metadata" (dados da requisição).
 
-          Observação:
+          OBS:
           Esta API não possui autenticação/autorização por escolha de escopo, mantendo o foco no contrato de erros,
           testes automatizados e documentação orientada a contrato (OpenAPI).
+
+          📌 Um formulário foi disponibilizado para coleta de feedbacks e sugestões:
+          https://forms.gle/8FWQB2RUCCF45aoM6
+
+          Sua participação é fundamental para o refinamento e validação desta proposta acadêmica.
+
+          Repositório do projeto no Github:
+          https://github.com/lorranmonteiro/api-rest-error-handling
         DESC
       },
       paths: {},
