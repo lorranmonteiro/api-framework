@@ -8,10 +8,16 @@ RSpec.configure do |config|
   config.openapi_specs = {
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
-      servers: [{
+      servers: [
+        {
           url: 'https://api-framework.onrender.com',
           description: 'Playground API Server'
-       }],
+        },
+        {
+          url: 'http://localhost:3000',
+          description: 'Local development server'
+        }
+      ],
       tags: [
         { name: 'Customers', description: 'Operations related to Customers' },
         { name: 'OrderProducts', description: 'Operations related to OrderProducts' },

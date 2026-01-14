@@ -12,6 +12,21 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
       tags "Orders"
       produces "application/json"
 
+      parameter name: :status,
+                in: :query,
+                description: "Filtra pedidos pelo status",
+                required: false,
+                schema: {
+                  type: :string,
+                  enum: ["new_order", "in_progress", "done"]
+                }
+
+      parameter name: :customer_id,
+                in: :query,
+                type: :integer,
+                description: "Filtra pedidos pelo ID do cliente",
+                required: false
+
       response "200", "Pedidos encontrados" do
         schema type: :array,
                items: { '$ref' => '#/components/schemas/Order' }

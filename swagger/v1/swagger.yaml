@@ -3,6 +3,8 @@ openapi: 3.0.1
 servers:
 - url: https://api-framework.onrender.com
   description: Playground API Server
+- url: http://localhost:3000
+  description: Local development server
 tags:
 - name: Customers
   description: Operations related to Customers
@@ -562,6 +564,23 @@ paths:
       operationId: listOrders
       tags:
       - Orders
+      parameters:
+      - name: status
+        in: query
+        description: Filtra pedidos pelo status
+        required: false
+        schema:
+          type: string
+          enum:
+          - new_order
+          - in_progress
+          - done
+      - name: customer_id
+        in: query
+        description: Filtra pedidos pelo ID do cliente
+        required: false
+        schema:
+          type: integer
       responses:
         '200':
           description: Pedidos encontrados

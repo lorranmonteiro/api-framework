@@ -5,6 +5,9 @@ module Api
       # GET /api/v1/orders
       def index
         orders = Order.all
+        orders = orders.where(status: params[:status]) if params[:status].present?
+        orders = orders.where(customer_id: params[:customer_id]) if params[:customer_id].present?
+
         render_success(orders)
       end
 
@@ -47,8 +50,7 @@ module Api
         params.require(:order)
               .permit(
                 :customer_id,
-                :status,
-                :total_amount
+                :status
               )
       end
 
