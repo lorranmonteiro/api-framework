@@ -12,12 +12,22 @@ RSpec.configure do |config|
           url: 'https://api-framework.onrender.com',
           description: 'Playground API Server'
        }],
+      tags: [
+        { name: 'Customers', description: 'Operations related to Customers' },
+        { name: 'OrderProducts', description: 'Operations related to OrderProducts' },
+        { name: 'Orders', description: 'Operations related to Orders' },
+        { name: 'Products', description: 'Operations related to Products' }
+      ],
+      externalDocs: {
+        description: 'Repositório do projeto no Github',
+        url: 'https://github.com/lorranmonteiro/api-rest-error-handling'
+      },
       info: {
         title: 'Padronização de respostas de erro em APIs REST',
         version: '1.0.0',
         contact: {
-          name: 'Repositório do projeto no Github',
-          url: 'https://github.com/lorranmonteiro/api-rest-error-handling'
+          name: 'Lorran Monteiro',
+          email: 'lorrandec@gmail.com'
         },
         description: <<~DESC
           Esta API foi desenvolvida como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia de Software,
@@ -122,8 +132,8 @@ RSpec.configure do |config|
               },
               price: {
                 type: :string,
-                format: :float,
-                example: '199.90'
+                format: :decimal,
+                example: '199.99'
               },
               created_at: { type: :string, format: :'date-time' },
               updated_at: { type: :string, format: :'date-time' }
@@ -150,7 +160,7 @@ RSpec.configure do |config|
               id: { type: :integer, example: 1 },
               customer_id: { type: :integer, example: 1 },
               status: { type: :string, example: 'new' },
-              total_amount: { type: :string, format: :float, example: '250.00' },
+              total_amount: { type: :string, format: :decimal, example: '250.00' },
               created_at: { type: :string, format: :'date-time' },
               updated_at: { type: :string, format: :'date-time' }
             },
@@ -164,7 +174,7 @@ RSpec.configure do |config|
               order_id: { type: :integer, example: 1 },
               product_id: { type: :integer, example: 1 },
               quantity: { type: :integer, example: 2 },
-              price: { type: :string, format: :float, example: '100.00' },
+              price: { type: :string, format: :decimal, example: '100.00' },
               created_at: { type: :string, format: :'date-time' },
               updated_at: { type: :string, format: :'date-time' }
             },

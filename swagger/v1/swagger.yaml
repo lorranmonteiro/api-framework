@@ -3,12 +3,24 @@ openapi: 3.0.1
 servers:
 - url: https://api-framework.onrender.com
   description: Playground API Server
+tags:
+- name: Customers
+  description: Operations related to Customers
+- name: OrderProducts
+  description: Operations related to OrderProducts
+- name: Orders
+  description: Operations related to Orders
+- name: Products
+  description: Operations related to Products
+externalDocs:
+  description: Repositório do projeto no Github
+  url: https://github.com/lorranmonteiro/api-rest-error-handling
 info:
   title: Padronização de respostas de erro em APIs REST
   version: 1.0.0
   contact:
-    name: Repositório do projeto no Github
-    url: https://github.com/lorranmonteiro/api-rest-error-handling
+    name: Lorran Monteiro
+    email: lorrandec@gmail.com
   description: |
     Esta API foi desenvolvida como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia de Software,
     com foco na análise crítica de padrões de resposta de erro em APIs REST.
@@ -32,6 +44,8 @@ paths:
   "/api/v1/customers":
     get:
       summary: Lista todos os clientes
+      description: Retorna uma lista de todos os clientes cadastrados na aplicação.
+      operationId: listCustomers
       tags:
       - Customers
       responses:
@@ -60,6 +74,8 @@ paths:
                   "$ref": "#/components/schemas/Customer"
     post:
       summary: Cria um novo cliente
+      description: Cria um novo cliente com os dados fornecidos.
+      operationId: createCustomer
       tags:
       - Customers
       parameters: []
@@ -128,6 +144,8 @@ paths:
         type: integer
     get:
       summary: Informações do cliente
+      description: Retorna as informações do cliente especificado pelo ID.
+      operationId: getCustomer
       tags:
       - Customers
       responses:
@@ -164,6 +182,9 @@ paths:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
       summary: Atualiza parcialmente o cliente
+      description: Atualiza parcialmente as informações do cliente especificado pelo
+        ID.
+      operationId: updateCustomerPartial
       tags:
       - Customers
       parameters: []
@@ -212,6 +233,9 @@ paths:
                 name: Jorge Campos
     put:
       summary: Atualiza completamente o cliente
+      description: Atualiza completamente as informações do cliente especificado pelo
+        ID.
+      operationId: updateCustomerFull
       tags:
       - Customers
       parameters: []
@@ -268,6 +292,8 @@ paths:
                 phone: '85977777777'
     delete:
       summary: Deletar cliente
+      description: Deleta o cliente especificado pelo ID.
+      operationId: deleteCustomer
       tags:
       - Customers
       responses:
@@ -290,6 +316,8 @@ paths:
   "/api/v1/order_products":
     post:
       summary: Cria um produto do pedido
+      description: Cria um novo produto do pedido com os dados fornecidos.
+      operationId: createOrderProduct
       tags:
       - OrderProducts
       parameters: []
@@ -365,6 +393,8 @@ paths:
         type: integer
     get:
       summary: Informações do produto do pedido
+      description: Retorna as informações do produto do pedido especificado pelo ID.
+      operationId: getOrderProduct
       tags:
       - OrderProducts
       responses:
@@ -402,6 +432,8 @@ paths:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
       summary: Atualizar produto do pedido
+      description: Atualiza o produto do pedido especificado pelo ID.
+      operationId: updateOrderProduct
       tags:
       - OrderProducts
       parameters: []
@@ -453,6 +485,8 @@ paths:
                   example: 100.0
     delete:
       summary: Deleta o produto do pedido
+      description: Deleta o produto do pedido especificado pelo ID.
+      operationId: deleteOrderProduct
       tags:
       - OrderProducts
       responses:
@@ -483,6 +517,9 @@ paths:
         type: integer
     get:
       summary: Lista produtos do pedido
+      description: Retorna a lista de produtos associados ao pedido especificado pelo
+        ID.
+      operationId: listOrderProducts
       tags:
       - OrderProducts
       responses:
@@ -521,6 +558,8 @@ paths:
   "/api/v1/orders":
     get:
       summary: Lista todos os pedidos
+      description: Retorna uma lista de todos os pedidos cadastrados na aplicação.
+      operationId: listOrders
       tags:
       - Orders
       responses:
@@ -549,6 +588,8 @@ paths:
                   "$ref": "#/components/schemas/Order"
     post:
       summary: Cria um pedido
+      description: Cria um novo pedido com os dados fornecidos.
+      operationId: createOrder
       tags:
       - Orders
       parameters: []
@@ -619,6 +660,8 @@ paths:
         type: integer
     get:
       summary: Informações do pedido
+      description: Retorna as informações do pedido especificado pelo ID.
+      operationId: getOrder
       tags:
       - Orders
       responses:
@@ -655,6 +698,8 @@ paths:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
       summary: Atualiza um pedido
+      description: Atualiza o pedido especificado pelo ID.
+      operationId: updateOrder
       tags:
       - Orders
       parameters: []
@@ -707,6 +752,8 @@ paths:
                 status: Done
     delete:
       summary: Deleta um pedido
+      description: Deleta o pedido especificado pelo ID.
+      operationId: deleteOrder
       tags:
       - Orders
       responses:
@@ -737,6 +784,9 @@ paths:
         type: integer
     get:
       summary: Lista os pedidos de um cliente
+      description: Retorna a lista de pedidos associados ao cliente especificado pelo
+        ID.
+      operationId: listCustomerOrders
       tags:
       - Orders
       responses:
@@ -782,6 +832,8 @@ paths:
   "/api/v1/products":
     get:
       summary: Lista todos os produtos
+      description: Retorna uma lista de todos os produtos cadastrados na aplicação.
+      operationId: listProducts
       tags:
       - Products
       responses:
@@ -810,6 +862,8 @@ paths:
                   "$ref": "#/components/schemas/Product"
     post:
       summary: Cria um produto
+      description: Cria um novo produto com os dados fornecidos.
+      operationId: createProduct
       tags:
       - Products
       parameters: []
@@ -878,6 +932,8 @@ paths:
         type: integer
     get:
       summary: Informações do produto
+      description: Retorna as informações do produto especificado pelo ID.
+      operationId: getProduct
       tags:
       - Products
       responses:
@@ -914,6 +970,8 @@ paths:
                 "$ref": "#/components/schemas/ErrorResponse"
     patch:
       summary: Atualiza parcialmente um produto
+      description: Atualiza o produto especificado pelo ID.
+      operationId: partialUpdateProduct
       tags:
       - Products
       parameters: []
@@ -964,6 +1022,9 @@ paths:
                 name: Laranja Pera
     put:
       summary: Atualiza completamente um produto
+      description: Atualiza completamente as informações do produto especificado pelo
+        ID.
+      operationId: fullUpdateProduct
       tags:
       - Products
       parameters: []
@@ -1016,6 +1077,8 @@ paths:
                 price: 5.0
     delete:
       summary: Deleta um produto
+      description: Deleta o produto especificado pelo ID.
+      operationId: deleteProduct
       tags:
       - Products
       responses:
@@ -1106,8 +1169,8 @@ components:
           example: Mechanical keyboard
         price:
           type: string
-          format: float
-          example: '199.90'
+          format: decimal
+          example: '199.99'
         created_at:
           type: string
           format: date-time
@@ -1159,7 +1222,7 @@ components:
           example: new
         total_amount:
           type: string
-          format: float
+          format: decimal
           example: '250.00'
         created_at:
           type: string
@@ -1189,7 +1252,7 @@ components:
           example: 2
         price:
           type: string
-          format: float
+          format: decimal
           example: '100.00'
         created_at:
           type: string

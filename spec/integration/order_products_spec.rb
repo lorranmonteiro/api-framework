@@ -10,6 +10,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
 
   path "/api/v1/order_products" do
     post "Cria um produto do pedido" do
+      description "Cria um novo produto do pedido com os dados fornecidos."
+      operationId "createOrderProduct"
       tags "OrderProducts"
       consumes "application/json"
       produces "application/json"
@@ -98,6 +100,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
     parameter name: :id, in: :path, type: :integer, description: "ID do produto do pedido", example: 1
 
     get "Informações do produto do pedido" do
+      description "Retorna as informações do produto do pedido especificado pelo ID."
+      operationId "getOrderProduct"
       tags "OrderProducts"
       produces "application/json"
 
@@ -145,6 +149,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
     end
 
     patch "Atualizar produto do pedido" do
+      description "Atualiza o produto do pedido especificado pelo ID."
+      operationId "updateOrderProduct"
       tags "OrderProducts"
       consumes "application/json"
       produces "application/json"
@@ -207,6 +213,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
     end
 
     delete "Deleta o produto do pedido" do
+      description "Deleta o produto do pedido especificado pelo ID."
+      operationId "deleteOrderProduct"
       tags "OrderProducts"
 
       response "204", "Produto do pedido deletado" do
@@ -241,6 +249,8 @@ RSpec.describe "OrderProducts API", type: :request, swagger_doc: "v1/swagger.yam
     parameter name: :id, in: :path, type: :integer, description: "ID do pedido", example: 1
 
     get "Lista produtos do pedido" do
+      description "Retorna a lista de produtos associados ao pedido especificado pelo ID."
+      operationId "listOrderProducts"
       tags "OrderProducts"
       produces "application/json"
 

@@ -7,6 +7,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
   path "/api/v1/orders" do
     get "Lista todos os pedidos" do
+      description "Retorna uma lista de todos os pedidos cadastrados na aplicação."
+      operationId "listOrders"
       tags "Orders"
       produces "application/json"
 
@@ -42,6 +44,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
     end
 
     post "Cria um pedido" do
+      description "Cria um novo pedido com os dados fornecidos."
+      operationId "createOrder"
       tags "Orders"
       consumes "application/json"
       produces "application/json"
@@ -128,6 +132,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
     parameter name: :id, in: :path, type: :integer, description: "ID do pedido", example: 1
 
     get "Informações do pedido" do
+      description "Retorna as informações do pedido especificado pelo ID."
+      operationId "getOrder"
       tags "Orders"
       produces "application/json"
 
@@ -174,6 +180,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
     end
 
     patch "Atualiza um pedido" do
+      description "Atualiza o pedido especificado pelo ID."
+      operationId "updateOrder"
       tags "Orders"
       consumes "application/json"
       produces "application/json"
@@ -233,6 +241,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
     end
 
     delete "Deleta um pedido" do
+      description "Deleta o pedido especificado pelo ID."
+      operationId "deleteOrder"
       tags "Orders"
 
       response "204", "Pedido deletado" do
@@ -267,6 +277,8 @@ RSpec.describe "Orders API", type: :request, swagger_doc: "v1/swagger.yaml" do
     parameter name: :customer_id, in: :path, type: :integer, description: "ID do cliente", example: 1
 
     get "Lista os pedidos de um cliente" do
+      description "Retorna a lista de pedidos associados ao cliente especificado pelo ID."
+      operationId "listCustomerOrders"
       tags "Orders"
       produces "application/json"
 

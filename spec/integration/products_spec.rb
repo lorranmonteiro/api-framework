@@ -6,6 +6,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
 
   path "/api/v1/products" do
     get "Lista todos os produtos" do
+      description "Retorna uma lista de todos os produtos cadastrados na aplicação."
+      operationId "listProducts"
       tags "Products"
       produces "application/json"
 
@@ -41,6 +43,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
     end
 
     post "Cria um produto" do
+      description "Cria um novo produto com os dados fornecidos."
+      operationId "createProduct"
       tags "Products"
       consumes "application/json"
       produces "application/json"
@@ -124,6 +128,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
     parameter name: :id, in: :path, type: :integer, description: "ID do produto", example: 1
 
     get "Informações do produto" do
+      description "Retorna as informações do produto especificado pelo ID."
+      operationId "getProduct"
       tags "Products"
       produces "application/json"
 
@@ -169,6 +175,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
     end
 
     patch "Atualiza parcialmente um produto" do
+      description "Atualiza o produto especificado pelo ID."
+      operationId "partialUpdateProduct"
       tags "Products"
       consumes "application/json"
       produces "application/json"
@@ -229,6 +237,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
     end
 
     put "Atualiza completamente um produto" do
+      description "Atualiza completamente as informações do produto especificado pelo ID."
+      operationId "fullUpdateProduct"
       tags "Products"
       consumes "application/json"
       produces "application/json"
@@ -293,6 +303,8 @@ RSpec.describe "Products API", type: :request, swagger_doc: "v1/swagger.yaml" do
     end
 
     delete "Deleta um produto" do
+      description "Deleta o produto especificado pelo ID."
+      operationId "deleteProduct"
       tags "Products"
 
       response "204", "Produto deletado" do

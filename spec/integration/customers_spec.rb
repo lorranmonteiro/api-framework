@@ -6,6 +6,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
   path "/api/v1/customers" do
     get "Lista todos os clientes" do
+      description "Retorna uma lista de todos os clientes cadastrados na aplicação."
+      operationId "listCustomers"
       tags "Customers"
       produces "application/json"
 
@@ -37,6 +39,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
     end
 
     post "Cria um novo cliente" do
+      description "Cria um novo cliente com os dados fornecidos."
+      operationId "createCustomer"
       tags "Customers"
       consumes "application/json"
       produces "application/json"
@@ -113,6 +117,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
     parameter name: :id, in: :path, type: :integer, description: "ID do cliente", example: 1
 
     get "Informações do cliente" do
+      description "Retorna as informações do cliente especificado pelo ID."
+      operationId "getCustomer"
       tags "Customers"
       produces "application/json"
 
@@ -156,6 +162,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
     end
 
     patch "Atualiza parcialmente o cliente" do
+      description "Atualiza parcialmente as informações do cliente especificado pelo ID."
+      operationId "updateCustomerPartial"
       tags "Customers"
       consumes "application/json"
       produces "application/json"
@@ -213,6 +221,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
     end
 
     put "Atualiza completamente o cliente" do
+      description "Atualiza completamente as informações do cliente especificado pelo ID."
+      operationId "updateCustomerFull"
       tags "Customers"
       consumes "application/json"
       produces "application/json"
@@ -286,6 +296,8 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
     end
 
     delete "Deletar cliente" do
+      description "Deleta o cliente especificado pelo ID."
+      operationId "deleteCustomer"
       tags "Customers"
 
       response "204", "Cliente deletado" do
