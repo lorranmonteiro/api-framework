@@ -26,8 +26,8 @@ Diante desse cenário, este trabalho propõe um **novo padrão de resposta de er
 
 A documentação completa da API — incluindo exemplos do padrão de erro proposto e ambiente de testes interativo — está disponível em dois locais:
 
-🔗 [Docmentação pelo Scalar (Recomendado)](https://registry.scalar.com/@tcc/apis/api-rest-sistema-de-pedidos/latest)
-🔗 [Docmentação pelo Swagger UI](https://api-framework.onrender.com)
+- 🔗 [Documentação pelo Scalar](https://registry.scalar.com/@tcc/apis/api-rest-sistema-de-pedidos/latest) (Recomendado)
+- 🔗 [Documentação pelo Swagger UI](https://api-framework.onrender.com)
 
 A API expõe endpoints REST para os seguintes recursos:
 
