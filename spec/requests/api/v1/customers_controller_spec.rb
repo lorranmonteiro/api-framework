@@ -96,6 +96,90 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         expect(json["metadata"]["path"]).to eq("/api/v1/customers")
       end
     end
+
+    context "phone validations & normalization" do
+      it "returns validation error when phone contains letters (e.g. '4324abc123')" do
+        post base_url, params: {
+          customer: {
+            name: "Ana",
+            email: "ana@example.com",
+            phone: "4324abc123"
+          }
+        }
+
+        expect(response).to have_http_status(:unprocessable_content)
+        json = JSON.parse(response.body)
+
+        expect(json["errors"]).to be_an(Array)
+
+        error = json["errors"].first
+        expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
+        expect(error["message"]).to eq("Phone must contain only numbers and valid phone characters")
+      end
+
+      it "normalizes phone like '(85) 98683-5522' to '85986835522'" do
+        post base_url, params: {
+          customer: {
+            name: "Ana Maria",
+            email: "ana.maria@example.com",
+            phone: "(85) 98683-5522"
+          }
+        }
+
+        expect(response).to have_http_status(:created)
+        json = JSON.parse(response.body)
+        expect(json["phone"]).to eq("85986835522")
+
+        created = Customer.find(json["id"])
+        expect(created.phone).to eq("85986835522")
+      end
+
+      it "allows creating customer when phone is omitted (optional field)" do
+        post base_url, params: {
+          customer: {
+            name: "No Phone",
+            email: "nophone@example.com"
+          }
+        }
+
+        expect(response).to have_http_status(:created)
+        json = JSON.parse(response.body)
+
+        created = Customer.find(json["id"])
+        expect(created.phone).to be_nil
+      end
+
+      it "allows creating customer when phone is blank (treated as blank)" do
+        post base_url, params: {
+          customer: {
+            name: "Blank Phone",
+            email: "blankphone@example.com",
+            phone: ""
+          }
+        }
+
+        expect(response).to have_http_status(:created)
+        json = JSON.parse(response.body)
+
+        created = Customer.find(json["id"])
+        expect(created.phone).to be_blank
+      end
+
+      it "normalizes phone with country code '+55 (85) 98686-5522' to '5585986865522'" do
+        post base_url, params: {
+          customer: {
+            name: "Country Code",
+            email: "country@example.com",
+            phone: "+55 (85) 98686-5522"
+          }
+        }
+
+        expect(response).to have_http_status(:created)
+        json = JSON.parse(response.body)
+
+        expect(json["phone"]).to eq("5585986865522")
+      end
+    end
   end
 
   describe "PATCH /api/v1/customers/:id" do
@@ -115,18 +199,22 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
     context "with invalid attributes" do
       it "returns a structured validation error" do
         patch "#{base_url}/#{customer1.id}", params: {
-          customer: { email: "" }
+          customer: { email: "", phone: "abc123" }
         }
 
         expect(response).to have_http_status(:unprocessable_content)
         json = JSON.parse(response.body)
 
         expect(json["errors"]).to be_an(Array)
-        expect(json["errors"].size).to eq(1)
+        expect(json["errors"].size).to eq(2)
 
         error = json["errors"].first
         expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
         expect(error["message"]).to eq("Email can't be blank")
+
+        error = json["errors"].second
+        expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
+        expect(error["message"]).to eq("Phone must contain only numbers and valid phone characters")
 
         expect(json["metadata"]).to be_present
       end
@@ -153,7 +241,6 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
       error = json["errors"].first
       expect(error["errorType"]).to eq(ErrorTypes::NOT_FOUND)
       expect(error["message"]).to eq(Constants::RECORD_NOT_FOUND_MESSAGE)
-
     end
   end
 

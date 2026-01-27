@@ -56,8 +56,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
       {
         order: {
           customer_id: customer.id,
-          status: "New",
-          total_amount: 50
+          status: "New"
         }
       }
     end
@@ -66,8 +65,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
       {
         order: {
           customer_id: nil,
-          status: "",
-          total_amount: -10
+          status: ""
         }
       }
     end
@@ -80,7 +78,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
         json = JSON.parse(response.body)
 
         expect(json["status"]).to eq("new_order")
-        expect(json["total_amount"].to_f).to eq(50.0)
+        expect(json["total_amount"].to_f).to eq(0.0)
       end
     end
 
@@ -98,8 +96,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
 
         expect(messages).to include(
           "Customer must exist",
-          "Status can't be blank",
-          "Total amount must be greater than or equal to 0.0"
+          "Status can't be blank"
         )
 
         json["errors"].each do |error|
@@ -128,7 +125,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
     context "with invalid attributes" do
       it "returns validation error" do
         patch "#{base_url}/#{order1.id}", params: {
-          order: { total_amount: -5 }
+          order: { customer_id: nil }
         }
 
         expect(response).to have_http_status(:unprocessable_content)
@@ -136,7 +133,7 @@ RSpec.describe "Api::V1::OrdersController", type: :request do
 
         expect(json["errors"]).to be_an(Array)
         expect(json["errors"].first["message"])
-          .to eq("Total amount must be greater than or equal to 0.0")
+          .to eq("Customer must exist")
 
         expect(json["errors"].first["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
 

@@ -92,13 +92,13 @@ paths:
                     id: 1
                     name: Ana Maria
                     email: ana.maria@example.com
-                    phone: '85999999999'
+                    phone: '5585986835522'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Customer"
         '422':
-          description: Criação inválida
+          description: Telefone inválido (contém letras)
           content:
             application/json:
               examples:
@@ -106,7 +106,7 @@ paths:
                   value:
                     errors:
                     - errorType: FIELD_VALIDATION
-                      message: Email can't be blank
+                      message: Phone must contain only numbers and valid phone characters
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -127,14 +127,18 @@ paths:
                   example: ana.maria@example.com
                 phone:
                   type: string
-                  example: '85999999999'
+                  description: 'Telefone opcional. Aceita apenas números e caracteres
+                    comuns de telefone (+, espaços, parênteses e hífen). Será normalizado
+                    e salvo apenas com dígitos. Ex.: ''+55 (85) 98683-5522'' => ''5585986835522''.'
+                  example: "+55 (85) 98683-5522"
+                  pattern: "^[0-9+\\s\\-\\(\\)]+$"
               required:
               - name
               - email
               example:
                 name: Ana Maria
                 email: ana.maria@example.com
-                phone: '85999999999'
+                phone: "+55 (85) 98683-5522"
   "/api/v1/customers/{id}":
     parameters:
     - name: id
@@ -207,7 +211,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/Customer"
         '422':
-          description: Atualização inválida
+          description: Telefone inválido (contém letras)
           content:
             application/json:
               examples:
@@ -215,7 +219,7 @@ paths:
                   value:
                     errors:
                     - errorType: FIELD_VALIDATION
-                      message: Name can't be blank
+                      message: Phone must contain only numbers and valid phone characters
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -231,8 +235,16 @@ paths:
                 name:
                   type: string
                   example: Jorge Campos
+                phone:
+                  type: string
+                  description: Telefone opcional. Aceita apenas números e caracteres
+                    comuns de telefone (+, espaços, parênteses e hífen). Será normalizado
+                    e salvo apenas com dígitos.
+                  example: "(85) 98683-5522"
+                  pattern: "^[0-9+\\s\\-\\(\\)]+$"
               example:
                 name: Jorge Campos
+                phone: "(85) 98683-5522"
     put:
       summary: Atualiza completamente o cliente
       description: Atualiza completamente as informações do cliente especificado pelo
@@ -252,13 +264,13 @@ paths:
                     id: 1
                     name: Jorge Campos
                     email: jorge.campos@example.com
-                    phone: '85977777777'
+                    phone: '5585986865522'
                     created_at: '2025-12-08T15:10:17.073Z'
                     updated_at: '2025-12-08T15:10:17.073Z'
               schema:
                 "$ref": "#/components/schemas/Customer"
         '422':
-          description: Atualização inválida
+          description: Telefone inválido (contém letras)
           content:
             application/json:
               examples:
@@ -266,7 +278,7 @@ paths:
                   value:
                     errors:
                     - errorType: FIELD_VALIDATION
-                      message: Email can't be blank
+                      message: Phone must contain only numbers and valid phone characters
                     metadata:
                       requestId: c8f8c9c2-9dcb-4e9b-b5c2-123456789abc
                       occurredAt: '2025-01-01T12:00:00Z'
@@ -287,11 +299,15 @@ paths:
                   example: jorge.campos@example.com
                 phone:
                   type: string
-                  example: '85977777777'
+                  description: Telefone opcional. Aceita apenas números e caracteres
+                    comuns de telefone (+, espaços, parênteses e hífen). Será normalizado
+                    e salvo apenas com dígitos.
+                  example: "+55 (85) 98686-5522"
+                  pattern: "^[0-9+\\s\\-\\(\\)]+$"
               example:
                 name: Jorge Campos
                 email: jorge.campos@example.com
-                phone: '85977777777'
+                phone: "+55 (85) 98686-5522"
     delete:
       summary: Deletar cliente
       description: Deleta o cliente especificado pelo ID.

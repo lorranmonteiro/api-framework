@@ -50,13 +50,18 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         properties: {
           name: { type: :string, example: "Ana Maria" },
           email: { type: :string, example: "ana.maria@example.com" },
-          phone: { type: :string, example: "85999999999" }
+          phone: {
+            type: :string,
+            description: "Telefone opcional. Aceita apenas números e caracteres comuns de telefone (+, espaços, parênteses e hífen). Será normalizado e salvo apenas com dígitos. Ex.: '+55 (85) 98683-5522' => '5585986835522'.",
+            example: "+55 (85) 98683-5522",
+            pattern: '^[0-9+\s\-\(\)]+$'
+          }
         },
         required: %w[name email],
         example: {
           name: "Ana Maria",
           email: "ana.maria@example.com",
-          phone: "85999999999"
+          phone: "+55 (85) 98683-5522"
         }
       }
 
@@ -67,7 +72,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
           {
             name: "Ana Maria",
             email: "ana.maria@example.com",
-            phone: "85999999999"
+            phone: "+55 (85) 98683-5522"
           }
         end
 
@@ -75,7 +80,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
           id: 1,
           name: "Ana Maria",
           email: "ana.maria@example.com",
-          phone: "85999999999",
+          phone: "5585986835522",
           created_at: "2025-12-08T15:10:17.073Z",
           updated_at: "2025-12-08T15:10:17.073Z"
         }
@@ -99,6 +104,34 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
             {
               errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Email can't be blank"
+            }
+          ],
+          metadata: {
+            requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers"
+          }
+        }
+
+        run_test!
+      end
+
+      response "422", "Telefone inválido (contém letras)" do
+        schema '$ref' => '#/components/schemas/ErrorResponse'
+
+        let(:customer) do
+          {
+            name: "Ana Maria",
+            email: "ana.maria@example.com",
+            phone: "4324abc123"
+          }
+        end
+
+        examples "application/json" => {
+          errors: [
+            {
+              errorType: ErrorTypes::FIELD_VALIDATION,
+              message: "Phone must contain only numbers and valid phone characters"
             }
           ],
           metadata: {
@@ -171,10 +204,17 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
       parameter name: :customer, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string, example: "Jorge Campos" }
+          name: { type: :string, example: "Jorge Campos" },
+          phone: {
+            type: :string,
+            description: "Telefone opcional. Aceita apenas números e caracteres comuns de telefone (+, espaços, parênteses e hífen). Será normalizado e salvo apenas com dígitos.",
+            example: "(85) 98683-5522",
+            pattern: '^[0-9+\s\-\(\)]+$'
+          }
         },
         example: {
-          name: "Jorge Campos"
+          name: "Jorge Campos",
+          phone: "(85) 98683-5522"
         }
       }
 
@@ -218,6 +258,29 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
 
         run_test!
       end
+
+      response "422", "Telefone inválido (contém letras)" do
+        schema '$ref' => '#/components/schemas/ErrorResponse'
+
+        let(:id) { customer1.id }
+        let(:customer) { { phone: "4324abc123" } }
+
+        examples "application/json" => {
+          errors: [
+            {
+              errorType: ErrorTypes::FIELD_VALIDATION,
+              message: "Phone must contain only numbers and valid phone characters"
+            }
+          ],
+          metadata: {
+            requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers/1"
+          }
+        }
+
+        run_test!
+      end
     end
 
     put "Atualiza completamente o cliente" do
@@ -232,12 +295,17 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
         properties: {
           name: { type: :string, example: "Jorge Campos" },
           email: { type: :string, example: "jorge.campos@example.com" },
-          phone: { type: :string, example: "85977777777" }
+          phone: {
+            type: :string,
+            description: "Telefone opcional. Aceita apenas números e caracteres comuns de telefone (+, espaços, parênteses e hífen). Será normalizado e salvo apenas com dígitos.",
+            example: "+55 (85) 98686-5522",
+            pattern: '^[0-9+\s\-\(\)]+$'
+          }
         },
         example: {
           name: "Jorge Campos",
           email: "jorge.campos@example.com",
-          phone: "85977777777"
+          phone: "+55 (85) 98686-5522"
         }
       }
 
@@ -249,7 +317,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
           {
             name: "Jorge Campos",
             email: "jorge.campos@example.com",
-            phone: "85977777777"
+            phone: "+55 (85) 98686-5522"
           }
         end
 
@@ -257,7 +325,7 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
           id: 1,
           name: "Jorge Campos",
           email: "jorge.campos@example.com",
-          phone: "85977777777",
+          phone: "5585986865522",
           created_at: "2025-12-08T15:10:17.073Z",
           updated_at: "2025-12-08T15:10:17.073Z"
         }
@@ -282,6 +350,35 @@ RSpec.describe "Customers API", type: :request, swagger_doc: "v1/swagger.yaml" d
             {
               errorType: ErrorTypes::FIELD_VALIDATION,
               message: "Email can't be blank"
+            }
+          ],
+          metadata: {
+            requestId: "c8f8c9c2-9dcb-4e9b-b5c2-123456789abc",
+            occurredAt: "2025-01-01T12:00:00Z",
+            path: "/api/v1/customers/1"
+          }
+        }
+
+        run_test!
+      end
+
+      response "422", "Telefone inválido (contém letras)" do
+        schema '$ref' => '#/components/schemas/ErrorResponse'
+
+        let(:id) { customer1.id }
+        let(:customer) do
+          {
+            name: "Jorge Campos",
+            email: "jorge.campos@example.com",
+            phone: "4324abc123"
+          }
+        end
+
+        examples "application/json" => {
+          errors: [
+            {
+              errorType: ErrorTypes::FIELD_VALIDATION,
+              message: "Phone must contain only numbers and valid phone characters"
             }
           ],
           metadata: {
