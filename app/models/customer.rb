@@ -4,14 +4,18 @@ class Customer < ApplicationRecord
   before_validation :normalize_phone
 
   validates :name, presence: true
-  validates :email, presence: true
 
-  validates :phone,
+  validates :email, presence: true,
+          format: {
+            with: URI::MailTo::EMAIL_REGEXP,
+            message: "is not a valid email address"
+          }
+
+  validates :phone, allow_blank: true,
             format: {
               with: /\A[\d\s\-\+\(\)]*\z/,
               message: "must contain only numbers and valid phone characters"
-            },
-            allow_blank: true
+            }
 
   private
 

@@ -71,8 +71,8 @@ As operações CRUD servem como base para avaliar diferentes categorias de erro,
       "message": "Name cannot contain special characters."
     },
     {
-      "errorType": "FIELD_VALIDATION",
-      "message": "Email cannot be empty."
+      "errorType": "BUSINESS_VALIDATION",
+      "message": "Email cannot be modified after creation."
     }
   ],
   "metadata": {

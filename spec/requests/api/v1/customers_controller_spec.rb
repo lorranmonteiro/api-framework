@@ -79,7 +79,7 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         json = JSON.parse(response.body)
 
         expect(json["errors"]).to be_an(Array)
-        expect(json["errors"].size).to eq(2)
+        expect(json["errors"].size).to eq(3)
 
         expect(json["errors"]).to include(
           hash_including(
@@ -206,13 +206,17 @@ RSpec.describe "Api::V1::CustomersController", type: :request do
         json = JSON.parse(response.body)
 
         expect(json["errors"]).to be_an(Array)
-        expect(json["errors"].size).to eq(2)
+        expect(json["errors"].size).to eq(3)
 
         error = json["errors"].first
         expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
         expect(error["message"]).to eq("Email can't be blank")
 
         error = json["errors"].second
+        expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
+        expect(error["message"]).to eq("Email is not a valid email address")
+
+        error = json["errors"].third
         expect(error["errorType"]).to eq(ErrorTypes::FIELD_VALIDATION)
         expect(error["message"]).to eq("Phone must contain only numbers and valid phone characters")
 

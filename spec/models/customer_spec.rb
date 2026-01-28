@@ -39,4 +39,23 @@ RSpec.describe Customer, type: :model do
       expect(customer.reload.phone).to eq("85999999999")
     end
   end
+
+  context "email validations" do
+    it "rejects invalid email format" do
+      customer = build(:customer, email: "invalid-email")
+      expect(customer).not_to be_valid
+      expect(customer.errors[:email]).to include("is not a valid email address")
+    end
+
+    it "rejects incomplete emails" do
+      customer = build(:customer, email: "@test.com")
+      expect(customer).not_to be_valid
+      expect(customer.errors[:email]).to include("is not a valid email address")
+    end
+
+    it "accepts a valid email" do
+      customer = build(:customer, email: "user@example.com")
+      expect(customer).to be_valid
+    end
+  end
 end
