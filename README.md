@@ -10,7 +10,7 @@ O domínio de **sistema de pedidos** (clientes, produtos e pedidos) é utilizado
 
 ## Motivação
 
-A literatura clássica sobre APIs REST recomenda o uso do [RFC 7807 – Problem Details for HTTP APIs](https://www.rfc-editor.org/rfc/rfc7807) como padrão para representação de erros. Embora amplamente citado, esse padrão apresenta limitações práticas observadas na adoção real, tais como:
+A literatura clássica sobre APIs REST recomenda o uso do [RFC 9457 – Problem Details for HTTP APIs](https://www.rfc-editor.org/rfc/rfc9457) como padrão para representação de erros. Embora amplamente citado, esse padrão apresenta limitações práticas observadas na adoção real, tais como:
 
 * Dificuldade em representar múltiplos erros simultaneamente
 * Acoplamento conceitual entre semântica do erro e status HTTP
@@ -49,7 +49,7 @@ As operações CRUD servem como base para avaliar diferentes categorias de erro,
 
 ## Padrão Proposto de Resposta de Erro
 
-### Estrutura do RFC 7807 (referência)
+### Estrutura do RFC 9457 (referência)
 
 ```json
 {
@@ -91,7 +91,7 @@ As operações CRUD servem como base para avaliar diferentes categorias de erro,
 * Independência total entre estrutura do erro e status HTTP
 * Suporte nativo a múltiplos erros em uma única resposta
 
-Esse modelo busca resolver limitações do RFC 7807 **sem violar os princípios REST**, ao mesmo tempo em que se aproxima das práticas observadas em APIs amplamente utilizadas no mercado.
+Esse modelo busca resolver limitações do RFC 9457 **sem violar os princípios REST**, ao mesmo tempo em que se aproxima das práticas observadas em APIs amplamente utilizadas no mercado.
 
 ---
 
